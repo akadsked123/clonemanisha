@@ -1,0 +1,195 @@
+{% load static %}
+{% load allauth i18n %}
+{% load compress %}
+<div id="edit-course"
+     class="transition-opacity hs-overlay hidden size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto"
+     role="dialog"
+     tabindex="-1">
+  <div class="hs-overlay-animation-target hs-overlay-open:scale-100 hs-overlay-open:opacity-100 scale-95 opacity-0 ease-in-out transition-all duration-200 sm:max-w-lg sm:w-full m-3 sm:mx-auto min-h-[calc(100%-3.5rem)] flex items-center">
+    <div class="w-full flex flex-col bg-white border shadow-sm rounded-xl pointer-events-auto">
+      <div class="p-4 overflow-y-auto">
+        <div class="flex justify-between items-center">
+          <h2 class="text-xl font-bold text-gray-800">Edit Course</h2>
+          <button type="button"
+                  class="size-8 inline-flex justify-center items-center rounded-full border border-transparent bg-gray-100 text-gray-800 hover:bg-gray-200"
+                  aria-label="Close"
+                  data-hs-overlay="#edit-course">
+            <span class="sr-only">Close</span>
+            <svg class="shrink-0 size-4"
+                 xmlns="http://www.w3.org/2000/svg"
+                 width="24"
+                 height="24"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+              <path d="M18 6 6 18"></path>
+              <path d="m6 6 12 12"></path>
+            </svg>
+          </button>
+        </div>
+        <form method="post" id="edit-course-form">
+          {% csrf_token %}
+          <input type="hidden" name="course_id" id="edit-course-id">
+          <div class="space-y-4">
+            <div>
+              <label for="course_code" class="block text-sm font-medium mb-2">Course Code</label>
+              <input type="text"
+                     id="edit-course-code"
+                     name="course_code"
+                     required
+                     maxlength="10"
+                     autocomplete="off"
+                     class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500"
+                     placeholder="Course Code">
+              <p id="edit-course-code-helper" class="text-xs mt-2 text-red-600"></p>
+              <label for="course_description" class="block text-sm font-medium my-2">Course Description</label>
+              <input type="text"
+                     id="edit-course-description"
+                     name="course_description"
+                     required
+                     autocomplete="off"
+                     maxlength="100"
+                     class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500"
+                     placeholder="Course Description">
+              <p id="edit-course-description-helper" class="text-xs mt-2 text-red-600"></p>
+              <label for="lecture" class="block text-sm font-medium my-2">Lecture Hours</label>
+              <input type="number"
+                     id="edit-lecture"
+                     name="lecture"
+                     required
+                     min="1"
+                     max="9"
+                     autocomplete="off"
+                     class="no-spinner py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500"
+                     placeholder="Lecture Hours">
+              <p id="edit-lecture-helper" class="text-xs mt-2 text-red-600"></p>
+              <label for="laboratory" class="block text-sm font-medium my-2">Laboratory Hours</label>
+              <input type="number"
+                     id="edit-laboratory"
+                     name="laboratory"
+                     required
+                     min="0"
+                     max="9"
+                     autocomplete="off"
+                     class="no-spinner py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500"
+                     placeholder="Laboratory Hours">
+              <p id="edit-laboratory-helper" class="text-xs mt-2 text-red-600"></p>
+              <label for="semester" class="block text-sm font-medium my-2">Semester</label>
+              <input type="number"
+                     id="edit-semester"
+                     name="semester"
+                     min="1"
+                     max="3"
+                     required
+                     autocomplete="off"
+                     class="no-spinner py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500"
+                     placeholder="Semester">
+              <p id="edit-semester-helper" class="text-xs mt-2 text-red-600"></p>
+              <label for="year_level" class="block text-sm font-medium my-2">Year Level</label>
+              <input type="number"
+                     id="edit-year-level"
+                     name="year_level"
+                     required
+                     min="1"
+                     max="4"
+                     autocomplete="off"
+                     class="no-spinner py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500"
+                     placeholder="Year Level">
+              <p id="edit-year-level-helper" class="text-xs mt-2 text-red-600"></p>
+            </div>
+          </div>
+          <div class="flex justify-end gap-x-2 mt-4">
+            <button type="button"
+                    class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50"
+                    data-hs-overlay="#edit-course">Cancel</button>
+            <button type="submit"
+                    name="editCourseSubmit"
+                    class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-primary-600 text-white hover:bg-primary-700">
+              Update
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% compress js %}
+  <script>
+document.addEventListener('DOMContentLoaded', function () {
+    function validateInput(input, min, max) {
+        const value = parseInt(input.value, 10);
+        const helper = document.getElementById(`${input.id}-helper`);
+        if (isNaN(value) || value < min || value > max || input.value.trim() === "") {
+            input.classList.add('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
+            input.classList.remove('border-gray-200', 'focus:border-primary-500', 'focus:ring-primary-500');
+            helper.textContent = `Value must be between ${min} and ${max}.`;
+        } else {
+            input.classList.remove('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
+            input.classList.add('border-gray-200', 'focus:border-primary-500', 'focus:ring-primary-500');
+             helper.textContent = "";
+        }
+    }
+
+    function validateTextInput(input) {
+        const helper = document.getElementById(`${input.id}-helper`);
+        if (input.value.trim() === "") {
+            input.classList.add('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
+            input.classList.remove('border-gray-200', 'focus:border-primary-500', 'focus:ring-primary-500');
+             helper.textContent = "This field is required.";
+        } else {
+            input.classList.remove('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
+            input.classList.add('border-gray-200', 'focus:border-primary-500', 'focus:ring-primary-500');
+             helper.textContent = "";
+        }
+    }
+
+    function attachValidation() {
+        document.getElementById('edit-year-level').addEventListener('input', function() {
+            validateInput(this, 1, 4);
+        });
+        document.getElementById('edit-course-id').addEventListener('input', function() {
+            validateTextInput(this);
+        });
+        document.getElementById('edit-course-code').addEventListener('input', function() {
+            validateTextInput(this);
+        });
+        document.getElementById('edit-course-description').addEventListener('input', function() {
+            validateTextInput(this);
+        });
+        document.getElementById('edit-lecture').addEventListener('input', function() {
+            validateInput(this, 1, 9);
+        });
+        document.getElementById('edit-laboratory').addEventListener('input', function() {
+            validateInput(this, 0, 9);
+        });
+        document.getElementById('edit-semester').addEventListener('input', function() {
+            validateInput(this, 1, 3);
+        });
+    }
+
+    document.querySelectorAll('[data-hs-overlay="#edit-course"]').forEach(function (button) {
+        button.addEventListener('click', function () {
+            const courseId = this.getAttribute('data-course-id');
+            const courseCode = this.getAttribute('data-course-code');
+            const courseDescription = this.getAttribute('data-course-description');
+            const lecture = this.getAttribute('data-lecture');
+            const laboratory = this.getAttribute('data-laboratory');
+            const semester = this.getAttribute('data-semester');
+            const yearLevel = this.getAttribute('data-year-level');
+            document.getElementById('edit-course-id').value = courseId;
+            document.getElementById('edit-course-code').value = courseCode;
+            document.getElementById('edit-course-description').value = courseDescription;
+            document.getElementById('edit-lecture').value = lecture;
+            document.getElementById('edit-laboratory').value = laboratory;
+            document.getElementById('edit-semester').value = semester;
+            document.getElementById('edit-year-level').value = yearLevel;
+        });
+    });
+
+    attachValidation();
+});
+  </script>
+{% endcompress js %}

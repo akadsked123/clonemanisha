@@ -1,0 +1,232 @@
+<div class="bg-white border border-gray-200 rounded-xl shadow-sm px-6 py-4">
+    <div class="pb-4 grid gap-3 md:flex md:justify-between md:items-center border-gray-200">
+        <div>
+            <h2 class="text-xl font-semibold text-gray-800">Programs</h2>
+        </div>
+        <div>
+            <div class="inline-flex gap-x-2">
+                <a class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-50 disabled:pointer-events-none"
+                   href="{% url 'programs:programs' %}">View Programs</a>
+            </div>
+        </div>
+    </div>
+    <div class="bg-gray-50 border border-gray-200 text-sm text-gray-600 rounded-lg p-4">
+        <div class="flex">
+            <div class="ms-4">
+                <div class="text-sm">
+                    <ul class="list-disc space-y-1 ps-5">
+                        <li>Bachelor of Science in Information Technology (BSIT)</li>
+                        <li>Bachelor of Science in Information Systems (BSIS)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pb-0 border-t mt-4">
+        <h2 class="my-4 text-xl font-semibold text-gray-800">Academic Year</h2>
+    </div>
+    <div>
+        <label for="academicYearInput"
+               class="block mb-2 text-sm font-medium text-gray-900 ">Academic Year</label>
+        <input type="text"
+               name="academicYear"
+               id="academicYearInput"
+               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
+               placeholder="0000-0000"
+               pattern="\d{4}-\d{4}"
+               required="">
+    </div>
+    <script>
+function getCurrentAcademicYear() {
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth() + 1;
+    let academicYearStart;
+    let academicYearEnd;
+    if (currentMonth >= 6) {
+        academicYearStart = currentYear;
+        academicYearEnd = currentYear + 1;
+    } else {
+        academicYearStart = currentYear - 1;
+        academicYearEnd = currentYear;
+    }
+    return `${academicYearStart}-${academicYearEnd}`;
+}
+const academicYearInput = document.getElementById('academicYearInput');
+academicYearInput.value = getCurrentAcademicYear();
+    </script>
+    <div class="pb-0 border-t mt-4">
+        <h2 class="my-4 text-xl font-semibold text-gray-800">Assign Faculty</h2>
+    </div>
+    <form action="">
+        <div class="my-2">
+            <label for="" class="block mb-2 text-sm font-medium">Dean (Institute of Computing)</label>
+            <div class="relative" data-hs-combo-box="">
+                <div class="relative">
+                    <input class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none"
+                           type="text"
+                           value="MARK VAN M. BULADACO"
+                           data-hs-combo-box-input="">
+                    <div class="absolute top-1/2 end-3 -translate-y-1/2"
+                         data-hs-combo-box-toggle="">
+                        <svg class="flex-shrink-0 size-3.5 text-gray-500"
+                             xmlns="http://www.w3.org/2000/svg"
+                             width="24"
+                             height="24"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="2"
+                             stroke-linecap="round"
+                             stroke-linejoin="round">
+                            <path d="m7 15 5 5 5-5"></path>
+                            <path d="m7 9 5-5 5 5"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="absolute z-50 w-full max-h-72 p-1 bg-white border border-gray-200 rounded-lg overflow-hidden overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full   [&::-webkit-scrollbar-thumb]:bg-gray-300"
+                     style="display: none"
+                     data-hs-combo-box-output="">
+                    <div class="cursor-pointer py-2 px-4 w-full text-sm text-gray-800 hover:bg-gray-100 rounded-lg focus:outline-none focus:bg-gray-100"
+                         tabindex="0"
+                         data-hs-combo-box-output-item="">
+                        <div class="flex justify-between items-center w-full">
+                            <span data-hs-combo-box-search-text="MARK VAN M. BULADACO"
+                                  data-hs-combo-box-value="">MARK VAN M. BULADACO</span>
+                            <span class="hidden hs-combo-box-selected:block">
+                                <svg class="flex-shrink-0 size-3.5 text-primary-600"
+                                     xmlns="http://www.w3.org/2000/svg"
+                                     width="24"
+                                     height="24"
+                                     viewBox="0 0 24 24"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     stroke-width="2"
+                                     stroke-linecap="round"
+                                     stroke-linejoin="round">
+                                    <path d="M20 6 9 17l-5-5"></path>
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mb-2">
+            <label for="" class="block mb-2 text-sm font-medium">Program Chairperson (BSIT)</label>
+            <div class="relative" data-hs-combo-box="">
+                <div class="relative">
+                    <input class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none"
+                           type="text"
+                           value="JONILYN T. DABALOS"
+                           data-hs-combo-box-input="">
+                    <div class="absolute top-1/2 end-3 -translate-y-1/2"
+                         data-hs-combo-box-toggle="">
+                        <svg class="flex-shrink-0 size-3.5 text-gray-500"
+                             xmlns="http://www.w3.org/2000/svg"
+                             width="24"
+                             height="24"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="2"
+                             stroke-linecap="round"
+                             stroke-linejoin="round">
+                            <path d="m7 15 5 5 5-5"></path>
+                            <path d="m7 9 5-5 5 5"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="absolute z-50 w-full max-h-72 p-1 bg-white border border-gray-200 rounded-lg overflow-hidden overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full   [&::-webkit-scrollbar-thumb]:bg-gray-300"
+                     style="display: none"
+                     data-hs-combo-box-output="">
+                    <div class="cursor-pointer py-2 px-4 w-full text-sm text-gray-800 hover:bg-gray-100 rounded-lg focus:outline-none focus:bg-gray-100"
+                         tabindex="0"
+                         data-hs-combo-box-output-item="">
+                        <div class="flex justify-between items-center w-full">
+                            <span data-hs-combo-box-search-text="JONILYN T. DABALOS"
+                                  data-hs-combo-box-value="">JONILYN T. DABALOS</span>
+                            <span class="hidden hs-combo-box-selected:block">
+                                <svg class="flex-shrink-0 size-3.5 text-primary-600"
+                                     xmlns="http://www.w3.org/2000/svg"
+                                     width="24"
+                                     height="24"
+                                     viewBox="0 0 24 24"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     stroke-width="2"
+                                     stroke-linecap="round"
+                                     stroke-linejoin="round">
+                                    <path d="M20 6 9 17l-5-5"></path>
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mb-2">
+            <label for="" class="block mb-2 text-sm font-medium">Program Chairperson (BSIS)</label>
+            <div class="relative" data-hs-combo-box="">
+                <div class="relative">
+                    <input class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none"
+                           type="text"
+                           value="JOVANNE C. ALEJANDRINO"
+                           data-hs-combo-box-input="">
+                    <div class="absolute top-1/2 end-3 -translate-y-1/2"
+                         data-hs-combo-box-toggle="">
+                        <svg class="flex-shrink-0 size-3.5 text-gray-500"
+                             xmlns="http://www.w3.org/2000/svg"
+                             width="24"
+                             height="24"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="2"
+                             stroke-linecap="round"
+                             stroke-linejoin="round">
+                            <path d="m7 15 5 5 5-5"></path>
+                            <path d="m7 9 5-5 5 5"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="absolute z-50 w-full max-h-72 p-1 bg-white border border-gray-200 rounded-lg overflow-hidden overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full   [&::-webkit-scrollbar-thumb]:bg-gray-300"
+                     style="display: none"
+                     data-hs-combo-box-output="">
+                    <div class="cursor-pointer py-2 px-4 w-full text-sm text-gray-800 hover:bg-gray-100 rounded-lg focus:outline-none focus:bg-gray-100"
+                         tabindex="0"
+                         data-hs-combo-box-output-item="">
+                        <div class="flex justify-between items-center w-full">
+                            <span data-hs-combo-box-search-text="JOVANNE C. ALEJANDRINO"
+                                  data-hs-combo-box-value="">JOVANNE C. ALEJANDRINO</span>
+                            <span class="hidden hs-combo-box-selected:block">
+                                <svg class="flex-shrink-0 size-3.5 text-primary-600"
+                                     xmlns="http://www.w3.org/2000/svg"
+                                     width="24"
+                                     height="24"
+                                     viewBox="0 0 24 24"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     stroke-width="2"
+                                     stroke-linecap="round"
+                                     stroke-linejoin="round">
+                                    <path d="M20 6 9 17l-5-5"></path>
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="flex justify-end items-center gap-x-2 py-3 px-4">
+            <button type="button"
+                    class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none">
+                Cancel
+            </button>
+            <button type="submit"
+                    class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-50 disabled:pointer-events-none">
+                Assign
+            </button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,451 @@
+{% extends "_base.html" %}
+{% load static %}
+{% load compress %}
+{% block title %}
+  Scheduler
+{% endblock title %}
+{% block content %}
+  {% include "./includes/_navbar.html" %}
+  {% include "./includes/_generate_schedule_modal.html" %}
+  {% include "./includes/_prevent_active_duplication_modal.html" %}
+  {% include "./includes/_delete_generated_schedule.html" %}
+  {% include "./includes/_abort_generating_schedule_modal.html" %}
+  <div class="w-full lg:ps-64 bg-gray-100 h-full">
+    <div class="p-6 space-y-3">
+      <p class="text-2xl font-extrabold text-gray-900">Create Schedule</p>
+      <div class="flex flex-col">
+        <div class="-m-1.5 overflow-x-auto overflow-hidden [&::-webkit-scrollbar]:h-3 [&::-webkit-scrollbar-thumb]:rounded-full   [&::-webkit-scrollbar-thumb]:bg-gray-300">
+          <div class="p-1.5 min-w-full inline-block align-middle">
+            <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
+              <!-- Header -->
+              <div class="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-b border-gray-200">
+                <div class="sm:col-span-1">
+                  <label for="search-data" class="sr-only">Search</label>
+                  <div class="relative">
+                    <input type="text"
+                           id="search-data"
+                           name="search-data"
+                           autocomplete="off"
+                           maxlength="100"
+                           class="py-2 px-3 ps-11 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none"
+                           placeholder="Search">
+                    <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-4">
+                      <svg class="size-4 text-gray-400"
+                           xmlns="http://www.w3.org/2000/svg"
+                           width="16"
+                           height="16"
+                           fill="currentColor"
+                           viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                <div class="inline-flex gap-x-2">
+                  <button type="button"
+                          aria-haspopup="dialog"
+                          aria-expanded="false"
+                          aria-controls="hs-scale-animation-modal"
+                          {% if is_limit_reached %} data-hs-overlay="#limit-file-modal" {% else %} data-hs-overlay="#generate-schedule-modal" {% endif %}
+                          class="py-2 px-3 inline-flex items-center text-sm font-semibold rounded-lg border border-transparent bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-50 disabled:pointer-events-none">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         width="16"
+                         height="16"
+                         fill="currentColor"
+                         class="bi bi-calendar2-plus-fill"
+                         viewBox="0 0 16 16">
+                      <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M2 3.5v1c0 .276.244.5.545.5h10.91c.3 0 .545-.224.545-.5v-1c0-.276-.244-.5-.546-.5H2.545c-.3 0-.545.224-.545.5m6.5 5a.5.5 0 0 0-1 0V10H6a.5.5 0 0 0 0 1h1.5v1.5a.5.5 0 0 0 1 0V11H10a.5.5 0 0 0 0-1H8.5z" />
+                    </svg>
+                    &nbsp Generate Schedule
+                  </button>
+                </div>
+              </div>
+              <!-- End Header -->
+              <!-- Table -->
+              {% if scheduler_data %}
+                <table class="min-w-full divide-y divide-gray-200">
+                  <thead class="bg-gray-50">
+                    <tr>
+                      <th scope="col" class="px-6 py-3 text-start">
+                        <p class="group inline-flex items-center gap-x-2 text-xs font-semibold uppercase text-gray-800">#</p>
+                      </th>
+                      <th scope="col" class="px-6 py-3 text-start">
+                        <div class="flex items-center gap-x-2">
+                          <span class="text-xs font-semibold uppercase tracking-wide text-gray-800">Created By</span>
+                        </div>
+                      </th>
+                    
+                      <th scope="col" class="px-6 py-3 text-start">
+                        <div class="flex items-center gap-x-2">
+                          <span class="text-xs font-semibold uppercase tracking-wide text-gray-800">Academic Year</span>
+                        </div>
+                      </th>
+                      <th scope="col" class="px-6 py-3 text-start">
+                        <div class="flex items-center gap-x-2">
+                          <span class="text-xs font-semibold uppercase tracking-wide text-gray-800">Semester</span>
+                        </div>
+                      </th>
+                        <th scope="col" class="px-6 py-3 text-start">
+                        <div class="flex items-center gap-x-2">
+                          <span class="text-xs font-semibold uppercase tracking-wide text-gray-800">Date Created</span>
+                        </div>
+                      </th>
+                      <th scope="col" class="px-6 py-3 text-start">
+                        <div class="flex items-center gap-x-2">
+                          <span class="text-xs font-semibold uppercase tracking-wide text-gray-800">Status</span>
+                        </div>
+                      </th>
+                      <th scope="col" class="px-6 py-3 text-start">
+                        <div class="flex items-center gap-x-2">
+                          <span class="text-xs font-semibold uppercase tracking-wide text-gray-800">Actions</span>
+                        </div>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-gray-200" id="table-body">
+                    <tr id="no-results-row" style="display: none;">
+                      <td colspan="7">
+                        <div class="min-h-60 flex flex-col mt-2">
+                          <div class="flex flex-auto flex-col justify-center items-center p-4 md:p-5">
+                            <svg class="size-10 text-gray-500"
+                                 xmlns="http://www.w3.org/2000/svg"
+                                 width="24"
+                                 height="24"
+                                 viewBox="0 0 24 24"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 stroke-width="1"
+                                 stroke-linecap="round"
+                                 stroke-linejoin="round">
+                              <line x1="22" x2="2" y1="12" y2="12"></line>
+                              <path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z">
+                              </path>
+                              <line x1="6" x2="6.01" y1="16" y2="16"></line>
+                              <line x1="10" x2="10.01" y1="16" y2="16"></line>
+                            </svg>
+                            <p id="no-data-message-3" class="mt-2 text-sm text-gray-800">No data to show</p>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    {% for schedule in scheduler_data %}
+                      {% with row_counter=forloop.counter0|add:start_index %}
+                        <tr>
+                          <td class="size-px whitespace-nowrap">
+                            <div class="px-6 py-2">
+                              <div class="block text-sm text-gray-800">{{ row_counter }}</div>
+                            </div>
+                          </td>
+                          <td class="size-px whitespace-nowrap">
+                            <div class="ps-6 lg:ps-3 xl:ps-0 pe-6 py-3">
+                              <div class="flex items-center gap-x-3">
+                                <img class="inline-block flex-shrink-0 size-[38px] rounded-full"
+                                     src="{% if schedule.created_by.profile_image and schedule.created_by.profile_image.url %}{{ schedule.created_by.profile_image.url }}{% else %}https://ui-avatars.com/api/?name={{ schedule.created_by.first_name|cut:' ' }}{% if schedule.created_by.middle_name %}{{ schedule.created_by.middle_name|cut:' ' }}{% endif %}{{ schedule.created_by.last_name|cut:' ' }}&background=random{% endif %}"
+                                     alt="Image Description">
+                                <div class="grow">
+                                  <span class="block text-sm font-semibold text-gray-800 uppercase">{{ schedule.created_by.first_name }}
+                                    {% if schedule.created_by.middle_name %}{{ schedule.created_by.middle_name }}{% endif %}
+                                  {{ schedule.created_by.last_name }}</span>
+                                  <span class="block text-sm text-gray-500 lowercase">{{ schedule.created_by.email }}</span>
+                                </div>
+                              </div>
+                            </div>
+                          </td>
+                       
+                          <td class="size-px whitespace-nowrap">
+                            <div class="px-6 py-2">
+                                <div class="block text-sm text-gray-800">{{ schedule.academic_year|default_if_none:'' }}</div>
+                            </div>
+                          </td>
+
+                          <td class="size-px whitespace-nowrap">
+                            <div class="px-6 py-2">
+                              <div class="block text-sm text-gray-800">
+                                {% if schedule.semester == '1' %}
+                                  1st Semester
+                                {% elif schedule.semester == '2' %}
+                                  2nd Semester
+                                {% elif schedule.semester == '3' %}
+                                  3rd Semester
+                                {% else %}
+                                  {{ schedule.semester }}
+                                {% endif %}
+                              </div>
+                            </div>
+                          </td>
+                             <td class="size-px whitespace-nowrap">
+                            <div class="px-6 py-2">
+                              <div class="block text-sm text-gray-800">{{ schedule.created_at }}</div>
+                            </div>
+                          </td>
+                          <td class="size-px whitespace-nowrap">
+                            <div class="px-6 py-3">
+                              <div class="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium {% if schedule.status == 1 %} bg-gray-800 text-white {% elif schedule.status == 2 %} bg-orange-500 text-white {% elif schedule.status == 3 %} bg-primary-600 text-white {% elif schedule.status == 4 %} bg-blue-600 text-white {% elif schedule.status == 5 %} bg-red-600 text-white {% elif schedule.status == 6 %} bg-yellow-300 text-yellow-800 {% endif %}">
+                                {% if schedule.status == 3 %}
+                                  <div id="progress-container">
+                                    <span id="progress-text">{{ schedule.progress }}% processing</span>
+                                    <div class="hs-tooltip inline-block">
+                                      <svg class="inline-block size-3 text-white"
+                                           xmlns="http://www.w3.org/2000/svg"
+                                           width="16"
+                                           height="16"
+                                           fill="currentColor"
+                                           viewBox="0 0 16 16">
+                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                        <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
+                                      </svg>
+                                      <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity absolute invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded shadow-sm"
+                                           role="tooltip">
+                                        <span id="remaining-time-text">{{ schedule.remaining_time }} remaining</span>
+                                      </div>
+                                    </div>
+                                  </div>
+                               {% compress js %}
+                                <script>
+                                  function updateProgress() {
+                                    const schedulerId = {{ schedule.scheduler_id }};
+                                    fetch(`/api/progress/${schedulerId}/`)
+                                      .then(response => response.json())
+                                      .then(data => {
+                                        if (data.progress !== undefined) {
+                                          document.getElementById('progress-text').textContent = `${data.progress}% processing`;
+                                          console.log(data.remaining_time);
+                                          console.log(data.progress);
+                                          document.getElementById('remaining-time-text').textContent = `${data.remaining_time} remaining`;
+
+                                          // Check if status is 4, refresh page
+                                          if (data.status === 4) {
+                                            window.location.reload();
+                                          }
+                                        }
+                                      })
+                                      .catch(error => console.error('Error fetching progress:', error));
+                                  }
+
+                                  // Call updateProgress every second
+                                  setInterval(updateProgress, 1000);
+                                </script>
+                               {% endcompress js %}
+
+                                {% elif schedule.status == 5 or schedule.status == 6 or schedule.status == 1 %}
+                                  <svg class="size-2.5"
+                                       xmlns="http://www.w3.org/2000/svg"
+                                       width="16"
+                                       height="16"
+                                       fill="currentColor"
+                                       viewBox="0 0 16 16">
+                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z" />
+                                  </svg>
+                                  {{ schedule.get_status_display }}
+                                {% elif schedule.status == 2 %}
+                                  <svg xmlns="http://www.w3.org/2000/svg"
+                                       width="16"
+                                       height="16"
+                                       fill="currentColor"
+                                       class="bi bi-clock-fill size-2.5"
+                                       viewBox="0 0 16 16">
+                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z" />
+                                  </svg>
+                                  {{ schedule.get_status_display }}
+                                {% elif  schedule.status == 4 %}
+                                  <svg class="size-2.5"
+                                       xmlns="http://www.w3.org/2000/svg"
+                                       width="16"
+                                       height="16"
+                                       fill="currentColor"
+                                       viewBox="0 0 16 16">
+                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                                  </svg>
+                                  {{ schedule.get_status_display }}
+                                {% else %}
+                                  {{ schedule.get_status_display }}
+                                {% endif %}
+                              </div>
+                            </div>
+                          </td>
+                          <td class="size-px whitespace-nowrap">
+                            <div class="px-6 py-3">
+                              {% if schedule.status == 5 or schedule.status == 6  or schedule.status == 1 or schedule.status == 2 %}
+                                <button data-hs-overlay="#delete_generated_schedule"
+                                        type="button"
+                                        data-id="{{ schedule.scheduler_id }}"
+                                        class="py-2 px-3 inline-flex items-center text-sm font-medium rounded-lg border border-gray-200 bg-white text-red-500 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none">
+                                  <svg class="shrink-0 size-4 me-2"
+                                       xmlns="http://www.w3.org/2000/svg"
+                                       width="24"
+                                       height="24"
+                                       viewBox="0 0 24 24"
+                                       fill="none"
+                                       stroke="currentColor"
+                                       stroke-width="2"
+                                       stroke-linecap="round"
+                                       stroke-linejoin="round">
+                                    <path d="M3 6h18" />
+                                    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                                    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                                    <line x1="10" x2="10" y1="11" y2="17" />
+                                    <line x1="14" x2="14" y1="11" y2="17" />
+                                  </svg>
+                                  Delete
+                                </button>
+                              {% elif schedule.status == 3 %}
+                                {% comment %} <button data-hs-overlay="#abort-generating-schedule" type="button" data-id="{{ schedule.task_record.task_id }}" class="py-2 px-3 inline-flex items-center text-sm font-medium rounded-lg border border-gray-200 bg-white text-red-500 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle me-2" viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+                                  </svg>
+                                  Abort  {{ schedule.task_record.task_id }}
+                                </button> {% endcomment %}
+                                <span class="py-2 px-3 inline-flex items-center text-sm font-semibold rounded-lg border border-transparent bg-gray-400 text-white disabled:opacity-50 disabled:pointer-events-none">
+                                  No schedule available
+                                </span>
+                              {% elif schedule.status == 4 %}
+                                {% if schedule.generate_schedule %}
+                                  <a href="{% url 'timetable:scheduler-classrooms' schedule.generate_schedule.result_identification_id %}"
+                                     type="button"
+                                     class="py-2 px-3 inline-flex items-center text-sm font-semibold rounded-lg border border-transparent bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-50 disabled:pointer-events-none">
+                                    View schedule
+                                  </a>
+                                {% else %}
+                                  <span class="py-2 px-3 inline-flex items-center text-sm font-semibold rounded-lg border border-transparent bg-gray-400 text-white disabled:opacity-50 disabled:pointer-events-none">
+                                    No schedule available
+                                  </span>
+                                {% endif %}
+                              {% endif %}
+                            </div>
+                          </td>
+                        </tr>
+                      {% endwith %}
+                    {% endfor %}
+                  </tbody>
+                </table>
+              {% else %}
+                <div class="min-h-60 flex flex-col mt-2">{% include "partials/_no_data.html" %}</div>
+              {% endif %}
+              {% comment %} <div class="min-h-60 flex flex-col mt-2">{% include "partials/_no_data.html" %}</div> {% endcomment %}
+              <!-- End Table -->
+              <!-- Footer -->
+              <div class="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-t border-gray-200">
+                <div>
+                  <p class="text-sm text-gray-600">
+                    <span class="font-semibold text-gray-800">{{ total_scheduler_data|default_if_none:0 }}</span> results
+                  </p>
+                </div>
+                <div>
+                  <div class="inline-flex gap-x-2">
+                    {% include "partials/_page_per_item.html" %}
+                    {% if scheduler_data.has_previous %}
+                      <a href="?page={{ scheduler_data.previous_page_number }}&items_per_page={{ request.GET.items_per_page }}"
+                         class="py-1.5 px-2 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none">
+                        <svg class="flex-shrink-0 size-4"
+                             xmlns="http://www.w3.org/2000/svg"
+                             width="24"
+                             height="24"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="2"
+                             stroke-linecap="round"
+                             stroke-linejoin="round">
+                          <path d="m15 18-6-6 6-6" />
+                        </svg>
+                        Prev
+                      </a>
+                    {% else %}
+                      <button type="button"
+                              class="disabled py-1.5 px-2 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-gray-200 text-gray-800 shadow-sm ">
+                        <svg class="flex-shrink-0 size-4"
+                             xmlns="http://www.w3.org/2000/svg"
+                             width="24"
+                             height="24"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="2"
+                             stroke-linecap="round"
+                             stroke-linejoin="round">
+                          <path d="m15 18-6-6 6-6" />
+                        </svg>
+                        Prev
+                      </button>
+                    {% endif %}
+                    {% if scheduler_data.has_next %}
+                      <a href="?page={{ scheduler_data.next_page_number }}&items_per_page={{ request.GET.items_per_page }}"
+                         class="py-1.5 px-2 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none">
+                        Next
+                        <svg class="flex-shrink-0 size-4"
+                             xmlns="http://www.w3.org/2000/svg"
+                             width="24"
+                             height="24"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="2"
+                             stroke-linecap="round"
+                             stroke-linejoin="round">
+                          <path d="m9 18 6-6-6-6" />
+                        </svg>
+                      </a>
+                    {% else %}
+                      <button type="button"
+                              class="disabled py-1.5 px-2 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-gray-200 text-gray-800 shadow-sm ">
+                        <svg class="flex-shrink-0 size-4"
+                             xmlns="http://www.w3.org/2000/svg"
+                             width="24"
+                             height="24"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="2"
+                             stroke-linecap="round"
+                             stroke-linejoin="round">
+                          <path d="m9 18 6-6-6-6" />
+                        </svg>
+                        Next
+                      </button>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+              <!-- End Footer -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="{% static 'js/searchData.js' %}"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+    // Custom configuration for this page
+    const searchInputId = 'search-data';
+    const tableBodyId = 'table-body';
+    // Only search in columns 1 and 2
+    const columnsToSearch = [1, 2, 3, 4]; 
+    const noResultsMessageId = 'no-data-message-3';
+    const noResultsRowId = 'no-results-row';
+
+    // Initialize the search functionality with custom columns
+    initializeSearch(searchInputId, tableBodyId, columnsToSearch, noResultsMessageId, noResultsRowId);
+});
+  </script>
+  <script>
+    const userId = "{{ request.user.id }}";
+    const socket = new WebSocket(`ws://${window.location.host}/ws/notifications/`);
+
+    socket.onmessage = function(event) {
+        const data = JSON.parse(event.data);
+        if (data.message.includes("reload the page")) {
+            location.reload();
+        }
+    };
+
+    socket.onopen = function(event) {
+        console.log("WebSocket connection established");
+    };
+
+    socket.onclose = function(event) {
+        console.log("WebSocket connection closed");
+    };
+  </script>
+{% endblock content %}

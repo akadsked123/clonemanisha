@@ -1,0 +1,62 @@
+{% load compress %}
+{% load static %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DNSC AcadSked |
+      {% block title %}
+      {% endblock title %}
+    </title>
+    <link rel="apple-touch-icon"
+          sizes="180x180"
+          href="{% static 'favicon/apple-touch-icon.png' %}">
+    <link rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="{% static 'favicon/favicon-32x32.png' %}">
+    <link rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="{% static 'favicon/favicon-16x16.png' %}">
+    {% compress css %}
+      <link rel="stylesheet"
+            href="{% if debug %}{% static 'css/styles.css' %}{% else %}{% static 'css/styles.min.css' %}{% endif %}">
+    {% endcompress %}
+    {% block extra_css %}
+    {% endblock extra_css %}
+  </head>
+  <body class="bg-gray-100 [&::-webkit-scrollbar]:w-3 [&::-webkit-scrollbar-thumb]:rounded-full   [&::-webkit-scrollbar-thumb]:bg-gray-300">
+    {% include "partials/_toast_message.html" %}
+    {% include "partials/_logout_modal.html" %}
+        {% if user.is_superuser and user.email == "acadsked@gmail.com" %}
+      <div class="bg-gradient-to-r from-red-500 via-purple-400 to-blue-500">
+        <div class="max-w-[85rem] px-4 py-4 sm:px-6 lg:px-8 mx-auto">
+          <div class="grid justify-center md:grid-cols-2 md:justify-between md:items-center gap-2">
+            <div class="text-center md:text-start">
+              <p class="text-xs text-white/80 uppercase tracking-wider">
+                Hello, {{ user.get_full_name }}! You can access the admin page by clicking 
+                <a href="/admin/" class="text-white/80 hover:text-white"><span class="font-semibold underline">this link</span></a>.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+    {% block content %}
+    {% endblock content %}
+    {% compress js %}
+      <script src="{% static 'preline/dist/preline.js' %}"></script>
+      {% comment %} <script src="{% static 'js/preventUnsavedChanges.js' %}"></script> {% endcomment %}
+      <script src="{% static 'js/main.js' %}"></script>
+      <script src="{% static 'js/toastMessage.js' %}"></script>
+      <script src="{% static 'js/itemsPerPage.js' %}"></script>
+      {% block message %}
+      {% endblock message %}
+    {% endcompress %}
+    {{ redirect_to_login_immediately }}
+  </body>
+</html>

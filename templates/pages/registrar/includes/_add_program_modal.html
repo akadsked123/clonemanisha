@@ -1,0 +1,163 @@
+{% load static %}
+{% load allauth i18n %}
+{% load compress %}
+<div id="add-program"
+     class="transition-opacity hs-overlay hidden size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto"
+     role="dialog"
+     tabindex="-1">
+  <div class="hs-overlay-animation-target hs-overlay-open:scale-100 hs-overlay-open:opacity-100 scale-95 opacity-0 ease-in-out transition-all duration-200 sm:max-w-lg sm:w-full m-3 sm:mx-auto min-h-[calc(100%-3.5rem)] flex items-center">
+    <div class="w-full flex flex-col bg-white border shadow-sm rounded-xl pointer-events-auto">
+      <div class="p-4 overflow-y-auto">
+        <div class="flex justify-between items-center">
+          <div>
+            <h2 class="text-xl font-bold text-gray-800">Add program</h2>
+          </div>
+          <button type="button"
+                  class="size-8 inline-flex justify-center items-center gap-x-2 rounded-full border border-transparent bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none"
+                  aria-label="Close"
+                  data-hs-overlay="#add-program">
+            <span class="sr-only">Close</span>
+            <svg class="shrink-0 size-4"
+                 xmlns="http://www.w3.org/2000/svg"
+                 width="24"
+                 height="24"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+              <path d="M18 6 6 18"></path>
+              <path d="m6 6 12 12"></path>
+            </svg>
+          </button>
+        </div>
+        <form method="post">
+          {% csrf_token %}
+          <div class="max-full">
+            <label for="program_code" class="block text-sm font-medium mb-2">Program Code</label>
+            <input type="text"
+                   required
+                   maxlength="10"
+                   name="program_code"
+                   autocomplete="off"
+                   id="add-program-code"
+                   value=""
+                   class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none"
+                   placeholder="Program Code">
+            <p id="add-program-code-helper" class="text-xs mt-2 text-red-600"></p>
+            <label for="program_name" class="block text-sm font-medium my-2">Program Name</label>
+            <input type="text"
+                   required
+                   maxlength="100"
+                   name="program_name"
+                   id="add-program-name"
+                   autocomplete="off"
+                   value=""
+                   class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none"
+                   placeholder="Program Name">
+            <p id="add-program-name-helper" class="text-xs mt-2 text-red-600"></p>
+            <label for="institute" class="block text-sm font-medium my-2">Institute</label>
+            <select name="institute"
+                    id="add-program-institute"
+                    class="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none"
+                    required>
+              <option selected disabled value="">Select Institute</option>
+              {% for institute in institutes %}
+                <option value="{{ institute.institute_id }}">{{ institute.institute_name }}</option>
+              {% endfor %}
+            </select>
+            <p id="add-program-institute-helper" class="text-xs mt-2 text-red-600"></p>
+          </div>
+          <div class="flex justify-end items-center gap-x-2 mt-4">
+            <button type="button"
+                    class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
+                    data-hs-overlay="#add-program">Cancel</button>
+            <button type="submit"
+                    name="AddProgramSubmit"
+                    class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-50 disabled:pointer-events-none">
+              Save
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% compress js %}
+  <script>
+document.addEventListener('DOMContentLoaded', function () {
+    function validateTextInput(input) {
+        const helper = document.getElementById(`${input.id}-helper`);
+        if (input.value.trim() === "") {
+            input.classList.add('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
+            input.classList.remove('border-gray-200', 'focus:border-primary-500', 'focus:ring-primary-500');
+            helper.textContent = "This field is required.";
+        } else {
+            input.classList.remove('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
+            input.classList.add('border-gray-200', 'focus:border-primary-500', 'focus:ring-primary-500');
+            helper.textContent = "";
+        }
+    }
+
+    function toSentenceCase(str) {
+        str = str.replace(/_/g, ' '); // Replace underscores with spaces
+        return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase(); // Capitalize the first letter and make the rest lowercase
+    }
+
+    function checkUnique(field, value, helper) {
+        fetch(`/check-unique/?field=${field}&value=${value}`, {
+            credentials: 'same-origin',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken')
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.exists) {
+                helper.textContent = `${toSentenceCase(field)} already exists.`;
+                document.getElementById(field).classList.add('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
+                document.getElementById(field).classList.remove('border-gray-200', 'focus:border-primary-500', 'focus:ring-primary-500');
+            } else {
+                helper.textContent = "";
+                document.getElementById(field).classList.remove('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
+                document.getElementById(field).classList.add('border-gray-200', 'focus:border-primary-500', 'focus:ring-primary-500');
+            }
+        });
+    }
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    function attachValidation() {
+        document.getElementById('add-program-name').addEventListener('input', function() {
+            validateTextInput(this);
+            if (this.value.trim() !== "") {
+                const helper = document.getElementById(`${this.id}-helper`);
+                checkUnique('program_name', this.value, helper);
+            }
+        });
+        document.getElementById('add-program-code').addEventListener('input', function() {
+            validateTextInput(this);
+            if (this.value.trim() !== "") {
+                const helper = document.getElementById(`${this.id}-helper`);
+                checkUnique('program_code', this.value, helper);
+            }
+        });
+    }
+    attachValidation();
+});
+  </script>
+{% endcompress js %}

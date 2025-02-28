@@ -1,0 +1,73 @@
+/* General calendar layout */
+.calendar {
+  display: grid;
+  grid-template-columns: 80px repeat(6, 1fr);
+  /* First column for times, then 6 columns for each day */
+  grid-template-rows: auto repeat(14, 50px);
+  /* First row for headers, then rows for time slots */
+  gap: 5px;
+  padding: 20px;
+  background-color: white;
+  border: 1px solid #e0e0e0;
+}
+
+/* Days of the week header */
+.day-header {
+  text-align: center;
+  font-weight: bold;
+  padding: 10px;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 14px;
+  /* Reduced size for day headers */
+}
+
+/* Time slots on the left */
+.time-slot {
+  grid-column: 1 / 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: gray;
+  font-size: 11px;
+  /* Reduced size for time labels */
+  border-top: 1px solid #e0e0e0;
+  padding: 5px;
+  height: 50px;
+}
+
+/* Activity cards */
+.activity {
+  border-radius: 10px;
+  padding: 8px;
+  /* Slightly smaller padding */
+  color: white;
+  font-size: 12px;
+  /* Reduced size for general text */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+}
+
+/* Styling for activity headers */
+.activity h3 {
+  margin: 0;
+  font-size: 15px;
+  /* Smaller font size for activity title */
+  font-weight: bold;
+}
+
+/* Styling for activity details */
+.activity p {
+  margin: 0;
+  font-size: 10px;
+  /* Smaller font size for activity details */
+}
+
+/* Time label inside activity */
+.time-label {
+  color: white;
+  font-size: 10px;
+  /* Smaller font size for time label */
+}

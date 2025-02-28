@@ -1,0 +1,202 @@
+{% extends "_base.html" %}
+{% load compress %}
+{% load static %}
+{% load i18n %}
+{% load allauth account %}
+{% load allauth socialaccount %}
+{% get_providers as socialaccount_providers %}
+<title>
+  {% block title %}
+    Signup
+  {% endblock title %}
+</title>
+{% block content %}
+<div {% include "./includes/background.html" %}>
+  <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0">
+    <div class="p-6 w-full bg-white rounded-lg shadow lg:max-w-4xl lg:w-full m-3 lg:mx-auto">
+      <form method="POST" id="signup-form" class="w-full">
+        {% csrf_token %}
+         <div class="flex items-center justify-center">
+            <a href="{% url 'account_login' %}"
+               class="text-xl font-bold leading-tight tracking-tight flex items-center text-gray-900 md:text-2xl dark:text-white">
+              <img class="w-80 h-auto"
+                   src="{% static 'images/logo/acadsked-logo-1.png' %}"
+                   alt="logo">
+            </a>
+          </div>
+        <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">Create Account</h1>
+        <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
+          <!-- Personal Information -->
+          <div>
+              <!-- First Name -->
+              <div class="mb-2">
+                <label for="signup-first_name"
+                       class="block mb-2 text-sm font-medium">First Name</label>
+                <input type="text"
+                       id="signup-first_name"
+                       name="signup-first_name"
+                       value="{{ signup_form.first_name.value|default:'' }}"
+                       class="bg-gray-50 py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500"
+                       placeholder="First name"
+                       autocomplete="off"
+                       required>
+              </div>
+              <!-- Middle Name -->
+              <div class="mb-2">
+                <label for="signup-middle_name"
+                       class="inline-block text-sm text-gray-800 mb-2 font-medium">
+                 Middle Name
+                </label>
+                <div class="hs-tooltip inline-block">
+                  <svg class="inline-block size-3 text-gray-400 dark:text-neutral-600"
+                       xmlns="http://www.w3.org/2000/svg"
+                       width="16"
+                       height="16"
+                       fill="currentColor"
+                       viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                    <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
+                  </svg>
+                  <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded shadow-sm"
+                        role="tooltip">Optional</span>
+                </div>
+                <input type="text"
+                       id="signup-middle_name"
+                       name="signup-middle_name"
+                       value="{{ signup_form.middle_name.value|default:'' }}"
+                       class="bg-gray-50  py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500"
+                       autocomplete="off"
+                       placeholder="Middle name">
+              </div>
+              <!-- Last Name -->
+              <div class="mb-2">
+                <label for="signup-last_name"
+                       class="block mb-2 text-sm font-medium">Last Name</label>
+                <input type="text"
+                       id="signup-last_name"
+                       name="signup-last_name"
+                       value="{{ signup_form.last_name.value|default:'' }}"
+                       class="bg-gray-50  py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500"
+                       placeholder="Last name"
+                       autocomplete="off"
+                       required>
+              </div>
+              <!-- Suffix -->
+              <div class="mb-2">
+                <label for="signup-suffix"
+                       class="inline-block text-sm text-gray-800 mb-2 font-medium">
+                  Suffix
+                </label>
+                <div class="hs-tooltip inline-block">
+                  <svg class="inline-block size-3 text-gray-400 dark:text-neutral-600"
+                       xmlns="http://www.w3.org/2000/svg"
+                       width="16"
+                       height="16"
+                       fill="currentColor"
+                       viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                    <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
+                  </svg>
+                  <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded shadow-sm"
+                        role="tooltip">Optional</span>
+                </div>
+                <input type="text" autocomplete="off"
+                       id="signup-suffix"
+                       name="signup-suffix"
+                       value="{{ signup_form.suffix.value|default:'' }}"
+                       class="bg-gray-50 py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500"
+                       placeholder="Suffix">
+              </div>
+          </div>
+          <!-- Account Information -->
+          <div>
+              <div>
+                <label for="signup-email"
+                       class="block mb-2 text-sm font-medium text-gray-900">Email</label>
+                <input type="email"
+                       autocomplete="off"
+                       name="signup-email"
+                       id="signup-email"
+                       value="{{ signup_form.email.value|default:'' }}"
+                       class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                       placeholder="Email"
+                       required>
+              </div>
+              <div id="signup-email-helper" class="text-xs mt-2 text-red-600"></div>
+              {% if signup_form.email.errors %}
+                <div class="text-xs mt-2 text-red-600">{{ signup_form.email.errors }}</div>
+              {% endif %}
+              <!-- Password -->
+              <label class="my-2 block text-sm font-medium text-gray-900">Password</label>
+              <input type="password"
+                     id="signup-password1"
+                     autocomplete="off"
+                     value="{{ signup_form.password1.value|default:'' }}"
+                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                     placeholder="Password"
+                     name="signup-password1"
+                     required>
+              <div id="signup-password1-helper" class="text-xs mt-2 text-red-600"></div>
+              <!-- Confirm Password -->
+              <label for="signup-password2"
+                     class="block my-2 text-sm font-medium text-gray-900">Confirm password</label>
+              <input type="password"
+                     name="signup-password2"
+                     id="signup-password2"
+                     autocomplete="off"
+                     value="{{ signup_form.password2.value|default:'' }}"
+                     placeholder="Confirm password"
+                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                     required>
+              <div id="signup-password2-helper" class="text-xs mt-2 text-red-600"></div>
+              <div class="flex mt-4">
+                <input id="toggle-password"
+                       type="checkbox"
+                       autocomplete="off"
+                       class="shrink-0 mt-0.5 border-gray-200 rounded text-primary-600 focus:ring-primary-500 ">
+                <label for="toggle-password" class="text-sm text-gray-500 ms-3">Show password</label>
+              </div>
+               {% compress js %}
+            <script src="{% static 'js/togglePassword.js' %}"
+                    type="text/javascript"
+                    charset="utf-8"></script>
+            <script src="{% static 'js/signupHelper.js' %}"
+                    type="text/javascript"
+                    charset="utf-8"></script>
+          {% endcompress %}
+          </div>
+        </div>
+        <div class="mt-4 flex justify-between items-center max-w-md mx-auto">
+          <button type="submit"
+                  name="action"
+                  value="submit"
+                  id="createAccountSubmit"
+                  class="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-primary-600 text-white hover:bg-primary-700 focus:outline-none focus:bg-primary-700">
+            Create Account
+          </button>
+        </div>
+       
+      </form>
+       <div class="inline-flex items-center justify-center max-w-md  mb-4">
+            <hr class="w-full h-px bg-gray-200 border-0 ">
+            <span class="absolute px-3 text-xs text-gray-500 -translate-x-1/2 bg-white left-1/2">Sign up with your DNSC Account</span>
+          </div>
+          <div class="items-center max-w-md mx-auto">
+          <form id="googleLoginForm"
+                method="post"
+                action="{% provider_login_url 'google' %}">
+            {% csrf_token %}
+            <button type="submit"
+                    class="w-full text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm py-2 px-3 inline-flex items-center justify-center me-2 mb-2 transition-colors duration-300 ease-in-out">
+              <img alt="google" width="20" src="{% static 'icons/google.svg' %}" />
+              <span class="ml-2">{% trans 'Continue with Google' %}</span>
+            </button>
+          </form>
+            </div>
+          <p class="p-4 text-sm font-light text-center text-gray-500">
+            Already have an account? <a href="{% url 'account_login' %}" class="font-medium text-primary-600 hover:underline">{% trans "Login" %}</a>
+        </p>
+    </div>
+  </div>
+</div>
+{% endblock content %}

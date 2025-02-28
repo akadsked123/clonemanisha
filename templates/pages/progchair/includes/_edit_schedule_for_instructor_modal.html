@@ -1,0 +1,545 @@
+{% load static %}
+{% load allauth i18n %}
+{% load compress %}
+<div id="edit-schedule-for-instructor"
+     class="transition-opacity hs-overlay hidden size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto"
+     role="dialog"
+     tabindex="-1">
+  <div class="hs-overlay-animation-target hs-overlay-open:scale-100 hs-overlay-open:opacity-100 scale-95 opacity-0 ease-in-out transition-all duration-200 sm:max-w-lg sm:w-full m-3 sm:mx-auto min-h-[calc(100%-3.5rem)] flex items-center">
+    <div class="w-full flex flex-col bg-white border shadow-sm rounded-xl pointer-events-auto">
+      <div class="p-4 overflow-y-auto">
+        <div class="flex justify-between items-center">
+          <div>
+            <h2 class="text-xl font-bold text-gray-800">Edit schedule for <span id="course-code-header"></span></h2>
+          </div>
+          <button type="button"
+                  class="size-8 inline-flex justify-center items-center gap-x-2 rounded-full border border-transparent bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none"
+                  aria-label="Close"
+                  data-hs-overlay="#edit-schedule-for-instructor">
+            <span class="sr-only">Close</span>
+            <svg class="shrink-0 size-4"
+                 xmlns="http://www.w3.org/2000/svg"
+                 width="24"
+                 height="24"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+              <path d="M18 6 6 18"></path>
+              <path d="m6 6 12 12"></path>
+            </svg>
+          </button>
+        </div>
+        <form method="post"  id="edit-schedule-form">
+          {% csrf_token %}
+          <div class="max-full">
+            {% comment %} <label class="block text-sm font-medium my-2">Instructor</label>
+            <select id="instructor-dropdown4"
+            name="selected_instructor"
+                    class="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300">
+              <option selected="" disabled>Select instructor</option>
+            </select>
+            <p id="instructor-helper" class="text-xs my-2 text-red-600"></p> {% endcomment %}
+            <label class="block text-sm font-medium mt-2">Learning Mode</label>
+            <div class="grid sm:grid-cols-2 gap-2 my-2">
+              <label for="face-to-face-class4"
+                     class="flex p-3 w-full bg-white border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500">
+                <input type="radio"
+                       name="learning-mode"
+                       value="0"
+                       class="shrink-0 mt-0.5 border-gray-200 rounded-full text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                       id="face-to-face-class4"
+                       checked="">
+                <span class="text-sm text-black ms-3">Face-to-face Class</span>
+              </label>
+              <label for="online-class4"
+                     class="flex p-3 w-full bg-white border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500">
+                <input type="radio"
+                       name="learning-mode"
+                       value="1"
+                       class="shrink-0 mt-0.5 border-gray-200 rounded-full text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                       id="online-class4">
+                <span class="text-sm text-black ms-3">Online Class</span>
+              </label>
+            </div>
+            <label class="block text-sm font-medium my-2">Classroom</label>
+            <select id="classroom-dropdown4"
+            name="selected_classroom"
+                    class="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300">
+              <option selected="" disabled>Select clasroom</option>
+            </select>
+            <p id="classroom-text-helper" class="text-xs my-2 text-red-600"></p>
+            <label class="block text-sm font-medium my-2">Day</label>
+            <ul class="flex flex-row">
+              <li class="inline-flex items-center text-sm font-medium bg-white border text-gray-800 -mt-px rounded-s-lg flex-1">
+                <div class="relative flex items-start w-full">
+                  <input type="checkbox" id="monday" class="peer hidden" name="meeting_day" value="Monday" />
+                  <label for="monday"
+                         class="w-full text-center select-none cursor-pointer rounded-s-lg py-3 px-3 transition-colors duration-200 ease-in-out peer-checked:bg-primary-600 peer-checked:text-white">
+                    Mon
+                  </label>
+                </div>
+              </li>
+              <li class="inline-flex items-center text-sm font-medium bg-white border text-gray-800 -mt-px flex-1">
+                <div class="relative flex items-start w-full">
+                  <input type="checkbox" id="tuesday" class="peer hidden" name="meeting_day" value="Tuesday" />
+                  <label for="tuesday"
+                         class="w-full text-center select-none cursor-pointer py-3 px-3 transition-colors duration-200 ease-in-out peer-checked:bg-primary-600 peer-checked:text-white">
+                    Tue
+                  </label>
+                </div>
+              </li>
+              <li class="inline-flex items-center text-sm font-medium bg-white border text-gray-800 -mt-px flex-1">
+                <div class="relative flex items-start w-full">
+                  <input type="checkbox" id="wednesday" class="peer hidden" name="meeting_day" value="Wednesday" />
+                  <label for="wednesday"
+                         class="w-full text-center select-none cursor-pointer py-3 px-3 transition-colors duration-200 ease-in-out peer-checked:bg-primary-600 peer-checked:text-white">
+                    Wed
+                  </label>
+                </div>
+              </li>
+              <li class="inline-flex items-center text-sm font-medium bg-white border text-gray-800 -mt-px flex-1">
+                <div class="relative flex items-start w-full">
+                  <input type="checkbox" id="thursday" class="peer hidden" name="meeting_day" value="Thursday" />
+                  <label for="thursday"
+                         class="w-full text-center select-none cursor-pointer py-3 px-3 transition-colors duration-200 ease-in-out peer-checked:bg-primary-600 peer-checked:text-white">
+                    Thu
+                  </label>
+                </div>
+              </li>
+              <li class="inline-flex items-center text-sm font-medium bg-white border text-gray-800 -mt-px flex-1">
+                <div class="relative flex items-start w-full">
+                  <input type="checkbox" id="friday" class="peer hidden" name="meeting_day" value="Friday" />
+                  <label for="friday"
+                         class="w-full text-center select-none cursor-pointer py-3 px-3 transition-colors duration-200 ease-in-out peer-checked:bg-primary-600 peer-checked:text-white">
+                    Fri
+                  </label>
+                </div>
+              </li>
+              <li class="rounded-e-lg inline-flex items-center text-sm font-medium bg-white border text-gray-800 -mt-px flex-1">
+                <div class="relative flex items-start w-full">
+                  <input type="checkbox" id="saturday" class="peer hidden" name="meeting_day" value="Saturday" />
+                  <label for="saturday"
+                         class="rounded-e-lg w-full text-center select-none cursor-pointer py-3 px-3 transition-colors duration-200 ease-in-out peer-checked:bg-primary-600 peer-checked:text-white">
+                    Sat
+                  </label>
+                </div>
+              </li>
+              {% comment %} <li class="inline-flex items-center text-sm font-medium bg-white border text-gray-800 -mt-px rounded-e-lg flex-1">
+                <div class="relative flex items-start w-full">
+                  <input type="checkbox" id="sunday4" class="peer hidden" name="meeting_day"  value="Sunday" />
+                  <label for="sunday4"
+                         class="w-full text-center select-none cursor-pointer rounded-e-lg py-3 px-3 transition-colors duration-200 ease-in-out peer-checked:bg-primary-600 peer-checked:text-white">
+                    Sun
+                  </label>
+                </div>
+              </li> {% endcomment %}
+            </ul>
+            <div class="grid grid-cols-2 grid-rows-1 gap-2">
+              <div>
+                <label for="start-time-dropdown4" class="block text-sm font-medium my-2">Start Time</label>
+                <select id="start-time-dropdown4" required name="start_time"
+                        class="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none  [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300">
+                  <option selected="" disabled>Start Time</option>
+                </select>
+              </div>
+              <div>
+                <label for="end-time-dropdown4" class="block text-sm font-medium my-2">End Time</label>
+                <select id="end-time-dropdown4" required name="end_time"
+                        class="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none  [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300">
+                  <option selected="" disabled>End Time</option>
+                </select>
+              </div>
+            </div>
+            <p id="meeting-time-helper" class="text-xs my-2 text-red-600"></p>
+            <div class="bg-gray-50 w-full mt-3 py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 text-gray-800"
+                 id="vacant-time-slots-info4-list"
+                 style="display: none">
+              <div>
+                <h3 class="text-sm font-semibold">Vacant time slots</h3>
+                <div id="vacant-time-slots-info4" class="mt-1 text-sm">
+                  <!-- Vacant times will be inserted here -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flex justify-end items-center gap-x-2 mt-4">
+            <input type="hidden" name="timetable-result-id" id="timetable-result-id" value="">
+               <input type="hidden" name="timetable-detail-result-id" id="timetable-detail-result-id" value="">
+               <input type="hidden" name="result-identification" id="result-identification" value="{{ result_identification }}">
+               <input type="hidden" name="selected_instructor" id="selected-instructor" value="">
+            <button type="button"
+                    class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
+                    data-hs-overlay="#edit-schedule-for-instructor">Cancel</button>
+            <button type="submit"
+                    name="UpdateTimetableSubmit"
+                    class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-50 disabled:pointer-events-none">
+              Save Changes
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% compress js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const courseCodeElement = document.getElementById('course-code-header');
+  const dayCheckboxes4 = document.querySelectorAll('input[id^="monday"], input[id^="tuesday"], input[id^="wednesday"], input[id^="thursday"], input[id^="friday"], input[id^="saturday"], input[id^="sunday"]');
+  const classroomDropdown4 = document.getElementById('classroom-dropdown4');
+  const startTimeDropdown4 = document.getElementById('start-time-dropdown4');
+  const endTimeDropdown4 = document.getElementById('end-time-dropdown4');
+  const faceToFaceClassRadio4 = document.getElementById('face-to-face-class4');
+  const onlineClassRadio4 = document.getElementById('online-class4');
+
+  document.body.addEventListener('click', function(event) {
+      const button = event.target.closest('.timetable-entry');
+      if (button) {
+          const courseCode = button.getAttribute('data-course-code');
+          courseCodeElement.textContent = courseCode;
+  
+          const day = button.getAttribute('data-meeting-day');
+          const classroomId = button.getAttribute('data-classroom-id');
+          const startTime = button.getAttribute('data-start-time');
+          const endTime = button.getAttribute('data-end-time');
+          const isOnlineMeeting = button.getAttribute('data-is-online-meeting') === 'True';
+          const instructorId = button.getAttribute('data-instructor-id');
+  
+          // Clear all day checkboxes
+          dayCheckboxes4.forEach(checkbox => checkbox.checked = false);
+  
+          // Set the day checkbox
+          if (day) {
+              const dayCheckbox = document.getElementById(day.toLowerCase());
+              if (dayCheckbox) {
+                  dayCheckbox.checked = true;
+              }
+          }
+  
+          // Set the classroom dropdown
+          if (classroomId && !isOnlineMeeting) {
+              fetchClassrooms(classroomId);
+          }
+  
+          // Set the start time dropdown
+          if (startTime) {
+              startTimeDropdown4.value = startTime;
+          }
+  
+          // Set the end time dropdown with duration label
+          if (endTime) {
+              updateEndTimeDropdown();
+              endTimeDropdown4.value = endTime;
+          }
+  
+          // Set the learning mode radio button and handle classroom dropdown
+          if (isOnlineMeeting) {
+              console.log('Inside condition - isOnlineMeeting:', isOnlineMeeting);
+              onlineClassRadio4.checked = true;
+              faceToFaceClassRadio4.checked = false;
+              classroomDropdown4.disabled = true;
+              classroomDropdown4.innerHTML = '<option selected="" disabled>Classroom disabled due to learning mode.</option>';
+          } else {
+              console.log('Inside condition - isOnlineMeeting:', isOnlineMeeting);
+              faceToFaceClassRadio4.checked = true;
+              onlineClassRadio4.checked = false;
+              classroomDropdown4.disabled = false;
+              classroomDropdown4.innerHTML = '<option selected="" disabled>Select classroom</option>';
+              fetchClassrooms(classroomId);
+          }
+  
+          // Set hidden inputs
+          document.getElementById('timetable-result-id').value = button.getAttribute('data-timetable-result-id');
+          document.getElementById('timetable-detail-result-id').value = button.getAttribute('data-timetable-result-detail-id');
+          document.getElementById('selected-instructor').value = instructorId;
+      }
+  });
+
+  function populateTimeDropdown(dropdown) {
+    const startTime = new Date();
+    startTime.setHours(7, 0, 0);
+    const endTime = new Date();
+    endTime.setHours(20, 0, 0);
+    const lunchStart = new Date();
+    lunchStart.setHours(12, 0, 0);
+    const lunchEnd = new Date();
+    lunchEnd.setHours(13, 0, 0);
+  
+    while (startTime < endTime) {
+      if (startTime >= lunchStart && startTime < lunchEnd) {
+        startTime.setMinutes(startTime.getMinutes() + 30);
+        continue;
+      }
+      const option = document.createElement('option');
+      option.value = startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+      option.textContent = startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+      dropdown.appendChild(option);
+      startTime.setMinutes(startTime.getMinutes() + 30);
+    }
+  }
+  
+  function updateEndTimeDropdown() {
+    const selectedStartTime = startTimeDropdown4.value;
+    if (!selectedStartTime) return;
+  
+    const [hours, minutes, period] = selectedStartTime.match(/(\d+):(\d+)\s*(AM|PM)/).slice(1);
+    let startTime = new Date();
+    startTime.setHours(period === 'PM' && hours !== '12' ? parseInt(hours) + 12 : parseInt(hours), parseInt(minutes), 0);
+  
+    const endTime = new Date();
+    endTime.setHours(20, 0, 0); // 8:00 PM
+  
+    const lunchStart = new Date();
+    lunchStart.setHours(12, 0, 0); // 12:00 PM
+    const lunchEnd = new Date();
+    lunchEnd.setHours(13, 0, 0); // 1:00 PM
+  
+    endTimeDropdown4.innerHTML = '<option selected="" disabled>End Time</option>';
+    let currentTime = new Date(startTime.getTime() + 60 * 60000); // Start with 1 hour later
+  
+    while (currentTime <= endTime) {
+      if ((currentTime > lunchStart && currentTime < lunchEnd) || currentTime.getHours() === 13) {
+        currentTime.setMinutes(currentTime.getMinutes() + 30);
+        continue;
+      }
+  
+      const option = document.createElement('option');
+      let duration = Math.floor((currentTime - startTime) / 60000); // Duration in minutes
+  
+      // Adjust duration if it crosses the lunch break
+      if (startTime < lunchStart && currentTime > lunchEnd) {
+        duration -= 60; // Subtract 1 hour for lunch break
+      }
+  
+      const hours = Math.floor(duration / 60);
+      const minutes = duration % 60;
+      const durationLabel = minutes === 0 ? `${hours} hr${hours > 1 ? 's' : ''}` : `${hours}.${minutes / 30 * 5} hr${hours > 0 ? 's' : ''}`;
+      option.value = currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+      option.textContent = `${currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })} (${durationLabel})`;
+      endTimeDropdown4.appendChild(option);
+      currentTime.setMinutes(currentTime.getMinutes() + 30); // Increment by 30 minutes
+    }
+  }
+
+  function toggleClassroomDropdown() {
+    const vacantTimeSlotsInfo4List = document.getElementById('vacant-time-slots-info4-list');
+    const vacantTimeSlotsInfo4 = document.getElementById('vacant-time-slots-info4');
+    
+    if (onlineClassRadio4.checked) {
+      classroomDropdown4.disabled = true;
+      classroomDropdown4.innerHTML = '<option selected="" disabled>Classroom disabled due to learning mode.</option>';
+      vacantTimeSlotsInfo4.innerHTML = '';
+      vacantTimeSlotsInfo4List.style.display = 'none'; // Hide the vacant time slots info
+    } else {
+      classroomDropdown4.disabled = false;
+      classroomDropdown4.innerHTML = '<option selected="" disabled>Select classroom</option>';
+      checkDaySelection(); // Check day selection to show/hide the vacant time slots info
+      fetchClassrooms();
+    }
+  }
+  
+  function checkDaySelection() {
+    const vacantTimeSlotsInfo4List = document.getElementById('vacant-time-slots-info4-list');
+    const anyDaySelected = Array.from(dayCheckboxes4).some(checkbox => checkbox.checked);
+    const classroomSelected = classroomDropdown4.value && classroomDropdown4.value !== 'Select classroom';
+    
+    if (anyDaySelected && classroomSelected && !onlineClassRadio4.checked) {
+      vacantTimeSlotsInfo4List.style.display = 'block'; // Show the vacant time slots info
+    } else {
+      vacantTimeSlotsInfo4List.style.display = 'none'; // Hide the vacant time slots info
+    }
+  }
+  
+  dayCheckboxes4.forEach(checkbox => {
+    checkbox.addEventListener('change', checkDaySelection);
+  });
+  
+  faceToFaceClassRadio4.addEventListener('change', () => {
+    toggleClassroomDropdown();
+    checkDaySelection();
+  });
+  
+  onlineClassRadio4.addEventListener('change', () => {
+    toggleClassroomDropdown();
+    checkDaySelection();
+  });
+  
+  classroomDropdown4.addEventListener('change', checkDaySelection);
+
+function fetchClassrooms(classroomId) {
+    if (resultIdentification) {
+        console.log('URL:', `/api/v2/classrooms/${resultIdentification}/`);
+        fetch(`/api/v2/classrooms/${resultIdentification}/`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.classrooms) {
+                    populateDropdown(classroomDropdown4, data.classrooms);
+                    // Auto-select the classroom if classroomId is defined
+                    if (classroomId) {
+                        classroomDropdown4.value = classroomId;
+                        fetchVacantTimes();
+                    }
+                }
+            })
+            .catch(error => console.error('Error fetching classrooms:', error));
+    }
+}
+
+  function populateDropdown(dropdown, items) {
+    items.forEach(item => {
+      const option = document.createElement('option');
+      option.value = item.class_group_id || item.room_id;
+      option.textContent = `${item.class_group_name || item.room_name} (${item.is_lab ? 'LAB' : 'LEC'})`;
+      option.setAttribute('data-warning-message', item.message || '');
+      dropdown.appendChild(option);
+    });
+  }
+
+  populateTimeDropdown(startTimeDropdown4);
+  populateTimeDropdown(endTimeDropdown4);
+
+  startTimeDropdown4.addEventListener('change', updateEndTimeDropdown);
+
+  dayCheckboxes4.forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+      if (this.checked) {
+        dayCheckboxes4.forEach(otherCheckbox => {
+          if (otherCheckbox !== this) {
+            otherCheckbox.checked = false;
+          }
+        });
+        if (!classroomDropdown4.disabled) {
+          fetchVacantTimes();
+        }
+      }
+    });
+  });
+
+  classroomDropdown4.addEventListener('change', function() {
+    if (!classroomDropdown4.disabled) {
+      fetchVacantTimes();
+    }
+  });
+  faceToFaceClassRadio4.addEventListener('change', toggleClassroomDropdown);
+  onlineClassRadio4.addEventListener('change', toggleClassroomDropdown);
+
+  function fetchVacantTimes() {
+    const selectedClassroom = classroomDropdown4.value;
+    const selectedDay = Array.from(dayCheckboxes4).find(checkbox => checkbox.checked)?.id;
+
+    if (selectedClassroom && selectedDay && resultIdentification) {
+      const url = `/api/v2/classrooms/vacant-times/${resultIdentification}/${selectedClassroom}/`;
+
+      console.log('Fetching data from URL:', url);
+
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          console.log('Data received:', data);
+          const dayKey = selectedDay.charAt(0).toUpperCase() + selectedDay.slice(1);
+          const times = data[dayKey];
+          console.log('Times for selected day:', times);
+          displayVacantTimes(times, selectedDay);
+        })
+        .catch(error => console.error('Error fetching vacant times:', error));
+    }
+  }
+
+  function displayVacantTimes(times, day) {
+    const vacantTimeSlotsInfo4List = document.getElementById('vacant-time-slots-info4-list');
+    const vacantTimeSlotsInfo4 = document.getElementById('vacant-time-slots-info4');
+    const heading = document.querySelector('#vacant-time-slots-info4-list h3');
+    heading.textContent = `Vacant time slots on ${day.charAt(0).toUpperCase() + day.slice(1)} for ${classroomDropdown4.options[classroomDropdown4.selectedIndex].text}`;
+    vacantTimeSlotsInfo4.innerHTML = '';
+
+    if (times && times.length > 0) {
+      const ul = document.createElement('ul');
+      ul.classList.add('list-disc', 'space-y-1', 'ps-5');
+      times.forEach(time => {
+        const li = document.createElement('li');
+        li.textContent = time;
+        ul.appendChild(li);
+      });
+      vacantTimeSlotsInfo4.appendChild(ul);
+      vacantTimeSlotsInfo4List.style.display = 'block';
+    } else {
+      console.log('No times available for the selected day.');
+      const noTimesMessage = document.createElement('p');
+      noTimesMessage.textContent = 'No times available for the selected day.';
+      vacantTimeSlotsInfo4.appendChild(noTimesMessage);
+      vacantTimeSlotsInfo4List.style.display = 'block'; // Show the div
+    }
+  }
+
+  // Automatically fetch classrooms on page load
+  resultIdentification = document.querySelector('.timetable-entry')?.getAttribute('data-result-identification');
+  if (resultIdentification) {
+    fetchClassrooms();
+  }
+
+  toggleClassroomDropdown();
+
+  // ============================ INSTRUCTOR DROPDOWN ============================
+  function fetchInstructors() {
+    if (resultIdentification) {
+      fetch(`/api/v2/instructors/${resultIdentification}/`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.instructors) {
+            populateInstructorDropdown(data.instructors);
+          }
+        })
+        .catch(error => console.error('Error fetching instructors:', error));
+    }
+  }
+
+  function populateInstructorDropdown(instructors) {
+    instructorDropdown4.innerHTML = '<option selected="" disabled>Select instructor</option>';
+    const noneOption = document.createElement('option');
+    noneOption.value = '';
+    noneOption.textContent = 'No Instructor';
+    instructorDropdown4.appendChild(noneOption);
+    instructors.forEach(instructor => {
+      const option = document.createElement('option');
+      option.value = instructor.instructor_id;
+      option.textContent = instructor.instructor_name;
+      instructorDropdown4.appendChild(option);
+    });
+  }
+
+  // Fetch instructors on page load
+  fetchInstructors();
+
+  document.addEventListener('click', function(event) {
+    if (event.target.closest('.timetable-entry-2')) {
+      const timetableEntry = event.target.closest('.timetable-entry-2');
+
+    }
+  });
+
+  function resetFormAndContainer() {
+    // Clear form fields
+    instructorDropdown4.value = 'Select Instructor';
+    classroomDropdown4.value = 'Select Classroom';
+    startTimeDropdown4.value = 'Start Time';
+    endTimeDropdown4.value = 'End Time';
+    dayCheckboxes4.forEach(checkbox => checkbox.checked = false);
+    faceToFaceClassRadio4.checked = true;
+    onlineClassRadio4.checked = false;
+
+    // Clear class group helper
+    classGroupHelper.textContent = '';
+
+    // Clear vacant time slots info list
+    const vacantTimeSlotsInfo4List = document.getElementById('vacant-time-slots-info4-list');
+    vacantTimeSlotsInfo4List.style.display = 'none';
+    const vacantTimeSlotsInfo4 = document.getElementById('vacant-time-slots-info4');
+    vacantTimeSlotsInfo4.innerHTML = '';
+  }
+});
+</script>
+{% endcompress js %}
+

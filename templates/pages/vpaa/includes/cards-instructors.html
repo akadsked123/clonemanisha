@@ -1,0 +1,446 @@
+{% load static %}
+<div class="grid gap-3 md:flex md:justify-between md:items-center">
+  <div class="sm:col-span-1">
+    <label for="hs-as-table-product-review-search" class="sr-only">Search</label>
+    <div class="relative">
+      <input type="text"
+             id="hs-as-table-product-review-search"
+             name="hs-as-table-product-review-search"
+             class="py-2 px-3 ps-11 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none"
+             placeholder="Search">
+      <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-4">
+        <svg class="size-4 text-gray-400"
+             xmlns="http://www.w3.org/2000/svg"
+             width="16"
+             height="16"
+             fill="currentColor"
+             viewBox="0 0 16 16">
+          <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+        </svg>
+      </div>
+    </div>
+  </div>
+  <div class="sm:col-span-2">
+    <div class="inline-flex gap-x-2">
+      {% comment %} <button data-hs-overlay="#"
+              type="button"
+              class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-50 disabled:pointer-events-none">
+        <svg class="flex-shrink-0 size-4"
+             xmlns="http://www.w3.org/2000/svg"
+             width="24"
+             fill="currentColor"
+             height="24"
+             viewBox="0 0 512 512">
+          <path d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32V274.7l-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7V32zM64 352c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V416c0-35.3-28.7-64-64-64H346.5l-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352H64zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48z" />
+        </svg>
+        Download All
+      </button> {% endcomment %}
+    </div>
+  </div>
+</div>
+<p class="my-4 text-xl font-semibold text-gray-800">Bachelor of Science in Information Technology (BSIT)</p>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+  <div class="flex flex-col rounded-xl p-4 md:p-6 bg-white border border-gray-200">
+    <div class="flex items-center gap-x-4">
+      <span class="inline-flex items-center text-xl justify-center size-20 rounded-full bg-green-500 font-semibold text-white leading-none">
+        RF
+      </span>
+      <div class="grow">
+        <h3 class="font-medium text-gray-800">REBAN CLIFF FAJARDO</h3>
+        <p class="text-sm text-gray-500">rebancliff.fajardo@dnsc.edu.ph</p>
+      </div>
+    </div>
+    <!-- Social Brands -->
+    <div class="mt-3 space-x-1">
+      <a class="inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg border border-transparent text-primary-600 hover:primary-blue-800 disabled:opacity-50 disabled:pointer-events-none"
+         href="{% url 'dashboard:faculty-workload' %}">
+        View Schedule
+        <svg class="flex-shrink-0 size-4"
+             xmlns="http://www.w3.org/2000/svg"
+             width="24"
+             height="24"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+          <path d="m9 18 6-6-6-6"></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+  <div class="flex flex-col rounded-xl p-4 md:p-6 bg-white border border-gray-200">
+    <div class="flex items-center gap-x-4">
+      <span class="inline-flex items-center text-xl justify-center size-20 rounded-full bg-red-500 font-semibold text-white leading-none">
+        JA
+      </span>
+      <div class="grow">
+        <h3 class="font-medium text-gray-800">JONILYN T. DABALOS</h3>
+        <p class="text-sm text-gray-500">jonilyn.dabalos@dnsc.edu.ph</p>
+      </div>
+    </div>
+    <!-- Social Brands -->
+    <div class="mt-3 space-x-1">
+      <a class="inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg border border-transparent text-primary-600 hover:primary-blue-800 disabled:opacity-50 disabled:pointer-events-none"
+         href="{% url 'dashboard:faculty-workload' %}">
+        View Schedule
+        <svg class="flex-shrink-0 size-4"
+             xmlns="http://www.w3.org/2000/svg"
+             width="24"
+             height="24"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+          <path d="m9 18 6-6-6-6"></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+  <div class="flex flex-col rounded-xl p-4 md:p-6 bg-white border border-gray-200">
+    <div class="flex items-center gap-x-4">
+      <span class="inline-flex items-center text-xl justify-center size-20 rounded-full bg-yellow-500 font-semibold text-white leading-none">
+        RC
+      </span>
+      <div class="grow">
+        <h3 class="font-medium text-gray-800">REIR ERLINDA E. CUTAD</h3>
+        <p class="text-sm text-gray-500">reirerlinda.cutad@dnsc.edu.ph</p>
+      </div>
+    </div>
+    <!-- Social Brands -->
+    <div class="mt-3 space-x-1">
+      <a class="inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg border border-transparent text-primary-600 hover:primary-blue-800 disabled:opacity-50 disabled:pointer-events-none"
+         href="{% url 'dashboard:faculty-workload' %}">
+        View Schedule
+        <svg class="flex-shrink-0 size-4"
+             xmlns="http://www.w3.org/2000/svg"
+             width="24"
+             height="24"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+          <path d="m9 18 6-6-6-6"></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+  <div class="flex flex-col rounded-xl p-4 md:p-6 bg-white border border-gray-200">
+    <div class="flex items-center gap-x-4">
+      <span class="inline-flex items-center text-xl justify-center size-20 rounded-full bg-cyan-500 font-semibold text-white leading-none">
+        AG
+      </span>
+      <div class="grow">
+        <h3 class="font-medium text-gray-800">ARIEL O. GAMAO</h3>
+        <p class="text-sm text-gray-500">ariel.gamao@dnsc.edu.ph</p>
+      </div>
+    </div>
+    <!-- Social Brands -->
+    <div class="mt-3 space-x-1">
+      <a class="inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg border border-transparent text-primary-600 hover:primary-blue-800 disabled:opacity-50 disabled:pointer-events-none"
+         href="{% url 'dashboard:faculty-workload' %}">
+        View Schedule
+        <svg class="flex-shrink-0 size-4"
+             xmlns="http://www.w3.org/2000/svg"
+             width="24"
+             height="24"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+          <path d="m9 18 6-6-6-6"></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+  <div class="flex flex-col rounded-xl p-4 md:p-6 bg-white border border-gray-200">
+    <div class="flex items-center gap-x-4">
+      <img class="rounded-full size-20"
+           src="{% static './images/account/default-avatar.jpg' %}"
+           alt="Image Description">
+      <div class="grow">
+        <h3 class="font-medium text-gray-800">ROGELIO A. MASANGKAY</h3>
+        <p class="text-sm text-gray-500">rogelio.masangkay@dnsc.edu.ph</p>
+      </div>
+    </div>
+    <!-- Social Brands -->
+    <div class="mt-3 space-x-1">
+      <a class="inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg border border-transparent text-primary-600 hover:primary-blue-800 disabled:opacity-50 disabled:pointer-events-none"
+         href="{% url 'dashboard:faculty-workload' %}">
+        View Schedule
+        <svg class="flex-shrink-0 size-4"
+             xmlns="http://www.w3.org/2000/svg"
+             width="24"
+             height="24"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+          <path d="m9 18 6-6-6-6"></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+  <div class="flex flex-col rounded-xl p-4 md:p-6 bg-white border border-gray-200">
+    <div class="flex items-center gap-x-4">
+      <span class="inline-flex items-center text-xl justify-center size-20 rounded-full bg-pink-500 font-semibold text-white leading-none">
+        ID
+      </span>
+      <div class="grow">
+        <h3 class="font-medium text-gray-800">IAN VAL P. DELOS REYES</h3>
+        <p class="text-sm text-gray-500">ianval.delosreyes@dnsc.edu.ph</p>
+      </div>
+    </div>
+    <!-- Social Brands -->
+    <div class="mt-3 space-x-1">
+      <a class="inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg border border-transparent text-primary-600 hover:primary-blue-800 disabled:opacity-50 disabled:pointer-events-none"
+         href="{% url 'dashboard:faculty-workload' %}">
+        View Schedule
+        <svg class="flex-shrink-0 size-4"
+             xmlns="http://www.w3.org/2000/svg"
+             width="24"
+             height="24"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+          <path d="m9 18 6-6-6-6"></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+  <div class="flex flex-col rounded-xl p-4 md:p-6 bg-white border border-gray-200">
+    <div class="flex items-center gap-x-4">
+      <span class="inline-flex items-center text-xl justify-center size-20 rounded-full bg-blue-500 font-semibold text-white leading-none">
+        LY
+      </span>
+      <div class="grow">
+        <h3 class="font-medium text-gray-800">LAARNIE C. YBAÑEZ</h3>
+        <p class="text-sm text-gray-500">laarnie.cantero@dnsc.edu.ph</p>
+      </div>
+    </div>
+    <!-- Social Brands -->
+    <div class="mt-3 space-x-1">
+      <a class="inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg border border-transparent text-primary-600 hover:primary-blue-800 disabled:opacity-50 disabled:pointer-events-none"
+         href="{% url 'dashboard:faculty-workload' %}">
+        View Schedule
+        <svg class="flex-shrink-0 size-4"
+             xmlns="http://www.w3.org/2000/svg"
+             width="24"
+             height="24"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+          <path d="m9 18 6-6-6-6"></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+  <div class="flex flex-col rounded-xl p-4 md:p-6 bg-white border border-gray-200">
+    <div class="flex items-center gap-x-4">
+      <img class="rounded-full size-20"
+           src="{% static './images/account/default-avatar.jpg' %}"
+           alt="Image Description">
+      <div class="grow">
+        <h3 class="font-medium text-gray-800">JOHN JEFFERSON L. DELA CRUZ</h3>
+        <p class="text-sm text-gray-500">johnjefferson.delacruz@dnsc.edu.ph</p>
+      </div>
+    </div>
+    <!-- Social Brands -->
+    <div class="mt-3 space-x-1">
+      <a class="inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg border border-transparent text-primary-600 hover:primary-blue-800 disabled:opacity-50 disabled:pointer-events-none"
+         href="{% url 'dashboard:faculty-workload' %}">
+        View Schedule
+        <svg class="flex-shrink-0 size-4"
+             xmlns="http://www.w3.org/2000/svg"
+             width="24"
+             height="24"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+          <path d="m9 18 6-6-6-6"></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+  <div class="flex flex-col rounded-xl p-4 md:p-6 bg-white border border-gray-200">
+    <div class="flex items-center gap-x-4">
+      <span class="inline-flex items-center text-xl justify-center size-20 rounded-full bg-orange-500 font-semibold text-white leading-none">
+        RS
+      </span>
+      <div class="grow">
+        <h3 class="font-medium text-gray-800">REL JUN SUASIN</h3>
+        <p class="text-sm text-gray-500">reljun.suasin@dnsc.edu.ph</p>
+      </div>
+    </div>
+    <!-- Social Brands -->
+    <div class="mt-3 space-x-1">
+      <a class="inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg border border-transparent text-primary-600 hover:primary-blue-800 disabled:opacity-50 disabled:pointer-events-none"
+         href="{% url 'dashboard:faculty-workload' %}">
+        View Schedule
+        <svg class="flex-shrink-0 size-4"
+             xmlns="http://www.w3.org/2000/svg"
+             width="24"
+             height="24"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+          <path d="m9 18 6-6-6-6"></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+  <div class="flex flex-col rounded-xl p-4 md:p-6 bg-white border border-gray-200">
+    <div class="flex items-center gap-x-4">
+      <img class="rounded-full size-20"
+           src="{% static './images/account/default-avatar.jpg' %}"
+           alt="Image Description">
+      <div class="grow">
+        <h3 class="font-medium text-gray-800">GERTRUDE GRACE M. TAMPUS</h3>
+        <p class="text-sm text-gray-500">getrudegrace.tampus@dnsc.edu.ph</p>
+      </div>
+    </div>
+    <!-- Social Brands -->
+    <div class="mt-3 space-x-1">
+      <a class="inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg border border-transparent text-primary-600 hover:primary-blue-800 disabled:opacity-50 disabled:pointer-events-none"
+         href="{% url 'dashboard:faculty-workload' %}">
+        View Schedule
+        <svg class="flex-shrink-0 size-4"
+             xmlns="http://www.w3.org/2000/svg"
+             width="24"
+             height="24"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+          <path d="m9 18 6-6-6-6"></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+  <div class="flex flex-col rounded-xl p-4 md:p-6 bg-white border border-gray-200">
+    <div class="flex items-center gap-x-4">
+      <span class="inline-flex items-center text-xl justify-center size-20 rounded-full bg-teal-500 font-semibold text-white leading-none">
+        AC
+      </span>
+      <div class="grow">
+        <h3 class="font-medium text-gray-800">ANALYN V. CASIPE</h3>
+        <p class="text-sm text-gray-500">analyn.casipe@dnsc.edu.ph</p>
+      </div>
+    </div>
+    <!-- Social Brands -->
+    <div class="mt-3 space-x-1">
+      <a class="inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg border border-transparent text-primary-600 hover:primary-blue-800 disabled:opacity-50 disabled:pointer-events-none"
+         href="{% url 'dashboard:faculty-workload' %}">
+        View Schedule
+        <svg class="flex-shrink-0 size-4"
+             xmlns="http://www.w3.org/2000/svg"
+             width="24"
+             height="24"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+          <path d="m9 18 6-6-6-6"></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+  <div class="flex flex-col rounded-xl p-4 md:p-6 bg-white border border-gray-200">
+    <div class="flex items-center gap-x-4">
+      <img class="rounded-full size-20"
+           src="{% static './images/account/default-avatar.jpg' %}"
+           alt="Image Description">
+      <div class="grow">
+        <h3 class="font-medium text-gray-800">CHRISTOHER MISOLES AÑANA</h3>
+        <p class="text-sm text-gray-500">christopher.ana@dnsc.edu.ph</p>
+      </div>
+    </div>
+    <!-- Social Brands -->
+    <div class="mt-3 space-x-1">
+      <a class="inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg border border-transparent text-primary-600 hover:primary-blue-800 disabled:opacity-50 disabled:pointer-events-none"
+         href="{% url 'dashboard:faculty-workload' %}">
+        View Schedule
+        <svg class="flex-shrink-0 size-4"
+             xmlns="http://www.w3.org/2000/svg"
+             width="24"
+             height="24"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+          <path d="m9 18 6-6-6-6"></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+</div>
+<div class="px-6 py-4 flex justify-between md:items-center mt-4 border-t border-gray-200">
+  <div>
+    <p class="text-sm text-gray-600">
+      <span class="font-semibold text-gray-800">12</span> results
+    </p>
+  </div>
+  <div>
+    <div class="inline-flex gap-x-2">
+      <button type="button"
+              class="py-1.5 px-2 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none">
+        <svg class="flex-shrink-0 size-4"
+             xmlns="http://www.w3.org/2000/svg"
+             width="24"
+             height="24"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+          <path d="m15 18-6-6 6-6" />
+        </svg>
+        Prev
+      </button>
+      <button type="button"
+              class="py-1.5 px-2 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none">
+        Next
+        <svg class="flex-shrink-0 size-4"
+             xmlns="http://www.w3.org/2000/svg"
+             width="24"
+             height="24"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+          <path d="m9 18 6-6-6-6" />
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>

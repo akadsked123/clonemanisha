@@ -1,0 +1,335 @@
+<div class="flex flex-col">
+  <div class="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center bg-white border first:rounded-t-lg last:rounded-b-lg">
+    <div class="sm:col-span-1">
+      <label for="hs-as-table-product-review-search" class="sr-only">Search</label>
+      <div class="relative">
+        <input type="text"
+               id="hs-as-table-product-review-search"
+               name="hs-as-table-product-review-search"
+               class="py-2 px-3 ps-11 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+               placeholder="Search">
+        <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-4">
+          <svg class="size-4 text-gray-400 dark:text-neutral-500"
+               xmlns="http://www.w3.org/2000/svg"
+               width="16"
+               height="16"
+               fill="currentColor"
+               viewBox="0 0 16 16">
+            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="sm:col-span-2">
+      <div class="inline-flex gap-x-2">
+        <div class="hs-dropdown [--placement:bottom-right] relative inline-block"
+             data-hs-dropdown-auto-close="inside">
+          <button id="hs-as-table-table-filter-dropdown"
+                  type="button"
+                  class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none">
+            <svg class="flex-shrink-0 size-3.5 text-gray-800"
+                 xmlns="http://www.w3.org/2000/svg"
+                 width="24"
+                 height="24"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+              <path d="M3 6h18" />
+              <path d="M7 12h10" />
+              <path d="M10 18h4" />
+            </svg>
+            Filter
+            <span class="inline-flex items-center gap-1.5 py-0.5 px-1.5 rounded-full text-xs font-medium border border-gray-300 text-gray-800">
+              2
+            </span>
+          </button>
+          <div class="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden divide-y divide-gray-200 min-w-48 z-20 bg-white shadow-md rounded-lg mt-2"
+               aria-labelledby="hs-as-table-table-filter-dropdown">
+            <div class="divide-y divide-gray-200">
+              <label for="hs-as-filters-dropdown-first-semester" class="flex py-2.5 px-3">
+                <input type="checkbox"
+                       class="shrink-0 mt-0.5 border-gray-300 rounded text-primary-600 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none"
+                       id="hs-as-filters-dropdown-first-semester">
+                <span class="ms-3 text-sm text-gray-800">First Semester</span>
+              </label>
+              <label for="hs-as-filters-dropdown-second-semester" class="flex py-2.5 px-3">
+                <input type="checkbox"
+                       class="shrink-0 mt-0.5 border-gray-300 rounded text-primary-600 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none"
+                       id="hs-as-filters-dropdown-second-semester">
+                <span class="ms-3 text-sm text-gray-800">Second Semester</span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <button data-hs-overlay="#import-file"
+                type="button"
+                class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800">
+          <svg fill="currentColor"
+               class="flex-shrink-0 size-3"
+               width="16"
+               height="16"
+               xmlns="http://www.w3.org/2000/svg"
+               viewBox="0 0 384 512">
+            <path d="M320 464c8.8 0 16-7.2 16-16V160H256c-17.7 0-32-14.3-32-32V48H64c-8.8 0-16 7.2-16 16V448c0 8.8 7.2 16 16 16H320zM0 64C0 28.7 28.7 0 64 0H229.5c17 0 33.3 6.7 45.3 18.7l90.5 90.5c12 12 18.7 28.3 18.7 45.3V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V64z" />
+          </svg>
+          Import .CSV
+        </button>
+        <button data-hs-overlay="#add-courses"
+                type="button"
+                class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-50 disabled:pointer-events-none">
+          <svg class="flex-shrink-0 size-4"
+               xmlns="http://www.w3.org/2000/svg"
+               width="24"
+               height="24"
+               viewBox="0 0 24 24"
+               fill="none"
+               stroke="currentColor"
+               stroke-width="2"
+               stroke-linecap="round"
+               stroke-linejoin="round">
+            <path d="M5 12h14" />
+            <path d="M12 5v14" />
+          </svg>
+          Add Course
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="-m-1.5 overflow-x-auto">
+    <div class="p-1.5 min-w-full inline-block align-middle">
+      <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th scope="col" class="ps-6 py-3 text-start">
+                <label for="hs-at-with-checkboxes-main">
+                  <input type="checkbox"
+                         class="shrink-0 border-gray-300 rounded text-primary-600 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-600 dark:checked:bg-primary-500 dark:checked:border-primary-500 dark:focus:ring-offset-gray-800"
+                         id="hs-at-with-checkboxes-main">
+                  <span class="sr-only">Checkbox</span>
+                </label>
+              </th>
+              <th scope="col" class="px-6 py-3 text-start">
+                <a class="group inline-flex items-center gap-x-2" href="#">
+                  <span class="text-xs font-semibold uppercase tracking-wide text-gray-800">Course Code</span>
+                  <svg class="flex-shrink-0 size-3.5 text-gray-800"
+                       xmlns="http://www.w3.org/2000/svg"
+                       width="24"
+                       height="24"
+                       viewBox="0 0 24 24"
+                       fill="none"
+                       stroke="currentColor"
+                       stroke-width="2"
+                       stroke-linecap="round"
+                       stroke-linejoin="round">
+                    <path d="m7 15 5 5 5-5" />
+                    <path d="m7 9 5-5 5 5" />
+                  </svg>
+                </a>
+              </th>
+              <th scope="col" class="px-6 py-3 text-start">
+                <a class="group inline-flex items-center gap-x-2" href="#">
+                  <span class="text-xs font-semibold uppercase tracking-wide text-gray-800">Course Description</span>
+                  <svg class="flex-shrink-0 size-3.5 text-gray-800"
+                       xmlns="http://www.w3.org/2000/svg"
+                       width="24"
+                       height="24"
+                       viewBox="0 0 24 24"
+                       fill="none"
+                       stroke="currentColor"
+                       stroke-width="2"
+                       stroke-linecap="round"
+                       stroke-linejoin="round">
+                    <path d="m7 15 5 5 5-5" />
+                    <path d="m7 9 5-5 5 5" />
+                  </svg>
+                </a>
+              </th>
+              <th scope="col" class="px-6 py-3 text-start">
+                <a class="group inline-flex items-center gap-x-2" href="#">
+                  <span class="text-xs font-semibold uppercase tracking-wide text-gray-800">Lecture</span>
+                  <svg class="flex-shrink-0 size-3.5 text-gray-800"
+                       xmlns="http://www.w3.org/2000/svg"
+                       width="24"
+                       height="24"
+                       viewBox="0 0 24 24"
+                       fill="none"
+                       stroke="currentColor"
+                       stroke-width="2"
+                       stroke-linecap="round"
+                       stroke-linejoin="round">
+                    <path d="m7 15 5 5 5-5" />
+                    <path d="m7 9 5-5 5 5" />
+                  </svg>
+                </a>
+              </th>
+              <th scope="col" class="px-6 py-3 text-start">
+                <a class="group inline-flex items-center gap-x-2" href="#">
+                  <span class="text-xs font-semibold uppercase tracking-wide text-gray-800">Laboratory</span>
+                  <svg class="flex-shrink-0 size-3.5 text-gray-800"
+                       xmlns="http://www.w3.org/2000/svg"
+                       width="24"
+                       height="24"
+                       viewBox="0 0 24 24"
+                       fill="none"
+                       stroke="currentColor"
+                       stroke-width="2"
+                       stroke-linecap="round"
+                       stroke-linejoin="round">
+                    <path d="m7 15 5 5 5-5" />
+                    <path d="m7 9 5-5 5 5" />
+                  </svg>
+                </a>
+              </th>
+              <th scope="col" class="px-6 py-3 text-start">
+                <a class="group inline-flex items-center gap-x-2" href="#">
+                  <span class="text-xs font-semibold uppercase tracking-wide text-gray-800">Credit Units</span>
+                  <svg class="flex-shrink-0 size-3.5 text-gray-800"
+                       xmlns="http://www.w3.org/2000/svg"
+                       width="24"
+                       height="24"
+                       viewBox="0 0 24 24"
+                       fill="none"
+                       stroke="currentColor"
+                       stroke-width="2"
+                       stroke-linecap="round"
+                       stroke-linejoin="round">
+                    <path d="m7 15 5 5 5-5" />
+                    <path d="m7 9 5-5 5 5" />
+                  </svg>
+                </a>
+              </th>
+              <th scope="col" class="px-6 py-3 text-end"></th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200">
+            <tr class="bg-white hover:bg-gray-50">
+              <td class="size-px whitespace-nowrap">
+                <div class="ps-6 py-3">
+                  <label for="hs-at-with-checkboxes-1">
+                    <input type="checkbox"
+                           class="shrink-0 border-gray-300 rounded text-primary-600 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-600 dark:checked:bg-primary-500 dark:checked:border-primary-500 dark:focus:ring-offset-gray-800"
+                           id="hs-at-with-checkboxes-1">
+                    <span class="sr-only">Checkbox</span>
+                  </label>
+                </div>
+              </td>
+              <td class="size-px whitespace-nowrap">
+                <div class="px-6 py-3">
+                  <span class="text-sm text-gray-600 dark:text-neutral-400">IT111</span>
+                </div>
+              </td>
+              <td class="h-px w-72 min-w-72">
+                <div class="px-6 py-3">
+                  <span class="text-sm text-gray-600 dark:text-neutral-400">Introduction to Computing</span>
+                </div>
+              </td>
+              <td class="size-px whitespace-nowrap">
+                <div class="px-6 py-3">
+                  <span class="text-sm text-gray-600 dark:text-neutral-400">3</span>
+                </div>
+              </td>
+              <td class="size-px whitespace-nowrap">
+                <div class="px-6 py-3">
+                  <span class="text-sm text-gray-600 dark:text-neutral-400">2</span>
+                </div>
+              </td>
+              <td class="size-px whitespace-nowrap">
+                <div class="px-6 py-3">
+                  <span class="text-sm text-gray-600 dark:text-neutral-400">5</span>
+                </div>
+              </td>
+              <td class="size-px whitespace-nowrap">
+                <div class="px-6 py-2">
+                  <div class="hs-dropdown [--placement:bottom-right] relative inline-block">
+                    <button id="hs-table-dropdown-1"
+                            type="button"
+                            class="hs-dropdown-toggle py-1.5 px-2 inline-flex justify-center items-center gap-2 rounded-lg text-gray-700 align-middle disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-primary-600 transition-all text-sm">
+                      <svg class="flex-shrink-0 size-4"
+                           xmlns="http://www.w3.org/2000/svg"
+                           width="24"
+                           height="24"
+                           viewBox="0 0 24 24"
+                           fill="none"
+                           stroke="currentColor"
+                           stroke-width="2"
+                           stroke-linecap="round"
+                           stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="1" /><circle cx="19" cy="12" r="1" /><circle cx="5" cy="12" r="1" />
+                      </svg>
+                    </button>
+                    <div class="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden divide-y divide-gray-200 min-w-40 z-20 bg-white shadow-2xl rounded-lg p-2 mt-2"
+                         aria-labelledby="hs-table-dropdown-1">
+                      <div class="py-2 first:pt-0 last:pb-0">
+                        <span class="block py-2 px-3 text-xs font-medium uppercase text-gray-400">Actions</span>
+                        <a class="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-primary-500"
+                           href="#">View</a>
+                        <a class="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-primary-500"
+                           href="#">Edit</a>
+                      </div>
+                      <div class="py-2 first:pt-0 last:pb-0">
+                        <a class="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-red-600 hover:bg-gray-100 focus:ring-2 focus:ring-primary-500"
+                           href="#">Delete</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- End Table -->
+        <!-- Footer -->
+        <div class="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-t border-gray-200">
+          <div>
+            <p class="text-sm text-gray-600">
+              <span class="font-semibold text-gray-800">6</span> results
+            </p>
+          </div>
+          <div>
+            <div class="inline-flex gap-x-2">
+              <button type="button"
+                      class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none">
+                <svg class="flex-shrink-0 size-4"
+                     xmlns="http://www.w3.org/2000/svg"
+                     width="24"
+                     height="24"
+                     viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="2"
+                     stroke-linecap="round"
+                     stroke-linejoin="round">
+                  <path d="m15 18-6-6 6-6" />
+                </svg>
+                Prev
+              </button>
+              <button type="button"
+                      class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none">
+                Next
+                <svg class="flex-shrink-0 size-4"
+                     xmlns="http://www.w3.org/2000/svg"
+                     width="24"
+                     height="24"
+                     viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="2"
+                     stroke-linecap="round"
+                     stroke-linejoin="round">
+                  <path d="m9 18 6-6-6-6" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- End Footer -->
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Card -->
+<!-- End Table Section -->

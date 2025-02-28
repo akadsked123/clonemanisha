@@ -1,0 +1,117 @@
+{% load static %}
+{% load allauth i18n %}
+{% load compress %}
+<div id="assign-course"
+     class="transition-opacity hs-overlay hidden fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto size-full"
+     role="dialog"
+     tabindex="-1">
+  <div class="hs-overlay-animation-target sm:max-w-lg sm:w-full m-3 sm:mx-auto transition-all hs-overlay-open:scale-100 hs-overlay-open:opacity-100 scale-95 opacity-0 ease-in-out duration-200 min-h-[calc(100%-3.5rem)] flex items-center ">
+    <div class="w-full flex flex-col bg-white border shadow-sm rounded-xl pointer-events-auto">
+      <div class="p-4 overflow-y-auto">
+        <div class="flex justify-between items-center">
+          <h2 class="text-xl font-bold text-gray-800">Assign Course</h2>
+          <button type="button"
+                  class="size-8 inline-flex justify-center items-center gap-x-2 rounded-full border border-transparent bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none"
+                  aria-label="Close"
+                  data-hs-overlay="#assign-course">
+            <span class="sr-only">Close</span>
+            <svg class="shrink-0 size-4"
+                 xmlns="http://www.w3.org/2000/svg"
+                 width="24"
+                 height="24"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+              <path d="M18 6 6 18"></path>
+              <path d="m6 6 12 12"></path>
+            </svg>
+          </button>
+        </div>
+        <form method="post">
+          {% csrf_token %}
+          <input type="hidden" name="group_id" value="{{ selected_group.group_id }}">
+          <input type="hidden" name="instructor_id" id="instructor-id" value="">
+          <input type="hidden" name="curriculum_id" id="curriculum-id" value="">
+          <div class="relative w-full">
+            <div id="course-list-container"
+                 style="display: none"
+                 class="mt-2 items-start w-full py-3 px-4 gap-x-2 bg-white border border-gray-200 rounded-lg h-72 overflow-y-auto [&::-webkit-scrollbar]:w-3 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300">
+            </div>
+            <div id="no-course-message"
+                 class="mt-2 flex items-center bg-white border border-gray-200 rounded-lg h-72">
+              <div class="flex flex-auto flex-col justify-center items-center p-4 md:p-5">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     width="16"
+                     height="16"
+                     fill="currentColor"
+                     class="bi bi-folder-x size-10 text-gray-500"
+                     viewBox="0 0 16 16">
+                  <path d="M.54 3.87.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3h3.982a2 2 0 0 1 1.992 2.181L15.546 8H14.54l.265-2.91A1 1 0 0 0 13.81 4H2.19a1 1 0 0 0-.996 1.09l.637 7a1 1 0 0 0 .995.91H9v1H2.826a2 2 0 0 1-1.991-1.819l-.637-7a2 2 0 0 1 .342-1.31zm6.339-1.577A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139q.323-.119.684-.12h5.396z" />
+                  <path d="M11.854 10.146a.5.5 0 0 0-.707.708L12.293 12l-1.146 1.146a.5.5 0 0 0 .707.708L13 12.707l1.146 1.147a.5.5 0 0 0 .708-.708L13.707 12l1.147-1.146a.5.5 0 0 0-.707-.708L13 11.293z" />
+                </svg>
+                <p id="no-course-message" class="mt-2 text-sm text-gray-800">
+                  No course has been assigned yet. Please select from below.
+                </p>
+              </div>
+            </div>
+            <!-- Search input -->
+            <label for="search-courses" class="sr-only">Search</label>
+            <div class="relative">
+              <input type="text"
+                     id="search-courses"
+                     autocomplete="off"
+                     maxlength="25"
+                     class="mt-2 py-2 px-3 ps-11 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none"
+                     placeholder="Search">
+              <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-4">
+                <svg class="size-4 text-gray-400"
+                     xmlns="http://www.w3.org/2000/svg"
+                     width="16"
+                     height="16"
+                     fill="currentColor"
+                     viewBox="0 0 16 16">
+                  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                </svg>
+              </div>
+            </div>
+            <!-- Options (visible by default) -->
+            <div class="flex flex-wrap gap-2 mt-2">
+              <button type="button"
+                      disabled
+                      id="remove-all-courses"
+                      class="py-1 px-2 inline-flex items-center gap-x-1 text-sm rounded-lg border border-red-500 text-red-500 hover:bg-red-100 disabled:opacity-50 disabled:pointer-events-none">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     width="16"
+                     height="16"
+                     fill="currentColor"
+                     class="bi bi-dash"
+                     viewBox="0 0 16 16">
+                  <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8" />
+                </svg>
+                Remove all
+              </button>
+            </div>
+            <div id="course-list"
+                 class="mt-2 h-72 overflow-y-auto p-1 space-y-0.5 bg-white border border-gray-200 rounded-lg [&::-webkit-scrollbar]:w-3 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300">
+              <!-- Options will be populated by JavaScript -->
+            </div>
+          </div>
+          <!-- Buttons -->
+          <div class="flex justify-end items-center gap-x-2 mt-4">
+            <button type="button"
+                    class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
+                    data-hs-overlay="#assign-course">Cancel</button>
+            <button type="submit"
+                    name="AssignCourseSubmit"
+                    class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-50 disabled:pointer-events-none">
+              Save
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,173 @@
+{% load static %}
+{% load allauth i18n %}
+{% load compress %}
+<div id="update-class-group"
+     class="transition-opacity hs-overlay hidden size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto"
+     role="dialog"
+     tabindex="-1">
+  <div class="hs-overlay-animation-target hs-overlay-open:scale-100 hs-overlay-open:opacity-100 scale-95 opacity-0 ease-in-out transition-all duration-200 sm:max-w-lg sm:w-full m-3 sm:mx-auto min-h-[calc(100%-3.5rem)] flex items-center">
+    <div class="w-full flex flex-col bg-white border shadow-sm rounded-xl pointer-events-auto">
+      <div class="p-4 overflow-y-auto">
+        <div class="flex justify-between items-center">
+          <div>
+            <h2 class="text-xl font-bold text-gray-800">Edit ({{ selected_class_group.class_group_name }})</h2>
+          </div>
+          <button type="button"
+                  class="size-8 inline-flex justify-center items-center gap-x-2 rounded-full border border-transparent bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none"
+                  aria-label="Close"
+                  data-hs-overlay="#update-class-group">
+            <span class="sr-only">Close</span>
+            <svg class="shrink-0 size-4"
+                 xmlns="http://www.w3.org/2000/svg"
+                 width="24"
+                 height="24"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+              <path d="M18 6 6 18"></path>
+              <path d="m6 6 12 12"></path>
+            </svg>
+          </button>
+        </div>
+
+        {% if class_group_timetable  %}
+         <div class="mt-2 bg-red-50 border border-red-200 text-sm text-red-800 rounded-lg p-4"
+             role="alert"
+             tabindex="-1"
+             aria-labelledby="hs-with-list-label">
+          <div class="flex">
+            <div class="shrink-0">
+              <svg class="shrink-0 size-4 mt-0.5"
+                   xmlns="http://www.w3.org/2000/svg"
+                   width="24"
+                   height="24"
+                   viewBox="0 0 24 24"
+                   fill="none"
+                   stroke="currentColor"
+                   stroke-width="2"
+                   stroke-linecap="round"
+                   stroke-linejoin="round">
+                <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path>
+                <path d="M12 9v4"></path>
+                <path d="M12 17h.01"></path>
+              </svg>
+            </div>
+            <div class="ms-4">
+              <h3 id="hs-with-list-label" class="text-sm font-semibold">
+                Unexpected bad things will happen if you do not read this!
+              </h3>
+              <p class="mt-1">Changing the class year level and program will not remove the assigned schedule but may cause course mismatches.</p>
+            </div>
+          </div>
+        </div>
+{% endif %}
+
+{% with selected_class_group.class_group_name as class_group_name %}
+  {% for char in class_group_name %}
+    {% if char.isdigit %}
+      {% with char as year_level %}
+        <form method="post">
+          {% csrf_token %}
+          <div class="max-full">
+            <label for="class_group_name" class="block text-sm font-medium my-2">Class Set</label>
+                       {% with selected_class_group.class_group_name|slice:":4" as program_code_prefix %}
+            <select name="program_name"
+                    required
+                    class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none">
+              <option value="" disabled>Select Program</option>
+              {% for program in programs %}
+                <option value="{{ program.program_code }}" {% if program.program_code == program_code_prefix %}selected{% endif %}>
+                  {{ program.program_name }} ({{ program.program_code }})
+                </option>
+              {% endfor %}
+            </select>
+            {% endwith %}
+            {% comment %} <input type="text"
+                   required
+                   maxlength="50"
+                   name="class_group_name"
+                   id="class_group_name_2"
+                   autocomplete="off"
+                   disabled
+                   value="{{ selected_class_group.class_group_name }}"
+                   data-result-identification="{{ result_identification }}"
+                   data-current-value="{{ selected_class_group.class_group_name }}"
+                   class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none"
+                   placeholder="e.g. BSIT 1A">
+            <p id="update-class-group-helper" class="text-xs mt-2 text-red-600"></p> {% endcomment %}
+            <label for="year_level" class="block text-sm font-medium my-2">Year Level</label>
+            <select name="year_level"
+                    required
+                    class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none">
+              <option value="" disabled {% if not year_level %}selected{% endif %}>Select Year Level</option>
+              <option value="1" {% if year_level == "1" %}selected{% endif %}>1st Year</option>
+              <option value="2" {% if year_level == "2" %}selected{% endif %}>2nd Year</option>
+              <option value="3" {% if year_level == "3" %}selected{% endif %}>3rd Year</option>
+              <option value="4" {% if year_level == "4" %}selected{% endif %}>4th Year</option>
+            </select>
+          </div>
+          <div class="flex justify-end items-center gap-x-2 mt-4">
+            <button type="button"
+                    class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
+                    data-hs-overlay="#update-class-group">Cancel</button>
+            <button type="submit"
+                    id="submit_button_3"
+                    name="UpdateClassGroupSubmit"
+                    class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-50 disabled:pointer-events-none">
+              Save
+            </button>
+          </div>
+        </form>
+            {% endwith %}
+    {% endif %}
+  {% endfor %}
+{% endwith %}
+      </div>
+    </div>
+  </div>
+</div>
+{% compress js %}
+<script>
+document.getElementById('class_group_name_2').addEventListener('input', function() {
+    const className = this.value.replace(/\s+/g, '').toLowerCase();
+    const submitButton = document.getElementById('submit_button_3');
+    const helperText = document.getElementById('update-class-group-helper');
+    const resultIdentification = this.getAttribute('data-result-identification');
+    const currentValue = this.getAttribute('data-current-value').replace(/\s+/g, '').toLowerCase();
+
+    if (className.length > 0 && className !== currentValue) {
+        const cachedClassGroups = localStorage.getItem(`class_groups_${resultIdentification}`);
+        if (cachedClassGroups) {
+            checkClassGroups(JSON.parse(cachedClassGroups));
+        } else {
+            fetch(`/api/v2/class-groups/${resultIdentification}/`)
+                .then(response => response.json())
+                .then(data => {
+                    localStorage.setItem(`class_groups_${resultIdentification}`, JSON.stringify(data.class_groups));
+                    checkClassGroups(data.class_groups);
+                })
+                .catch(error => {
+                    console.error('Error fetching class groups:', error);
+                });
+        }
+    } else {
+        submitButton.disabled = false;
+        helperText.textContent = '';
+    }
+
+    function checkClassGroups(classGroups) {
+        const classGroupExists = classGroups.some(group => group.class_group_name.replace(/\s+/g, '').toLowerCase() === className);
+        if (classGroupExists && className !== currentValue) {
+            submitButton.disabled = true;
+            helperText.textContent = 'Class set already exists.';
+        } else {
+            submitButton.disabled = false;
+            helperText.textContent = '';
+        }
+    }
+});
+</script>
+{% endcompress js %}

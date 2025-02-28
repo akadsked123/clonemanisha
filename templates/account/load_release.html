@@ -1,0 +1,498 @@
+{% extends "_base.html" %}
+{% load compress %}
+{% load i18n %}
+{% load static %}
+{% block title %}
+  Add Load Release
+{% endblock title %}
+{% block content %}
+  {% if user_type == 1 %}
+    {% include "pages/registrar/includes/_navbar.html" %}
+  {% elif user_type == 2 %}
+    {% include "pages/vpaa/includes/navbar.html" %}
+  {% elif user_type == 3 %}
+    {% include "pages/dean/includes/navbar.html" %}
+  {% elif user_type == 4 %}
+    {% include "pages/progchair/includes/_navbar.html" %}
+  {% elif user_type == 5 %}
+    {% include "pages/faculty/includes/navbar.html" %}
+  {% endif %}
+  <div class="w-full lg:ps-64 bg-gray-100 h-full">
+    <div class="p-6 space-y-3">
+      {% comment %} <p class="text-2xl font-extrabold text-gray-900 uppercase">Add Load Release</p> {% endcomment %}
+      <div class="bg-gray-50 border border-gray-200 text-sm text-gray-600 rounded-lg p-4"
+           role="alert"
+           tabindex="-1"
+           aria-labelledby="hs-link-on-right-label">
+        <p class="text-2xl font-extrabold text-gray-900 uppercase">
+          {% if selected_group %}
+            <span>{{ selected_group.group_name }} ({{ selected_group.get_semester_display }})</span>
+          {% else %}
+          {% endif %}
+        </p>
+        <p class="text-xl font-bold text-gray-800 uppercase">
+          {% if instructor_full_name %}<span>{{ instructor_full_name }}</span>{% endif %}
+        </p>
+      </div>
+      <div class="flex justify-between items-center gap-x-2 px-6 py-4 bg-white border rounded-lg">
+        {% comment %} <p class="text-2xl font-extrabold text-gray-900 uppercase">
+          {% if selected_group %}
+            <span>{{ selected_group.group_name }} ({{ selected_group.get_semester_display }})</span>
+          {% else %}
+          {% endif %}
+        </p>  {% endcomment %}
+        <div class="flex items-center">
+          <img class="inline-block flex-shrink-0 size-[62px] rounded-full"
+               src="{% if instructor.profile_image and instructor.profile_image.url %}{{ instructor.profile_image.url }}{% else %}https://ui-avatars.com/api/?name={{ instructor.first_name|cut:' ' }}{% if instructor.middle_name %}{{ instructor.middle_name }}{% endif %}{{ instructor.last_name }}&background=random{% endif %}"
+               alt="Image Description">
+          <div class="ms-3">
+            <h3 class="font-semibold text-gray-800 uppercase">
+              {{ instructor.first_name }}
+              {% if instructor.middle_name %}{{ instructor.middle_name }}{% endif %}
+              {{ instructor.last_name }}
+            </h3>
+            <p class="text-sm font-medium text-gray-400 lowercase">{{ instructor.email }}</p>
+          </div>
+        </div>
+        <div class="flex justify-end gap-2">
+          <a type="button"
+             href="{% url 'timetable:instructors' %}?group={% if request.session.recent_group %}{{ request.session.recent_group }}{% else %}{% endif %}&page=1&items_per_page=25"
+             class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
+            Back
+          </a>
+          <button form="add_load_release_form"
+                  type="submit"
+                  name="AddLoadReleaseButton"
+                  class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-50 disabled:pointer-events-none">
+            Save Changes
+          </button>
+        </div>
+      </div>
+      <div class="overflow-hidden bg-white">
+        <form method="post" id="add_load_release_form">
+          {% csrf_token %}
+          <div class="border rounded-lg overflow-hidden mb-4">
+            <div class="px-6 py-4 border-b border-gray-200 bg-primary-600">
+              <p class="text-2xl font-extrabold text-white uppercase">ADMIN LOAD RELEASE</p>
+            </div>
+            {% if admin_loads %}
+            <div class="min-h-60 flex flex-col bg-white border-b"
+     id="no-data-container-admin" style="display: none;">{% include "partials/_no_data.html" %}</div>
+              <table id="admin-loads-table" class="min-w-full divide-y bg-white">
+                <thead class="bg-gray-50 rounded-lg">
+                  <tr>
+                    <th scope="col" class="px-6 py-3 text-start" style="width: 5%;">
+                      <p class="group inline-flex items-center gap-x-2 text-xs font-semibold uppercase text-gray-800">#</p>
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-start" style="width: 70%;">
+                      <p class="group inline-flex items-center gap-x-2 text-xs font-semibold uppercase text-gray-800">Description</p>
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-start" style="width: 10%;">
+                      <p class="group inline-flex items-center gap-x-2 text-xs font-semibold uppercase text-gray-800">Hour</p>
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-start" style="width: 10%;">
+                      <p class="group inline-flex items-center gap-x-2 text-xs font-semibold uppercase text-gray-800">Unit</p>
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-start" style="width: 5%;">
+                      <p class="group inline-flex items-center gap-x-2 text-xs font-semibold uppercase text-gray-800">Actions</p>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for admin_load in admin_loads %}
+                    <tr>
+                      <td>
+                        <p class="row-number px-6 text-sm text-gray-800">{{ forloop.counter }}</p>
+                        <input type="hidden" name="admin_load_id_{{ admin_load.id }}" value="{{ admin_load.id }}">
+                      </td>
+                      <td>
+                        <input type="text" value="{{ admin_load.description }}" name="admin_description_{{ admin_load.id }}" autocomplete="off" maxlength="500" required class="py-2 px-3 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Description">
+                      </td>
+                                          <td>
+                                              <input type="text" value="{{ admin_load.hour }}" name="admin_hour_{{ admin_load.id }}" autocomplete="off" required class="no-spinner py-2 px-3 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Hour">
+                                          </td>
+                                          <td>
+                                              <input type="text" value="{{ admin_load.unit }}" name="admin_unit_{{ admin_load.id }}" autocomplete="off" required class="no-spinner py-2 px-3 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Unit">
+                                          </td>
+<td class="text-center" id="load-row-{{ admin_load.id }}">
+    <button type="button" class="inline-flex items-center gap-x-1 text-sm text-red-600 decoration-2 hover:underline focus:outline-none focus:underline font-medium" onclick="deleteLoad({{ admin_load.id }}, 'admin')">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+            <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+        </svg>
+        Delete
+    </button>
+</td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+              <div class="w-full bg-white border-t">
+                <button type="button"
+                        id="addAdminLoadButton"
+                        class="m-2 gap-4 py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
+                        onclick="addAdminLoadRow()">
+                  <svg xmlns="http://www.w3.org/2000/svg"
+                       width="16"
+                       height="16"
+                       fill="currentColor"
+                       class="bi bi-plus-circle"
+                       viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                  </svg>
+                  Add Admin Load
+                </button>
+              </div>
+            {% else %}
+              <div class="min-h-60 flex flex-col bg-white border-b"
+                   id="no-data-container-admin">{% include "partials/_no_data.html" %}</div>
+              <div class="w-full bg-white">
+                <button type="button"
+                        id="addAdminLoadButton"
+                        class="m-2 gap-4 py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
+                        onclick="addAdminLoadRow()">
+                  <svg xmlns="http://www.w3.org/2000/svg"
+                       width="16"
+                       height="16"
+                       fill="currentColor"
+                       class="bi bi-plus-circle"
+                       viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                  </svg>
+                  Add Admin Load
+                </button>
+              </div>
+            {% endif %}
+          </div>
+        
+          <div class="border rounded-lg overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-200 bg-primary-600">
+              <p class="text-2xl font-extrabold text-white uppercase">REP LOAD RELEASE</p>
+            </div>
+            {% if rep_loads %}
+             <div class="min-h-60 flex flex-col bg-white border-b"
+     id="no-data-container-rep" style="display: none;">{% include "partials/_no_data.html" %}</div>
+              <table id="rep-loads-table" class="min-w-full divide-y bg-white">
+                <thead class="bg-gray-50 rounded-lg">
+                  <tr>
+                    <th scope="col" class="px-6 py-3 text-start" style="width: 5%;">
+                      <p class="group inline-flex items-center gap-x-2 text-xs font-semibold uppercase text-gray-800">#</p>
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-start" style="width: 70%;">
+                      <p class="group inline-flex items-center gap-x-2 text-xs font-semibold uppercase text-gray-800">Description</p>
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-start" style="width: 10%;">
+                      <p class="group inline-flex items-center gap-x-2 text-xs font-semibold uppercase text-gray-800">Hour</p>
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-start" style="width: 10%;">
+                      <p class="group inline-flex items-center gap-x-2 text-xs font-semibold uppercase text-gray-800">Unit</p>
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-start" style="width: 5%;">
+                      <p class="group inline-flex items-center gap-x-2 text-xs font-semibold uppercase text-gray-800">Actions</p>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for rep_load in rep_loads %}
+                    <tr>
+                      <td>
+                        <p class="row-number px-6 text-sm text-gray-800">{{ forloop.counter }}</p>
+                        <input type="hidden" name="rep_load_id_{{ rep_load.id }}" value="{{ rep_load.id }}">
+                      </td>
+                      <td>
+                        <input type="text" value="{{ rep_load.description }}" name="rep_description_{{ rep_load.id }}" autocomplete="off" maxlength="500" required class="py-2 px-3 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Description">
+                      </td>
+                                                                                    <td>
+                                                                                        <input type="text" value="{{ rep_load.hour }}" name="rep_hour_{{ rep_load.id }}" autocomplete="off" required class="no-spinner py-2 px-3 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Hour">
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <input type="text" value="{{ rep_load.unit }}" name="rep_unit_{{ rep_load.id }}" autocomplete="off" required class="no-spinner py-2 px-3 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Unit">
+                                                                                    </td>
+<td class="text-center" id="load-row-{{ rep_load.id }}">
+    <button type="button" class="inline-flex items-center gap-x-1 text-sm text-red-600 decoration-2 hover:underline focus:outline-none focus:underline font-medium" onclick="deleteLoad({{ rep_load.id }}, 'rep')">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+            <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+        </svg>
+        Delete
+    </button>
+</td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+              <div class="w-full bg-white border-t">
+                <div class="w-full bg-white">
+                  <button type="button"
+                          id="addRepLoadButton"
+                          class="m-2 gap-4 py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
+                          onclick="addRepLoadRow()">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         width="16"
+                         height="16"
+                         fill="currentColor"
+                         class="bi bi-plus-circle"
+                         viewBox="0 0 16 16">
+                      <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                      <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                    </svg>
+                    Add REP Load
+                  </button>
+                </div>
+              </div>
+            {% else %}
+              <div class="min-h-60 flex flex-col bg-white border-b"
+                   id="no-data-container-rep">{% include "partials/_no_data.html" %}</div>
+              <div class="w-full bg-white">
+                <button type="button"
+                        id="addRepLoadButton"
+                        class="m-2 gap-4 py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
+                        onclick="addRepLoadRow()">
+                  <svg xmlns="http://www.w3.org/2000/svg"
+                       width="16"
+                       height="16"
+                       fill="currentColor"
+                       class="bi bi-plus-circle"
+                       viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                  </svg>
+                  Add REP Load
+                </button>
+              </div>
+            {% endif %}
+          </div>
+        </form>
+        </div>
+      </div>
+    </div>
+        {% compress js %}
+        <script>
+        function deleteLoad(loadId, loadType) {
+            const url = `/api/v2/${loadType}-loads/${loadId}/delete_load/`;
+            fetch(url, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                }
+            })
+            .then(response => {
+                if (response.status === 204) {
+                    const row = document.getElementById(`load-row-${loadId}`);
+                    if (row) {
+                        row.closest('tr').remove();
+                        updateRowNumbers();
+                        showToast('Successfully deleted', { delay: 5000, colorClass: 'bg-primary-600', iconClass: '<svg class="shrink-0 size-4 mt-0.5" fill="currentColor" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"></path></svg>' });
+                    }
+                } else {
+                    alert('Failed to delete the load.');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+        
+        function updateRowNumbers() {
+            const adminRows = document.querySelectorAll('#admin-loads-table tbody tr');
+            const noDataContainerAdmin = document.getElementById('no-data-container-admin');
+            const adminTableHeader = document.querySelector('#admin-loads-table thead');
+            if (adminRows.length === 0) {
+                if (noDataContainerAdmin) {
+                    noDataContainerAdmin.style.display = 'flex';
+                }
+                if (adminTableHeader) {
+                    adminTableHeader.style.display = 'none';
+                }
+            } else {
+                if (noDataContainerAdmin) {
+                    noDataContainerAdmin.style.display = 'none';
+                }
+                if (adminTableHeader) {
+                    adminTableHeader.style.display = '';
+                }
+            }
+            adminRows.forEach((row, index) => {
+                row.querySelector('.row-number').textContent = index + 1;
+            });
+        
+            const repRows = document.querySelectorAll('#rep-loads-table tbody tr');
+            const noDataContainerRep = document.getElementById('no-data-container-rep');
+            const repTableHeader = document.querySelector('#rep-loads-table thead');
+            if (repRows.length === 0) {
+                if (noDataContainerRep) {
+                    noDataContainerRep.style.display = 'flex';
+                }
+                if (repTableHeader) {
+                    repTableHeader.style.display = 'none';
+                }
+            } else {
+                if (noDataContainerRep) {
+                    noDataContainerRep.style.display = 'none';
+                }
+                if (repTableHeader) {
+                    repTableHeader.style.display = '';
+                }
+            }
+            repRows.forEach((row, index) => {
+                row.querySelector('.row-number').textContent = index + 1;
+            });
+        }
+        </script>
+        {% endcompress %}
+    {% compress js %}
+  <script>
+  let isFormDirty = false;
+  let isFormSubmitting = false;
+  
+  document.getElementById('add_load_release_form').addEventListener('submit', function() {
+      isFormSubmitting = true;
+  });
+  
+  function addAdminLoadRow() {
+      addLoadRow('admin-loads-table', 'no-data-container-admin', 'admin');
+  }
+  
+  function addRepLoadRow() {
+      addLoadRow('rep-loads-table', 'no-data-container-rep', 'rep');
+  }
+  
+  function addLoadRow(tableId, containerId, loadType) {
+      const noDataContainer = document.getElementById(containerId);
+      if (noDataContainer) {
+          noDataContainer.style.display = 'none';
+      }
+  
+      let table = document.getElementById(tableId);
+      if (!table) {
+          const tableContainer = document.createElement('div');
+          tableContainer.innerHTML = `
+              <table id="${tableId}" class="min-w-full divide-y divide-gray-200">
+                  <thead class="bg-gray-50 rounded-lg">
+                      <tr>
+                    <th scope="col" class="px-6 py-3 text-start" style="width: 5%;">
+                      <p class="group inline-flex items-center gap-x-2 text-xs font-semibold uppercase text-gray-800">#</p>
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-start" style="width: 70%;">
+                      <p class="group inline-flex items-center gap-x-2 text-xs font-semibold uppercase text-gray-800">Description</p>
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-start" style="width: 10%;">
+                      <p class="group inline-flex items-center gap-x-2 text-xs font-semibold uppercase text-gray-800">Hour</p>
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-start" style="width: 10%;">
+                      <p class="group inline-flex items-center gap-x-2 text-xs font-semibold uppercase text-gray-800">Unit</p>
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-start" style="width: 5%;">
+                      <p class="group inline-flex items-center gap-x-2 text-xs font-semibold uppercase text-gray-800">Actions</p>
+                    </th>
+                  </tr>
+                  </thead>
+                  <tbody></tbody>
+              </table>
+          `;
+          document.querySelector(`#${containerId}`).insertAdjacentElement('afterend', tableContainer);
+          table = document.getElementById(tableId);
+      }
+  
+      const tbody = table.getElementsByTagName('tbody')[0];
+      const newRow = tbody.insertRow();
+      const rowCount = tbody.rows.length;
+  
+      newRow.innerHTML = `
+          <tr>
+              <td>
+                  <p class="row-number px-6 text-sm text-gray-800">${rowCount}</p>
+                  <input type="hidden" name="${loadType}_load_id_new_${rowCount}" value="new">
+              </td>
+              <td>
+                  <input type="text" name="${loadType}_description_new_${rowCount}" autocomplete="off" maxlength="500" required class="py-2 px-3 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Description">
+              </td>
+                          <td>
+                              <input type="text" name="${loadType}_hour_new_${rowCount}" autocomplete="off" required class="no-spinner py-2 px-3 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Hour">
+                          </td>
+                          <td>
+                              <input type="text" name="${loadType}_unit_new_${rowCount}" autocomplete="off" required class="no-spinner py-2 px-3 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Unit">
+                          </td>
+              <td class="text-center">
+                  <button type="button" class="inline-flex items-center gap-x-1 text-sm text-red-600 decoration-2 hover:underline focus:outline-none focus:underline font-medium" onclick="removeRow(this)">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-circle" viewBox="0 0 16 16">
+                          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                          <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8" />
+                      </svg>
+                      Remove
+                  </button>
+              </td>
+          </tr>
+      `;
+      updateRowNumbers();
+      isFormDirty = true;
+  }
+  
+  function removeRow(button) {
+      const row = button.closest('tr');
+      row.remove();
+      updateRowNumbers();
+      const adminRows = document.querySelectorAll('#admin-loads-table tbody tr');
+      const repRows = document.querySelectorAll('#rep-loads-table tbody tr');
+      if (adminRows.length === 0 && repRows.length === 0) {
+          isFormDirty = false;
+      }
+  }
+  
+  function updateRowNumbers() {
+      const adminRows = document.querySelectorAll('#admin-loads-table tbody tr');
+      const noDataContainerAdmin = document.getElementById('no-data-container-admin');
+      const adminTableHeader = document.querySelector('#admin-loads-table thead');
+      if (adminRows.length === 0) {
+          if (noDataContainerAdmin) {
+              noDataContainerAdmin.style.display = 'flex';
+          }
+          if (adminTableHeader) {
+              adminTableHeader.style.display = 'none';
+          }
+      } else {
+          if (noDataContainerAdmin) {
+              noDataContainerAdmin.style.display = 'none';
+          }
+          if (adminTableHeader) {
+              adminTableHeader.style.display = '';
+          }
+      }
+      adminRows.forEach((row, index) => {
+          row.querySelector('.row-number').textContent = index + 1;
+      });
+  
+      const repRows = document.querySelectorAll('#rep-loads-table tbody tr');
+      const noDataContainerRep = document.getElementById('no-data-container-rep');
+      const repTableHeader = document.querySelector('#rep-loads-table thead');
+      if (repRows.length === 0) {
+          if (noDataContainerRep) {
+              noDataContainerRep.style.display = 'flex';
+          }
+          if (repTableHeader) {
+              repTableHeader.style.display = 'none';
+          }
+      } else {
+          if (noDataContainerRep) {
+              noDataContainerRep.style.display = 'none';
+          }
+          if (repTableHeader) {
+              repTableHeader.style.display = '';
+          }
+      }
+      repRows.forEach((row, index) => {
+          row.querySelector('.row-number').textContent = index + 1;
+      });
+  }
+  
+  window.addEventListener('beforeunload', function (e) {
+      if (isFormDirty && !isFormSubmitting) {
+          const confirmationMessage = 'You have unsaved changes. Are you sure you want to leave?';
+          e.returnValue = confirmationMessage;
+          return confirmationMessage;
+      }
+  });
+  </script>
+  {% endcompress %}
+{% endblock content %}

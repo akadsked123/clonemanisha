@@ -1,0 +1,52 @@
+{% extends "_base.html" %}
+{% load static %}
+{% block title %}
+  Schedule
+{% endblock title %}
+{% block content %}
+  {% include "./includes/_navbar.html" %}
+  <div class="w-full lg:ps-64 bg-gray-100 h-full">
+    <div class="p-6 space-y-3">
+      <p class="text-2xl font-extrabold  text-gray-900">Manage Schedules</p>
+      <div class="px-6 py-4 bg-white border rounded-lg">
+        <nav class="relative z-0 flex border rounded-xl overflow-hidden"
+             aria-label="Tabs"
+             role="tablist">
+          <button type="button"
+                  class="active hs-tab-active:border-b-primary-600 hs-tab-active:text-primary-600 hs-tab-active:font-bold relative min-w-0 flex-1 bg-white first:border-s-0 border-s border-b-2 py-4 px-4 text-gray-500 hover:text-gray-700 text-sm font-medium text-center overflow-hidden hover:bg-gray-50 focus:z-10 focus:outline-none focus:text-primary-600 disabled:opacity-50 disabled:pointer-events-none"
+                  id="bar-with-underline-item-1"
+                  data-hs-tab="#bar-with-underline-1"
+                  aria-controls="bar-with-underline-1"
+                  role="tab">Room Schedules</button>
+          <button type="button"
+                  class="hs-tab-active:border-b-primary-600 hs-tab-active:text-primary-600 hs-tab-active:font-bold relative min-w-0 flex-1 bg-white first:border-s-0 border-s border-b-2 py-4 px-4 text-gray-500 hover:text-gray-700 text-sm font-medium text-center overflow-hidden hover:bg-gray-50 focus:z-10 focus:outline-none focus:text-primary-600 disabled:opacity-50 disabled:pointer-events-none"
+                  id="bar-with-underline-item-2"
+                  data-hs-tab="#bar-with-underline-2"
+                  aria-controls="bar-with-underline-2"
+                  role="tab">Schedules Per Program</button>
+          <button type="button"
+                  class="hs-tab-active:border-b-primary-600 hs-tab-active:text-primary-600 hs-tab-active:font-bold relative min-w-0 flex-1 bg-white first:border-s-0 border-s border-b-2 py-4 px-4 text-gray-500 hover:text-gray-700 text-sm font-medium text-center overflow-hidden hover:bg-gray-50 focus:z-10 focus:outline-none focus:text-primary-600 disabled:opacity-50 disabled:pointer-events-none"
+                  id="bar-with-underline-item-3"
+                  data-hs-tab="#bar-with-underline-3"
+                  aria-controls="bar-with-underline-3"
+                  role="tab">Faculty Workload</button>
+        </nav>
+        <div class="mt-3">
+          <div id="bar-with-underline-1"
+               role="tabpanel"
+               aria-labelledby="bar-with-underline-item-1">{% include "./includes/tab-rooms-schedule.html" %}</div>
+          <div id="bar-with-underline-2"
+               class="hidden"
+               role="tabpanel"
+               aria-labelledby="bar-with-underline-item-2">
+            {% include "./includes/tab-schedule-per-program.html" %}
+          </div>
+          <div id="bar-with-underline-3"
+               class="hidden"
+               role="tabpanel"
+               aria-labelledby="bar-with-underline-item-3">{% include "./includes/tab-faculty-workdload.html" %}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

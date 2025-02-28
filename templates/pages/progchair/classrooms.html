@@ -1,0 +1,483 @@
+{% extends "_base.html" %}
+{% load compress %}
+{% load static %}
+{% block title %}
+  Classrooms
+{% endblock title %}
+{% block content %}
+  {% include "./includes/_navbar.html" %}
+  {% include "./includes/_delete_classroom_modal.html" %}
+  {% include "./includes/_add_classroom_modal.html" %}
+  {% include "./includes/_update_classroom_modal.html" %}
+  {% include "./includes/_delete_all_classrooms_modal.html" %}
+  <div class="w-full lg:ps-64 bg-gray-100 h-full">
+    <div class="p-6 space-y-3">
+      <p class="text-2xl font-extrabold text-gray-900">List of classrooms</p>
+      <div class="flex flex-col">
+        <div class="-m-1.5 overflow-x-auto overflow-hidden [&::-webkit-scrollbar]:h-3 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300">
+          <div class="p-1.5 min-w-full inline-block align-middle">
+            <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
+              <!-- Header -->
+              <div class="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-b border-gray-200">
+                <div class="sm:col-span-1">
+                  <label for="search-data" class="sr-only">Search</label>
+                  <div class="relative">
+                    <input type="text"
+                           id="search-data"
+                           autocomplete="off"
+                           maxlength="100"
+                           class="py-2 px-3 ps-11 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none"
+                           placeholder="Search" />
+                    <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-4">
+                      <svg class="size-4 text-gray-400"
+                           xmlns="http://www.w3.org/2000/svg"
+                           width="16"
+                           height="16"
+                           fill="currentColor"
+                           viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                <div class="inline-flex gap-x-2">
+                  <button id="delete-button"
+                          data-hs-overlay="#delete-all-classroom"
+                          type="button"
+                          class="py-2 px-3 inline-flex items-center text-sm font-medium rounded-lg border border-gray-200 bg-white text-red-500 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none">
+                    <svg class="shrink-0 size-4 me-2"
+                         xmlns="http://www.w3.org/2000/svg"
+                         width="24"
+                         height="24"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         stroke-linecap="round"
+                         stroke-linejoin="round">
+                      <path d="M3 6h18" />
+                      <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                      <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                      <line x1="10" x2="10" y1="11" y2="17" />
+                      <line x1="14" x2="14" y1="11" y2="17" />
+                    </svg>
+                    Delete&nbsp<span id="selected-count-5"></span>
+                  </button>
+                  <div class="hs-dropdown [--placement:bottom-right] relative inline-block">
+                    <button id="hs-as-table-table-filter-dropdown"
+                            type="button"
+                            class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                            aria-haspopup="menu"
+                            aria-expanded="false"
+                            aria-label="Dropdown">
+                      <svg class="shrink-0 size-3.5 text-gray-800 dark:text-neutral-200"
+                           xmlns="http://www.w3.org/2000/svg"
+                           width="24"
+                           height="24"
+                           viewBox="0 0 24 24"
+                           fill="none"
+                           stroke="currentColor"
+                           stroke-width="2"
+                           stroke-linecap="round"
+                           stroke-linejoin="round">
+                        <path d="M3 6h18" />
+                        <path d="M7 12h10" />
+                        <path d="M10 18h4" />
+                      </svg>
+                      Filter
+                      <span id="selected-filter-count"
+                            class="inline-flex items-center gap-1.5 py-0.5 px-1.5 rounded-full text-xs font-medium border border-gray-300 text-gray-800 dark:border-neutral-700 dark:text-neutral-300">
+                      </span>
+                    </button>
+                    <div class="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden divide-y divide-gray-200 min-w-48 z-20 bg-white shadow-md rounded-lg mt-2 dark:divide-neutral-700 dark:bg-neutral-800 dark:border dark:border-neutral-700"
+                         role="menu"
+                         aria-orientation="vertical"
+                         aria-labelledby="hs-as-table-table-filter-dropdown">
+                      <div class="divide-y divide-gray-200 dark:divide-neutral-700">
+                        <label for="hs-as-filters-dropdown-lecture" class="flex py-2.5 px-3">
+                          <input type="checkbox"
+                                 class="shrink-0 mt-0.5 border-gray-300 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                 id="hs-as-filters-dropdown-lecture">
+                          <span class="ms-3 text-sm text-gray-800 dark:text-neutral-200">Lecture Classroom</span>
+                        </label>
+                        <label for="hs-as-filters-dropdown-lab" class="flex py-2.5 px-3">
+                          <input type="checkbox"
+                                 class="shrink-0 mt-0.5 border-gray-300 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                 id="hs-as-filters-dropdown-lab">
+                          <span class="ms-3 text-sm text-gray-800 dark:text-neutral-200">Lab Classroom</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <button type="button"
+                          aria-haspopup="dialog"
+                          aria-expanded="false"
+                          aria-controls="hs-scale-animation-modal"
+                          data-hs-overlay="#add-classroom"
+                          class="gap-2 py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-50 disabled:pointer-events-none">
+                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+  <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+</svg> Add classroom
+                  </button>
+                </div>
+              </div>
+              <!-- End Header -->
+              <!-- Table -->
+              {% if classrooms %}
+                <table class="min-w-full divide-y divide-gray-200">
+                  <thead class="bg-gray-50">
+                    <tr>
+                      <th scope="col" class="ps-6 py-3 text-start">
+                        <label for="select-all" class="flex">
+                          <input type="checkbox"
+                                 id="select-all"
+                                 class="shrink-0 border-gray-300 rounded text-primary-600 focus:ring-primary-500" />
+                          <span class="sr-only">Select All</span>
+                        </label>
+                      </th>
+                      <th scope="col" class="px-6 py-3 text-start">
+                        <p class="group inline-flex items-center gap-x-2 text-xs font-semibold uppercase text-gray-800">#</p>
+                      </th>
+                      <th scope="col" class="px-6 py-3 text-start">
+                        <div class="flex items-center gap-x-2">
+                          <span class="text-xs font-semibold uppercase tracking-wide text-gray-800">Name</span>
+                        </div>
+                      </th>
+                      <th scope="col" class="px-6 py-3 text-start">
+                        <div class="flex items-center gap-x-2">
+                          <span class="text-xs font-semibold uppercase tracking-wide text-gray-800">Location</span>
+                        </div>
+                      </th>
+                      <th scope="col" class="px-6 py-3 text-start">
+                        <div class="flex items-center gap-x-2">
+                          <span class="text-xs font-semibold uppercase tracking-wide text-gray-800">Classroom Type</span>
+                        </div>
+                      </th>
+                      <th scope="col" class="px-6 py-3 text-start">
+                        <div class="flex items-center gap-x-2">
+                          <span class="text-xs font-semibold uppercase tracking-wide text-gray-800">Date Added</span>
+                        </div>
+                      </th>
+                      <th scope="col" class="px-6 py-3 text-start">
+                        <div class="flex items-center gap-x-2">
+                          <span class="text-xs font-semibold uppercase tracking-wide text-gray-800">Actions</span>
+                        </div>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-gray-200" id="table-body">
+                    <tr id="no-results-row" style="display: none;">
+                      <td colspan="7">
+                        <div class="min-h-60 flex flex-col mt-2">
+                          <div class="flex flex-auto flex-col justify-center items-center p-4 md:p-5">
+                            <svg class="size-10 text-gray-500"
+                                 xmlns="http://www.w3.org/2000/svg"
+                                 width="24"
+                                 height="24"
+                                 viewBox="0 0 24 24"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 stroke-width="1"
+                                 stroke-linecap="round"
+                                 stroke-linejoin="round">
+                              <line x1="22" x2="2" y1="12" y2="12"></line>
+                              <path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z">
+                              </path>
+                              <line x1="6" x2="6.01" y1="16" y2="16"></line>
+                              <line x1="10" x2="10.01" y1="16" y2="16"></line>
+                            </svg>
+                            <p id="no-data-message-1" class="mt-2 text-sm text-gray-800">No data to show</p>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    {% for classroom in classrooms %}
+                      <tr data-is-lab="{{ classroom.is_lab|yesno:"true,false" }}">
+                        <td class="size-px whitespace-nowrap">
+                          <div class="ps-6 py-3">
+                            <label for="hs-at-with-checkboxes-{{ classroom.room_id }}" class="flex">
+                              <input type="checkbox"
+                                     value="{{ classroom.room_id }}"
+                                     required
+                                     class="classroom-checkbox shrink-0 border-gray-300 rounded text-primary-600 focus:ring-primary-500" />
+                              <span class="sr-only">Checkbox</span>
+                            </label>
+                          </div>
+                        </td>
+                        <td class="size-px whitespace-nowrap">
+                          <div class="px-6 py-2">
+                            <div class="block text-sm text-gray-800">{{ forloop.counter0|add:start_index }}</div>
+                          </div>
+                        </td>
+                        <td class="size-px whitespace-nowrap">
+                          <div class="px-6 py-3">
+                            <span class="block text-sm text-gray-500">{{ classroom.room_name }}</span>
+                          </div>
+                        </td>
+                        <td class="size-px whitespace-nowrap">
+                          <div class="px-6 py-3">
+                            <span class="block text-sm text-gray-500">{{ classroom.building }}</span>
+                          </div>
+                        </td>
+                        <td class="size-px whitespace-nowrap">
+                          <div class="px-6 py-3">
+                            {% comment %} <span class="max-w-40 truncate whitespace-nowrap inline-block py-1.5 px-3 rounded-lg text-xs font-medium {% if classroom.is_lab %}bg-primary-100 text-primary-800{% else %}bg-blue-100 text-blue-800{% endif %}">
+                              {{ classroom.is_lab|yesno:"Laboratory,Lecture" }}
+                            </span> {% endcomment %}
+                             <span class="block text-sm text-gray-500">{{ classroom.is_lab|yesno:"Laboratory,Lecture" }}</span>
+                          </div>
+                        </td>
+                        <td class="size-px whitespace-nowrap">
+                          <div class="px-6 py-3">
+                            <span class="block text-sm text-gray-500">{{ classroom.date_added }}</span>
+                          </div>
+                        </td>
+                        <td class="size-px whitespace-nowrap">
+                          <div class="px-6 py-2">
+                            <div class="hs-dropdown [--placement:bottom-right] relative inline-block">
+                              <button id="hs-table-dropdown-1"
+                                      type="button"
+                                      class="hs-dropdown-toggle py-1.5 px-2 inline-flex justify-center items-center gap-2 rounded-lg text-gray-700 align-middle disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-primary-600 transition-all text-sm"
+                                      aria-haspopup="menu"
+                                      aria-expanded="false"
+                                      aria-label="Dropdown">
+                                <svg class="shrink-0 size-4"
+                                     xmlns="http://www.w3.org/2000/svg"
+                                     width="24"
+                                     height="24"
+                                     viewBox="0 0 24 24"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     stroke-width="2"
+                                     stroke-linecap="round"
+                                     stroke-linejoin="round">
+                                  <circle cx="12" cy="12" r="1" />
+                                  <circle cx="19" cy="12" r="1" />
+                                  <circle cx="5" cy="12" r="1" />
+                                </svg>
+                              </button>
+                              <div class="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden divide-y divide-gray-200 min-w-40 z-20 bg-white shadow-2xl rounded-lg p-2 mt-2"
+                                   role="menu"
+                                   aria-orientation="vertical"
+                                   aria-labelledby="hs-table-dropdown-1">
+                                <div class="py-2 first:pt-0 last:pb-0">
+                                  <span class="block py-2 px-3 text-xs font-medium uppercase text-gray-400">Actions</span>
+                                  <button aria-haspopup="dialog"
+                                          aria-expanded="false"
+                                          aria-controls="hs-scale-animation-modal"
+                                          data-hs-overlay="#update-classroom"
+                                          data-classroom-id="{{ classroom.room_id }}"
+                                          data-classroom-name="{{ classroom.room_name }}"
+                                          data-building="{{ classroom.building }}"
+                                          data-is-lab="{{ classroom.is_lab }}"
+                                          class="w-full flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">
+                                    Edit
+                                  </button>
+                                </div>
+                                <div class="py-2 first:pt-0 last:pb-0">
+                                  <button aria-haspopup="dialog"
+                                          aria-expanded="false"
+                                          aria-controls="hs-scale-animation-modal"
+                                          data-hs-overlay="#delete-classroom"
+                                          data-classroom-id="{{ classroom.room_id }}"
+                                          data-classroom-name="{{ classroom.room_name }}"
+                                          class="w-full flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-red-600 hover:bg-gray-100 focus:ring-2 focus:ring-primary-500">
+                                    Delete
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              {% else %}
+                <div class="min-h-60 flex flex-col mt-2">{% include "partials/_no_data.html" %}</div>
+              {% endif %}
+              <!-- End Table -->
+              <!-- Footer -->
+              <div class="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-t border-gray-200">
+                <div>
+                  <p class="text-sm text-gray-600">
+                    <span class="font-semibold text-gray-800">{{ total_classroom }}</span>
+                    results
+                  </p>
+                </div>
+                <div>
+                  <div class="inline-flex gap-x-2">
+                    {% include "partials/_page_per_item.html" %}
+                    {% if classrooms.has_previous %}
+                      <a href="?page={{ classrooms.previous_page_number }}&items_per_page={{ request.GET.items_per_page }}"
+                         class="py-1.5 px-2 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none">
+                        <svg class="flex-shrink-0 size-4"
+                             xmlns="http://www.w3.org/2000/svg"
+                             width="24"
+                             height="24"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="2"
+                             stroke-linecap="round"
+                             stroke-linejoin="round">
+                          <path d="m15 18-6-6 6-6" />
+                        </svg>
+                        Prev
+                      </a>
+                    {% else %}
+                      <button type="button"
+                              class="disabled py-1.5 px-2 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-gray-200 text-gray-800 shadow-sm">
+                        <svg class="flex-shrink-0 size-4"
+                             xmlns="http://www.w3.org/2000/svg"
+                             width="24"
+                             height="24"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="2"
+                             stroke-linecap="round"
+                             stroke-linejoin="round">
+                          <path d="m15 18-6-6 6-6" />
+                        </svg>
+                        Prev
+                      </button>
+                    {% endif %}
+                    {% if classrooms.has_next %}
+                      <a href="?page={{ classrooms.next_page_number }}&items_per_page={{ request.GET.items_per_page }}"
+                         class="py-1.5 px-2 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none">
+                        Next
+                        <svg class="flex-shrink-0 size-4"
+                             xmlns="http://www.w3.org/2000/svg"
+                             width="24"
+                             height="24"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="2"
+                             stroke-linecap="round"
+                             stroke-linejoin="round">
+                          <path d="m9 18 6-6-6-6" />
+                        </svg>
+                      </a>
+                    {% else %}
+                      <button type="button"
+                              class="disabled py-1.5 px-2 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-gray-200 text-gray-800 shadow-sm">
+                        <svg class="flex-shrink-0 size-4"
+                             xmlns="http://www.w3.org/2000/svg"
+                             width="24"
+                             height="24"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="2"
+                             stroke-linecap="round"
+                             stroke-linejoin="round">
+                          <path d="m9 18 6-6-6-6" />
+                        </svg>
+                        Next
+                      </button>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+              <!-- End Footer -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% compress js %}
+    // Search functionality
+    <script src="{% static 'js/searchData.js' %}"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+    // Custom configuration for this page
+    const searchInputId = 'search-data';
+    const tableBodyId = 'table-body';
+    // Only search in columns 1 and 2
+    const columnsToSearch = [2, 3, 4]; 
+    const noResultsMessageId = 'no-data-message-1';
+    const noResultsRowId = 'no-results-row';
+
+    // Initialize the search functionality with custom columns
+    initializeSearch(searchInputId, tableBodyId, columnsToSearch, noResultsMessageId, noResultsRowId);
+});
+    </script>
+    // Filter functionality
+    <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const filterButton = document.getElementById('hs-as-table-table-filter-dropdown');
+    const selectedCountSpan = document.getElementById('selected-filter-count');
+    const frequencyCheckbox = document.getElementById('hs-as-filters-dropdown-lecture');
+    const createdCheckbox = document.getElementById('hs-as-filters-dropdown-lab');
+    const tableBody = document.getElementById('table-body');
+    const noDataMessage = document.getElementById('no-data-message-1');
+
+    function updateLabel() {
+      const count = (frequencyCheckbox.checked ? 1 : 0) + (createdCheckbox.checked ? 1 : 0);
+      selectedCountSpan.textContent = count > 0 ? count : '';
+      selectedCountSpan.style.display = count > 0 ? 'inline-flex' : 'none';
+    }
+
+    function filterTable() {
+      const showLab = createdCheckbox.checked;
+      const showLecture = frequencyCheckbox.checked;
+
+      const rows = tableBody.querySelectorAll('tr:not(#no-results-row)');
+      let hasVisibleRows = false;
+      let noResultsForFilter = true;
+
+      rows.forEach(row => {
+        const isLab = row.getAttribute('data-is-lab') === 'true';
+
+        const matchesFilter = (showLab && isLab) || (showLecture && !isLab) || (!showLab && !showLecture);
+
+        if (matchesFilter) {
+          row.style.display = '';
+          hasVisibleRows = true;
+          noResultsForFilter = false;
+        } else {
+          row.style.display = 'none';
+        }
+      });
+
+      if (noResultsForFilter) {
+        noDataMessage.textContent = `No results found`;
+      } else {
+        noDataMessage.textContent = '';
+      }
+
+      document.getElementById('no-results-row').style.display = hasVisibleRows ? 'none' : '';
+    }
+
+    function handleFilterChange() {
+      updateLabel();
+      filterTable();
+    }
+
+    frequencyCheckbox.addEventListener('change', handleFilterChange);
+    createdCheckbox.addEventListener('change', handleFilterChange);
+
+    updateLabel();
+    filterTable();
+  });
+    </script>
+    // Select all checkboxes
+    <script src="{% static 'js/checkBoxes.js' %}"></script>
+    <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    initializeCheckboxLogic({
+      selectAllId: "select-all",
+      checkboxClass: ".classroom-checkbox",
+       selectedCountId1: "selected-count-4",
+    selectedCountId2: "selected-count-5",
+      deleteButtonId: "delete-button",
+      classroomIdsInputId: "classroom_ids",
+    });
+  });
+    </script>
+  {% endcompress %}
+{% endblock content %}

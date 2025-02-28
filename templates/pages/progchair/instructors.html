@@ -1,0 +1,610 @@
+{% extends "_base.html" %}
+{% load compress %}
+{% load static %}
+{% block title %}
+  Instructors
+{% endblock title %}
+{% block content %}
+  {% include "./includes/_navbar.html" %}
+  {% include "./includes/_create_group_modal.html" %}
+  {% include "./includes/_remove_instructor_modal.html" %}
+  {% include "./includes/_remove_all_instructors_modal.html" %}
+  {% include "./includes/_add_instructor_modal.html" %}
+  {% include "./includes/_assign_courses_modal.html" %}
+  {% include "./includes/_copy_instructor_modal.html" %}
+  {% include "./includes/_rename_group_modal.html" %}
+  <div class="w-full lg:ps-64 bg-gray-100 h-full">
+    <div class="p-6 space-y-3">
+      {% comment %} <p class="text-2xl font-extrabold  text-gray-900">List of instructors</p> {% endcomment %}
+      <div class="bg-gray-50 border border-gray-200 text-sm text-gray-600 rounded-lg p-4"
+           role="alert"
+           tabindex="-1"
+           aria-labelledby="hs-link-on-right-label">
+        <p class="text-2xl font-extrabold text-gray-900 uppercase">
+          {% if selected_group %}
+            <span>{{ selected_group.group_name }} ({{ selected_group.get_semester_display }})</span>
+          {% else %}
+          {% endif %}
+        </p>
+        {% for alert in alert_messages %}
+          {% if alert.show_again %}
+            <div class="mt-2 bg-gray-50 border border-gray-200 text-sm text-gray-600 rounded-lg p-4"
+                 role="alert"
+                 tabindex="-1"
+                 aria-labelledby="hs-link-on-right-label">
+              <div class="flex">
+                <div class="shrink-0">
+                  <svg class="shrink-0 size-4 mt-0.5"
+                       xmlns="http://www.w3.org/2000/svg"
+                       width="24"
+                       height="24"
+                       viewBox="0 0 24 24"
+                       fill="none"
+                       stroke="currentColor"
+                       stroke-width="2"
+                       stroke-linecap="round"
+                       stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M12 16v-4"></path>
+                    <path d="M12 8h.01"></path>
+                  </svg>
+                </div>
+                <div class="flex-1 md:flex md:justify-between ms-2">
+                  <p id="hs-link-on-right-label" class="text-sm">{{ alert.message }}</p>
+                  <p class="text-sm mt-3 md:mt-0 md:ms-6">
+                    <a class="text-gray-800 hover:text-gray-500 focus:outline-none focus:text-gray-500 font-medium whitespace-nowrap"
+                       href="#">Details</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+      <div class="flex flex-col">
+        <div class="-m-1.5 overflow-x-auto overflow-hidden [&::-webkit-scrollbar]:h-3 [&::-webkit-scrollbar-thumb]:rounded-full   [&::-webkit-scrollbar-thumb]:bg-gray-300">
+          <div class="p-1.5 min-w-full inline-block align-middle">
+            <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
+              <!-- Header -->
+              <div class="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-b border-gray-200">
+                <div class="sm:col-span-1">
+                  <label for="search-data" class="sr-only">Search</label>
+                  <div class="relative">
+                    <input type="text"
+                           id="search-data"
+                           name="search-data"
+                           autocomplete="off"
+                           maxlength="100"
+                           class="py-2 px-3 ps-11 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none"
+                           placeholder="Search">
+                    <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-4">
+                      <svg class="size-4 text-gray-400"
+                           xmlns="http://www.w3.org/2000/svg"
+                           width="16"
+                           height="16"
+                           fill="currentColor"
+                           viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                <div class="inline-flex gap-x-2">
+                  <div class="hs-dropdown relative inline-flex">
+                    <button id="hs-dropdown-toggle"
+                            type="button"
+                            class="hs-dropdown-toggle py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
+                            aria-haspopup="menu"
+                            aria-expanded="false"
+                            aria-label="Dropdown">
+                      {% if selected_group %}
+                        <span>{{ selected_group.group_name }} ({{ selected_group.get_semester_display }})</span>
+                      {% else %}
+                        <span>Select Academic Year</span>
+                      {% endif %}
+                      <svg class="hs-dropdown-open:rotate-180 size-4"
+                           xmlns="http://www.w3.org/2000/svg"
+                           width="24"
+                           height="24"
+                           viewBox="0 0 24 24"
+                           fill="none"
+                           stroke="currentColor"
+                           stroke-width="2"
+                           stroke-linecap="round"
+                           stroke-linejoin="round">
+                        <path d="m6 9 6 6 6-6" />
+                      </svg>
+                    </button>
+                    <div class="hs-dropdown-menu min-w-48 transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden z-10">
+                      <div class="hs-dropdown-open:ease-in hs-dropdown-open:opacity-100 hs-dropdown-open:scale-100 transition ease-out opacity-0 scale-95 duration-200 mt-2 origin-top-left min-w-48 bg-white shadow-md rounded-lg p-2"
+                           data-hs-transition>
+                        <span class="block py-2 px-3 text-xs font-medium uppercase text-gray-400">Options</span>
+                        {% if all_groups.exists %}
+                          {% for group in all_groups %}
+                            <a class="flex justify-between items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
+                               href="?group={{ group.group_id }}&page={{ request.GET.page|default:1 }}&items_per_page={{ request.GET.items_per_page|default:25 }}">
+                              <span>{{ group.group_name }} ({{ group.get_semester_display }})</span>
+                              {% if group.group_id == selected_group.group_id %}
+                                <svg class="shrink-0 size-3.5 text-gray-800"
+                                     xmlns="http://www.w3.org/2000/svg"
+                                     width="24"
+                                     height="24"
+                                     viewBox="0 0 24 24"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     stroke-width="2"
+                                     stroke-linecap="round"
+                                     stroke-linejoin="round">
+                                  <path d="M20 6 9 17l-5-5"></path>
+                                </svg>
+                              {% endif %}
+                            </a>
+                          {% endfor %}
+                        {% else %}
+                          <div class="flex justify-between items-center py-2 px-3 text-sm text-gray-800">
+                            <span class="text-sm text-gray-500">No groups available.</span>
+                          </div>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                  <button id="remove-button"
+                          data-hs-overlay="#remove-all-instructors"
+                          type="button"
+                          class="gap-2 py-2 px-3 inline-flex items-center text-sm font-medium rounded-lg border border-gray-200 bg-white text-red-500 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         width="16"
+                         height="16"
+                         fill="currentColor"
+                         class="bi bi-person-dash"
+                         viewBox="0 0 16 16">
+                      <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7M11 12h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1 0-1m0-7a3 3 0 1 1-6 0 3 3 0 0 1 6 0M8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4" />
+                      <path d="M8.256 14a4.5 4.5 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10q.39 0 .74.025c.226-.341.496-.65.804-.918Q8.844 9.002 8 9c-5 0-6 3-6 4s1 1 1 1z" />
+                    </svg>
+                    Remove<span id="selected-count-1"></span>
+                  </button>
+                  <button type="button"
+                          id="copy-instructor-button"
+                          data-hs-overlay="#copy-instructor"
+                          class="gap-2 py-2 px-3 inline-flex items-center text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 448 512"
+                         fill="currentColor"
+                         width="16"
+                         height="16">
+                      <path d="M384 336l-192 0c-8.8 0-16-7.2-16-16l0-256c0-8.8 7.2-16 16-16l140.1 0L400 115.9 400 320c0 8.8-7.2 16-16 16zM192 384l192 0c35.3 0 64-28.7 64-64l0-204.1c0-12.7-5.1-24.9-14.1-33.9L366.1 14.1c-9-9-21.2-14.1-33.9-14.1L192 0c-35.3 0-64 28.7-64 64l0 256c0 35.3 28.7 64 64 64zM64 128c-35.3 0-64 28.7-64 64L0 448c0 35.3 28.7 64 64 64l192 0c35.3 0 64-28.7 64-64l0-32-48 0 0 32c0 8.8-7.2 16-16 16L64 464c-8.8 0-16-7.2-16-16l0-256c0-8.8 7.2-16 16-16l32 0 0-48-32 0z" />
+                    </svg>
+                    Copy Instructor<span id="selected-count-3"></span>
+                  </button>
+                  <button type="button"
+                          aria-haspopup="dialog"
+                          aria-expanded="false"
+                          aria-controls="hs-scale-animation-modal"
+                          data-hs-overlay="#rename-group"
+                          class="gap-2 py-2 px-3 inline-flex items-center text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         width="16"
+                         height="16"
+                         fill="currentColor"
+                         class="bi bi-calendar4"
+                         viewBox="0 0 16 16">
+                      <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M2 2a1 1 0 0 0-1 1v1h14V3a1 1 0 0 0-1-1zm13 3H1v9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z" />
+                    </svg>
+                    Rename Academic Year
+                  </button>
+                  <button type="button"
+                          aria-haspopup="dialog"
+                          aria-expanded="false"
+                          aria-controls="hs-scale-animation-modal"
+                          data-hs-overlay="#create-group"
+                          class="gap-2 py-2 px-3 inline-flex items-center text-sm font-semibold rounded-lg border border-transparent bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-50 disabled:pointer-events-none">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         width="16"
+                         height="16"
+                         fill="currentColor"
+                         class="bi bi-calendar-plus"
+                         viewBox="0 0 16 16">
+                      <path d="M8 7a.5.5 0 0 1 .5.5V9H10a.5.5 0 0 1 0 1H8.5v1.5a.5.5 0 0 1-1 0V10H6a.5.5 0 0 1 0-1h1.5V7.5A.5.5 0 0 1 8 7" />
+                      <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z" />
+                    </svg>
+                    Create Academic Year
+                  </button>
+                  <button type="button"
+                          aria-haspopup="dialog"
+                          aria-expanded="false"
+                          aria-controls="hs-scale-animation-modal"
+                          data-hs-overlay="#add-instructor"
+                          class="gap-2 py-2 px-3 inline-flex items-center text-sm font-semibold rounded-lg border border-transparent bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-50 disabled:pointer-events-none">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         width="16"
+                         height="16"
+                         fill="currentColor"
+                         class="bi bi-people"
+                         viewBox="0 0 16 16">
+                      <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1zm-7.978-1L7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002-.014.002zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4m3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0M6.936 9.28a6 6 0 0 0-1.23-.247A7 7 0 0 0 5 9c-4 0-5 3-5 4q0 1 1 1h4.216A2.24 2.24 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816M4.92 10A5.5 5.5 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0m3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4" />
+                    </svg>
+                    Add Instructor
+                  </button>
+                </div>
+              </div>
+              <!-- End Header -->
+              <!-- Table -->
+              {% if faculty_and_staff %}
+                <table class="min-w-full divide-y divide-gray-200">
+                  <thead class="bg-gray-50">
+                    <tr>
+                      <th scope="col" class="ps-6 py-3 text-start">
+                        <label for="select-all" class="flex">
+                          <input type="checkbox"
+                                 id="select-all"
+                                 class="shrink-0 border-gray-300 rounded text-primary-600 focus:ring-primary-500" />
+                          <span class="sr-only">Select All</span>
+                        </label>
+                      </th>
+                      <th scope="col" class="px-6 py-3 text-start">
+                        <p class="group inline-flex items-center gap-x-2 text-xs font-semibold uppercase text-gray-800">#</p>
+                      </th>
+                      <th scope="col" class="px-6 py-3 text-start">
+                        <div class="flex items-center gap-x-2">
+                          <span class="text-xs font-semibold uppercase tracking-wide text-gray-800">Name</span>
+                        </div>
+                      </th>
+                      <th scope="col" class="px-6 py-3 text-start">
+                        <div class="flex items-center gap-x-2">
+                          <span class="text-xs font-semibold uppercase tracking-wide text-gray-800">Course Assigned</span>
+                        </div>
+                      </th>
+                      {% comment %} <th scope="col" class="px-6 py-3 text-start">
+                        <div class="flex items-center gap-x-2">
+                          <span class="text-xs font-semibold uppercase tracking-wide text-gray-800">Schedule</span>
+                        </div>
+                      </th> {% endcomment %}
+                      <th scope="col" class="px-6 py-3 text-start">
+                        <div class="flex items-center gap-x-2">
+                          <span class="text-xs font-semibold uppercase tracking-wide text-gray-800">Date Assigned</span>
+                        </div>
+                      </th>
+                      <th scope="col" class="px-6 py-3 text-start">
+                        <div class="flex items-center gap-x-2">
+                          <span class="text-xs font-semibold uppercase tracking-wide text-gray-800">Actions</span>
+                        </div>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-gray-200" id="table-body">
+                    <tr id="no-results-row" style="display: none;">
+                      <td colspan="7">
+                        <div class="min-h-60 flex flex-col mt-2">
+                          <div class="flex flex-auto flex-col justify-center items-center p-4 md:p-5">
+                            <svg class="size-10 text-gray-500"
+                                 xmlns="http://www.w3.org/2000/svg"
+                                 width="24"
+                                 height="24"
+                                 viewBox="0 0 24 24"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 stroke-width="1"
+                                 stroke-linecap="round"
+                                 stroke-linejoin="round">
+                              <line x1="22" x2="2" y1="12" y2="12"></line>
+                              <path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z">
+                              </path>
+                              <line x1="6" x2="6.01" y1="16" y2="16"></line>
+                              <line x1="10" x2="10.01" y1="16" y2="16"></line>
+                            </svg>
+                            <p id="no-data-message-2" class="mt-2 text-sm text-gray-800">No data to show</p>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    {% for user in faculty_and_staff %}
+                      {% with row_counter=forloop.counter0|add:start_index %}
+                        {% with user.groupmember_set.all|dictsort:"group_id" as groupmembers %}
+                          {% if groupmembers %}
+                            {% for groupmember in groupmembers %}
+                              {% if groupmember.group_id == selected_group.group_id %}
+                                <tr>
+                                  <td class="size-px whitespace-nowrap">
+                                    <div class="ps-6 py-3">
+                                      <label for="hs-at-with-checkboxes-{{ groupmember.member_id }}" class="flex">
+                                        <input type="checkbox"
+                                               id="hs-at-with-checkboxes-{{ groupmember.member_id }}"
+                                               value="{{ groupmember.member_id }}"
+                                               required
+                                               class="instructor-checkbox shrink-0 border-gray-300 rounded text-primary-600 focus:ring-primary-500" />
+                                        <span class="sr-only">Checkbox</span>
+                                      </label>
+                                    </div>
+                                  </td>
+                                  <td class="size-px whitespace-nowrap">
+                                    <div class="px-6 py-2">
+                                      <div class="block text-sm text-gray-800">{{ row_counter }}</div>
+                                    </div>
+                                  </td>
+                                  <td class="size-px whitespace-nowrap">
+                                    <div class="ps-6 lg:ps-3 xl:ps-0 pe-6 py-3">
+                                      <div class="flex items-center gap-x-3">
+                                        <img class="inline-block flex-shrink-0 size-[38px] rounded-full"
+                                             src="{% if user.profile_image and user.profile_image.url %}{{ user.profile_image.url }}{% else %}https://ui-avatars.com/api/?name={{ user.first_name|cut:' ' }}{% if user.middle_name %}{{ user.middle_name }}{% endif %}{{ user.last_name }}&background=random{% endif %}"
+                                             alt="Image Description">
+                                        <div class="grow">
+                                          <span class="block text-sm font-semibold text-gray-800 uppercase">{{ user.first_name }}
+                                            {% if user.middle_name %}{{ user.middle_name }}{% endif %}
+                                          {{ user.last_name }}</span>
+                                          <span class="block text-sm text-gray-500 lowercase">{{ user.email }}</span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </td>
+                                  <td class="size-px whitespace-nowrap">
+                                    <div class="px-6 py-3">
+                                      {% if groupmember.courses.all %}
+                                        {% for course in groupmember.courses.all %}
+                                          <div class="max-w-40 truncate whitespace-nowrap inline-block py-1.5 px-3 rounded-lg text-xs font-medium bg-primary-100 text-primary-800">
+                                            {{ course.course_code }}&nbsp
+                                            <div class="hs-tooltip inline-block">
+                                              <svg class="inline-block size-3 text-primary-800"
+                                                   xmlns="http://www.w3.org/2000/svg"
+                                                   width="16"
+                                                   height="16"
+                                                   fill="currentColor"
+                                                   viewBox="0 0 16 16">
+                                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                                <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
+                                              </svg>
+                                              <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity absolute invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded shadow-sm"
+                                                   role="tooltip">
+                                                <span>{{ course.course_description }}</span>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          {% if forloop.counter|divisibleby:8 %}<br>{% endif %}
+                                        {% endfor %}
+                                      {% else %}
+                                        <div class="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                          No courses assigned&nbsp
+                                          <div class="hs-tooltip inline-block">
+                                            <svg class="inline-block size-3 text-red-800"
+                                                 xmlns="http://www.w3.org/2000/svg"
+                                                 width="16"
+                                                 height="16"
+                                                 fill="currentColor"
+                                                 viewBox="0 0 16 16">
+                                              <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                              <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
+                                            </svg>
+                                            <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity absolute invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded shadow-sm"
+                                                 role="tooltip">
+                                              <span>No schedule will be generated without assigned courses.</span>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      {% endif %}
+                                    </div>
+                                  </td>
+                                  {% comment %} <td class="size-px whitespace-nowrap">
+                                    <div class="px-6 py-3">
+                                      <div class="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                        No Schedule generated&nbsp
+                                        <div class="hs-tooltip inline-block">
+                                          <svg class="inline-block size-3 text-red-800" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                            <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
+                                          </svg>
+                                          <div class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity absolute invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded shadow-sm" role="tooltip">
+                                            <span>Generate the schedule first.</span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </td> {% endcomment %}
+                                  <td class="size-px whitespace-nowrap">
+                                    <div class="px-6 py-3">
+                                      <span class="text-sm text-gray-500">{{ groupmember.date_assigned }}</span>
+                                    </div>
+                                  </td>
+                                  <td class="size-px whitespace-nowrap">
+                                    <div class="px-6 py-2">
+                                      <div class="hs-dropdown [--placement:bottom-right] relative inline-block">
+                                        <button id="hs-table-dropdown-1"
+                                                type="button"
+                                                class="hs-dropdown-toggle py-1.5 px-2 inline-flex justify-center items-center gap-2 rounded-lg text-gray-700 align-middle disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-primary-600 transition-all text-sm"
+                                                aria-haspopup="menu"
+                                                aria-expanded="false"
+                                                aria-label="Dropdown">
+                                          <svg class="shrink-0 size-4"
+                                               xmlns="http://www.w3.org/2000/svg"
+                                               width="24"
+                                               height="24"
+                                               viewBox="0 0 24 24"
+                                               fill="none"
+                                               stroke="currentColor"
+                                               stroke-width="2"
+                                               stroke-linecap="round"
+                                               stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="1" />
+                                            <circle cx="19" cy="12" r="1" />
+                                            <circle cx="5" cy="12" r="1" />
+                                          </svg>
+                                        </button>
+                                        <div class="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden divide-y divide-gray-200 min-w-40 z-20 bg-white shadow-2xl rounded-lg p-2 mt-2"
+                                             role="menu"
+                                             aria-orientation="vertical"
+                                             aria-labelledby="hs-table-dropdown-1">
+                                          <div class="py-2 first:pt-0 last:pb-0">
+                                            <span class="block py-2 px-3 text-xs font-medium uppercase text-gray-400">Actions</span>
+                                            <button aria-haspopup="dialog"
+                                                    aria-expanded="false"
+                                                    aria-controls="hs-scale-animation-modal"
+                                                    data-hs-overlay="#assign-course"
+                                                    data-member-id="{{ groupmember.member_id }}"
+                                                    data-group-id="{{ selected_group.group_id }}"
+                                                    data-semester="{{ selected_group.semester }}"
+                                                    data-curriculum="{{ selected_group.curriculum_id }}"
+                                                    data-institute="{{ selected_group.institute_id }}"
+                                                    data-program="{{ selected_group.program_id }}"
+                                                    class="assignCourseButton w-full flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">
+                                              Assign Course
+                                            </button>
+                                            <a href="{% url 'timetable:add_load_release' selected_instructor_id=groupmember.user.id group_id=selected_group.group_id %}"
+                                               class="assignCourseButton w-full flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">
+                                              Add Load Release
+                                            </a>
+                                          </div>
+                                          <div class="py-2 first:pt-0 last:pb-0">
+                                            <button aria-haspopup="dialog"
+                                                    aria-expanded="false"
+                                                    aria-controls="hs-scale-animation-modal"
+                                                    data-hs-overlay="#remove-instructor"
+                                                    data-member-id="{{ groupmember.member_id }}"
+                                                    data-member-name="{{ user.first_name }} {{ user.last_name }}"
+                                                    data-group-name="{{ selected_group.group_name }}"
+                                                    class="w-full flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-red-600 hover:bg-gray-100 focus:ring-2 focus:ring-primary-500">
+                                              Remove
+                                            </button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </td>
+                                </tr>
+                              {% endif %}
+                            {% endfor %}
+                          {% endif %}
+                        {% endwith %}
+                      {% endwith %}
+                    {% endfor %}
+                  </tbody>
+                </table>
+              {% else %}
+                <div class="min-h-60 flex flex-col mt-2">{% include "partials/_no_data.html" %}</div>
+              {% endif %}
+              <!-- End Table -->
+              <!-- Footer -->
+              <div class="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-t border-gray-200">
+                <div>
+                  <p class="text-sm text-gray-600">
+                    <span class="font-semibold text-gray-800">{{ total_users }}</span> results
+                  </p>
+                </div>
+                <div>
+                  <div class="inline-flex gap-x-2">
+                    {% include "partials/_page_per_item.html" %}
+                    {% if faculty_and_staff.has_previous %}
+                      <a href="?group={{ selected_group.group_id }}&page={{ faculty_and_staff.previous_page_number }}&items_per_page={{ request.GET.items_per_page }}"
+                         class="py-1.5 px-2 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none">
+                        <svg class="flex-shrink-0 size-4"
+                             xmlns="http://www.w3.org/2000/svg"
+                             width="24"
+                             height="24"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="2"
+                             stroke-linecap="round"
+                             stroke-linejoin="round">
+                          <path d="m15 18-6-6 6-6" />
+                        </svg>
+                        Prev
+                      </a>
+                    {% else %}
+                      <button type="button"
+                              class="disabled py-1.5 px-2 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-gray-200 text-gray-800 shadow-sm ">
+                        <svg class="flex-shrink-0 size-4"
+                             xmlns="http://www.w3.org/2000/svg"
+                             width="24"
+                             height="24"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="2"
+                             stroke-linecap="round"
+                             stroke-linejoin="round">
+                          <path d="m15 18-6-6 6-6" />
+                        </svg>
+                        Prev
+                      </button>
+                    {% endif %}
+                    {% if faculty_and_staff.has_next %}
+                      <a href="?group={{ selected_group.group_id }}&page={{ faculty_and_staff.next_page_number }}&items_per_page={{ request.GET.items_per_page }}"
+                         class="py-1.5 px-2 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none">
+                        Next
+                        <svg class="flex-shrink-0 size-4"
+                             xmlns="http://www.w3.org/2000/svg"
+                             width="24"
+                             height="24"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="2"
+                             stroke-linecap="round"
+                             stroke-linejoin="round">
+                          <path d="m9 18 6-6-6-6" />
+                        </svg>
+                      </a>
+                    {% else %}
+                      <button type="button"
+                              class="disabled py-1.5 px-2 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-gray-200 text-gray-800 shadow-sm ">
+                        <svg class="flex-shrink-0 size-4"
+                             xmlns="http://www.w3.org/2000/svg"
+                             width="24"
+                             height="24"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="2"
+                             stroke-linecap="round"
+                             stroke-linejoin="round">
+                          <path d="m9 18 6-6-6-6" />
+                        </svg>
+                        Next
+                      </button>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+              <!-- End Footer -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% compress js %}
+    // Search functionality
+    <script src="{% static 'js/searchData.js' %}"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+    // Custom configuration for this page
+    const searchInputId = 'search-data';
+    const tableBodyId = 'table-body';
+    // Only search in columns 1 and 2
+    const columnsToSearch = [2, 3]; 
+    const noResultsMessageId = 'no-data-message-2';
+    const noResultsRowId = 'no-results-row';
+
+    // Initialize the search functionality with custom columns
+    initializeSearch(searchInputId, tableBodyId, columnsToSearch, noResultsMessageId, noResultsRowId);
+});
+    </script>
+    // Select all checkboxes
+    <script src="{% static 'js/checkBoxes.js' %}"></script>
+    <script src="{% static 'js/copyInstructor.js' %}"></script>
+    <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    initializeCheckboxLogic({
+      selectAllId: "select-all",
+      checkboxClass: ".instructor-checkbox",
+      selectedCountId1: "selected-count-1",
+      selectedCountId2: "selected-count-2",
+      selectedCountId3: "selected-count-3",
+      selectedCountId4: "selected-count-4",
+      deleteButtonId: "remove-button",
+      classroomIdsInputId: "instructor_ids",
+      formId: "copy-instructor-form",
+    });
+  });
+    </script>
+    <script src="{% static 'js/assignCourse.js' %}"></script>
+  {% endcompress %}
+{% endblock content %}

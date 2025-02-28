@@ -1,0 +1,316 @@
+{% load allauth i18n %}
+<!-- Signout-->
+{% comment %} <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div> {% endcomment %}
+<!-- Add Curriculum Version -->
+<div id="add_curriculum_version"
+     class="hs-overlay hidden size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto">
+  <div class="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto">
+    <div class="flex flex-col bg-white border shadow-sm rounded-xl pointer-events-auto">
+      <div class="flex justify-between items-center py-3 px-4  border-b">
+        <h3 class="font-bold text-gray-800">Add Curriculum Version</h3>
+        <button type="button"
+                class="flex justify-center items-center size-7 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none"
+                data-hs-overlay="#add_curriculum_version">
+          <span class="sr-only">Close</span>
+          <svg class="flex-shrink-0 size-4"
+               xmlns="http://www.w3.org/2000/svg"
+               width="24"
+               height="24"
+               viewBox="0 0 24 24"
+               fill="none"
+               stroke="currentColor"
+               stroke-width="2"
+               stroke-linecap="round"
+               stroke-linejoin="round">
+            <path d="M18 6 6 18"></path>
+            <path d="m6 6 12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <form method="post" action="{% url 'curriculum:curriculum' %}">
+        {% csrf_token %}
+        <div class="p-4 overflow-y-auto">
+          <input name="version_name"
+                 type="text"
+                 id="input-label"
+                 class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500"
+                 placeholder="e.g. CURRICULUM AY 24-25"
+                 autofocus=""
+                 required>
+        </div>
+        <div class="flex justify-end items-center gap-x-2 py-3 px-4">
+          <button type="button"
+                  class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
+                  data-hs-overlay="#add_curriculum_version">Close</button>
+          <button type="submit"
+                  class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-50 disabled:pointer-events-none">
+            Save changes
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- Edit curriculum version-->
+<div id="edit-curriculum-version"
+     class="hs-overlay hidden size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto">
+  <div class="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto">
+    <div class="flex flex-col bg-white border shadow-sm rounded-xl pointer-events-auto">
+      <div class="flex justify-between items-center py-3 px-4  border-b">
+        <h3 class="font-bold text-gray-800">Edit Curriculum Version</h3>
+        <button type="button"
+                class="flex justify-center items-center size-7 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none"
+                data-hs-overlay="#edit-curriculum-version">
+          <span class="sr-only">Close</span>
+          <svg class="flex-shrink-0 size-4"
+               xmlns="http://www.w3.org/2000/svg"
+               width="24"
+               height="24"
+               viewBox="0 0 24 24"
+               fill="none"
+               stroke="currentColor"
+               stroke-width="2"
+               stroke-linecap="round"
+               stroke-linejoin="round">
+            <path d="M18 6 6 18"></path>
+            <path d="m6 6 12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="p-4 overflow-y-auto">
+        <label for="input-label" class="block text-sm font-medium mb-2">Version Name</label>
+        <input type="text"
+               id="input-label"
+               class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500"
+               placeholder="e.g. CURRICULUM AY 24-25"
+               value=""
+               autofocus="">
+      </div>
+      <div class="flex justify-end items-center gap-x-2 py-3 px-4">
+        <button type="button"
+                class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
+                data-hs-overlay="#edit-curriculum-version">Close</button>
+        <button type="button"
+                class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-50 disabled:pointer-events-none">
+          Save changes
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+{% for cv in curriculum_versions %}
+  <!-- Delete-curriculum-version -->
+  <div id="delete-curriculum-version{{ cv.pk }}"
+       class="hs-overlay hidden size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto">
+    <div class="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto">
+      <div class="flex flex-col bg-white border shadow-sm rounded-xl pointer-events-auto">
+        <div class="flex justify-between items-center py-3 px-4  border-b">
+          <h3 class="font-bold text-gray-800">Delete confirmation</h3>
+          <button type="button"
+                  class="flex justify-center items-center size-7 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none"
+                  data-hs-overlay="#delete-curriculum-version{{ cv.pk }}">
+            <span class="sr-only">Close</span>
+            <svg class="flex-shrink-0 size-4"
+                 xmlns="http://www.w3.org/2000/svg"
+                 width="24"
+                 height="24"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+              <path d="M18 6 6 18"></path>
+              <path d="m6 6 12 12"></path>
+            </svg>
+          </button>
+        </div>
+        <div class="px-4 pt-4 overflow-y-auto">
+          <div class="flex">
+            <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+              <div class="flex-shrink-0">
+                <svg class="h-6 w-6 text-red-600"
+                     fill="none"
+                     viewBox="0 0 24 24"
+                     stroke-width="1.5"
+                     stroke="currentColor"
+                     aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                </svg>
+              </div>
+            </div>
+            <div class="ms-4">
+              <p>Are you sure you want to delete this curriculum version?</p>
+            </div>
+          </div>
+        </div>
+        <div class="flex justify-end items-center gap-x-2 py-3 px-4">
+          <form action="{% url 'curriculum:delete_curriculum_version' cv.pk %}"
+                method="post">
+            {% csrf_token %}
+            <button type="button"
+                    class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
+                    data-hs-overlay="#delete-curriculum-version{{ cv.pk }}">Cancel</button>
+            <button type="submit"
+                    class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 disabled:pointer-events-none">
+              Delete
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+<!-- Add course -->
+<div id="add-courses"
+     class="hs-overlay hidden size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto">
+  <div class="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto">
+    <div class="flex flex-col bg-white border shadow-sm rounded-xl pointer-events-auto">
+      <div class="flex justify-between items-center py-3 px-4 border-b">
+        <h3 class="font-bold text-gray-800">Add course</h3>
+        <button type="button"
+                class="flex justify-center items-center size-7 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none"
+                data-hs-overlay="#add-courses">
+          <span class="sr-only">Close</span>
+          <svg class="flex-shrink-0 size-4"
+               xmlns="http://www.w3.org/2000/svg"
+               width="24"
+               height="24"
+               viewBox="0 0 24 24"
+               fill="none"
+               stroke="currentColor"
+               stroke-width="2"
+               stroke-linecap="round"
+               stroke-linejoin="round">
+            <path d="M18 6 6 18"></path>
+            <path d="m6 6 12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <form action="{% url 'curriculum:courses' %}" method="post">
+        {% csrf_token %}
+        <div class="p-4 overflow-y-auto">
+          <label for="input-label" class="block text-sm font-medium mb-2">Course Code</label>
+          <input type="text"
+                 name="course_code"
+                 id="input-label"
+                 class="mb-2 py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500"
+                 placeholder="e.g. IT111"
+                 required
+                 autofocus="">
+          <label for="input-label" class="block text-sm font-medium mb-2">Course Description</label>
+          <input type="text"
+                 name="course_description"
+                 id="input-label"
+                 class="mb-2 py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500"
+                 placeholder="e.g. Introduction to Computing"
+                 required
+                 autofocus="">
+          <label for="academic-label" class="block text-sm font-medium mb-2">Academic Level</label>
+          <select id="academic-label"
+                  name="year_level"
+                  required
+                  class="mb-2 py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none">
+            <option selected disabled>Academic Level</option>
+            <option value='1'>First Year</option>
+            <option value='2'>Second Year</option>
+            <option value='3'>Third Year</option>
+            <option value='4'>Fourth Year</option>
+          </select>
+          <label for="semester-label" class="block text-sm font-medium mb-2">Semester</label>
+          <select id="semester-label"
+                  name="semester"
+                  required
+                  class="py-3 mb-2 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none">
+            <option selected disabled>Semester</option>
+            <option value='1'>First Semester</option>
+            <option value='2'>Second Semesterr</option>
+          </select>
+          <label for="input-label" class="block text-sm font-medium mb-2">Lecture Hours</label>
+          <input type="number"
+                 name="lecture"
+                 id="input-label"
+                 class="mb-2 py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500"
+                 placeholder="Lecture Hours"
+                 required
+                 autofocus="">
+          <label for="input-label" class="block text-sm font-medium mb-2">Lab Hours</label>
+          <input type="number"
+                 id="input-label"
+                 class="mb-2 py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500"
+                 placeholder="Lab Hours"
+                 name="laboratory"
+                 autofocus="">
+        </div>
+        <div class="flex justify-end items-center gap-x-2 py-3 px-4">
+          <button type="button"
+                  class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
+                  data-hs-overlay="#add-courses">Close</button>
+          <button type="submit"
+                  class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-50 disabled:pointer-events-none">
+            Save changes
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- Import CSV File -->
+<div id="import-file"
+     class="hs-overlay hidden size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto">
+  <div class="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto">
+    <div class="flex flex-col bg-white border shadow-sm rounded-xl pointer-events-auto">
+      <div class="flex justify-between items-center py-4  px-4">
+        <h3 class="font-bold text-gray-800">Import CSV File</h3>
+        <button type="button"
+                class="flex justify-center items-center size-7 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none"
+                data-hs-overlay="#import-file">
+          <span class="sr-only">Close</span>
+          <svg class="flex-shrink-0 size-4"
+               xmlns="http://www.w3.org/2000/svg"
+               width="24"
+               height="24"
+               viewBox="0 0 24 24"
+               fill="none"
+               stroke="currentColor"
+               stroke-width="2"
+               stroke-linecap="round"
+               stroke-linejoin="round">
+            <path d="M18 6 6 18"></path>
+            <path d="m6 6 12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="px-4 overflow-y-auto">
+        <div class="flex items-center justify-center w-full">
+          <label for="dropzone-file"
+                 class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50">
+            <div class="flex flex-col items-center justify-center pt-5 pb-6">
+              <svg class="w-8 h-8 mb-4 text-gray-500 "
+                   aria-hidden="true"
+                   xmlns="http://www.w3.org/2000/svg"
+                   fill="none"
+                   viewBox="0 0 20 16">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+              </svg>
+              <p class="mb-2 text-sm text-gray-500">
+                <span class="font-semibold">Click to upload</span> or drag and drop
+              </p>
+              <p class="text-xs text-gray-500">CSV File (Max. 1mb)</p>
+            </div>
+            <input id="dropzone-file" type="file" class="hidden" />
+          </label>
+        </div>
+      </div>
+      <div class="flex justify-end items-center gap-x-2 py-3 px-4">
+        <button type="button"
+                class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
+                data-hs-overlay="#import-file">Cancel</button>
+        <button type="button"
+                class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-50 disabled:pointer-events-none">
+          Upload
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

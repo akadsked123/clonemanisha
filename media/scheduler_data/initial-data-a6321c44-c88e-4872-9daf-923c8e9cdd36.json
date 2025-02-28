@@ -1,0 +1,473 @@
+{
+    "institute": {
+        "institute_id": 1,
+        "institute_name": "Institute of Computing",
+        "programs": [
+            {
+                "program_id": 1,
+                "program_code": "BSIT",
+                "program_name": "Bachelor of Science in Information Technology",
+                "semester": 2,
+                "curriculum_year": "AY2324",
+                "course_levels": [
+                    {
+                        "year_level": 1,
+                        "number_of_classes": 2,
+                        "courses": [
+                            {
+                                "course_id": 8,
+                                "course_code": "Eng 111",
+                                "course_description": "Purposive Communication",
+                                "lecture_hours": 3,
+                                "laboratory_hours": 0,
+                                "credit_units": 3
+                            },
+                            {
+                                "course_id": 9,
+                                "course_code": "IT 121",
+                                "course_description": "Computer Programming 2",
+                                "lecture_hours": 2,
+                                "laboratory_hours": 1,
+                                "credit_units": 3
+                            },
+                            {
+                                "course_id": 10,
+                                "course_code": "IT Elec1",
+                                "course_description": "Web System and Technologies 1",
+                                "lecture_hours": 2,
+                                "laboratory_hours": 1,
+                                "credit_units": 3
+                            },
+                            {
+                                "course_id": 11,
+                                "course_code": "Math 111",
+                                "course_description": "Mathematics in the Modern World",
+                                "lecture_hours": 3,
+                                "laboratory_hours": 0,
+                                "credit_units": 3
+                            },
+                            {
+                                "course_id": 12,
+                                "course_code": "NSTP2",
+                                "course_description": "National Service Training Program 2",
+                                "lecture_hours": 3,
+                                "laboratory_hours": 0,
+                                "credit_units": 3
+                            },
+                            {
+                                "course_id": 13,
+                                "course_code": "PE2",
+                                "course_description": "PATH FIT2-Fitness Exercise",
+                                "lecture_hours": 2,
+                                "laboratory_hours": 0,
+                                "credit_units": 2
+                            },
+                            {
+                                "course_id": 14,
+                                "course_code": "SS 121",
+                                "course_description": "Ethics",
+                                "lecture_hours": 3,
+                                "laboratory_hours": 0,
+                                "credit_units": 3
+                            },
+                            {
+                                "course_id": 15,
+                                "course_code": "SS 123",
+                                "course_description": "Art Appreciation",
+                                "lecture_hours": 3,
+                                "laboratory_hours": 0,
+                                "credit_units": 3
+                            }
+                        ]
+                    },
+                    {
+                        "year_level": 2,
+                        "number_of_classes": 2,
+                        "courses": [
+                            {
+                                "course_id": 23,
+                                "course_code": "GEELECT2",
+                                "course_description": "Gender and Society",
+                                "lecture_hours": 3,
+                                "laboratory_hours": 0,
+                                "credit_units": 3
+                            },
+                            {
+                                "course_id": 24,
+                                "course_code": "IT 221",
+                                "course_description": "Data Structures and Algorithms",
+                                "lecture_hours": 2,
+                                "laboratory_hours": 1,
+                                "credit_units": 3
+                            },
+                            {
+                                "course_id": 25,
+                                "course_code": "IT 222",
+                                "course_description": "Networking 1",
+                                "lecture_hours": 2,
+                                "laboratory_hours": 1,
+                                "credit_units": 3
+                            },
+                            {
+                                "course_id": 26,
+                                "course_code": "IT 223",
+                                "course_description": "Advanced Database System",
+                                "lecture_hours": 2,
+                                "laboratory_hours": 1,
+                                "credit_units": 3
+                            },
+                            {
+                                "course_id": 27,
+                                "course_code": "ITSPEC1",
+                                "course_description": "Accounting",
+                                "lecture_hours": 3,
+                                "laboratory_hours": 0,
+                                "credit_units": 3
+                            },
+                            {
+                                "course_id": 28,
+                                "course_code": "PE 4",
+                                "course_description": "PATH FIT4-Menu of Dance or Sports 2",
+                                "lecture_hours": 2,
+                                "laboratory_hours": 0,
+                                "credit_units": 2
+                            },
+                            {
+                                "course_id": 29,
+                                "course_code": "SS 122",
+                                "course_description": "Life and Works of Rizal",
+                                "lecture_hours": 3,
+                                "laboratory_hours": 0,
+                                "credit_units": 3
+                            }
+                        ]
+                    },
+                    {
+                        "year_level": 3,
+                        "number_of_classes": 2,
+                        "courses": [
+                            {
+                                "course_id": 36,
+                                "course_code": "IT 321",
+                                "course_description": "Human and Computer Interaction 1",
+                                "lecture_hours": 2,
+                                "laboratory_hours": 1,
+                                "credit_units": 3
+                            },
+                            {
+                                "course_id": 37,
+                                "course_code": "IT 322",
+                                "course_description": "Information Assurance and Security 1",
+                                "lecture_hours": 3,
+                                "laboratory_hours": 0,
+                                "credit_units": 3
+                            },
+                            {
+                                "course_id": 38,
+                                "course_code": "IT 323",
+                                "course_description": "Capstone Project 1**",
+                                "lecture_hours": 2,
+                                "laboratory_hours": 1,
+                                "credit_units": 3
+                            },
+                            {
+                                "course_id": 39,
+                                "course_code": "IT 324",
+                                "course_description": "Social and Professional Issues 1",
+                                "lecture_hours": 3,
+                                "laboratory_hours": 0,
+                                "credit_units": 3
+                            },
+                            {
+                                "course_id": 40,
+                                "course_code": "ITSPEC3",
+                                "course_description": "Data Mining",
+                                "lecture_hours": 2,
+                                "laboratory_hours": 1,
+                                "credit_units": 3
+                            },
+                            {
+                                "course_id": 41,
+                                "course_code": "ITSPEC4",
+                                "course_description": "Technopreneurship",
+                                "lecture_hours": 2,
+                                "laboratory_hours": 1,
+                                "credit_units": 3
+                            }
+                        ]
+                    },
+                    {
+                        "year_level": 4,
+                        "number_of_classes": 2,
+                        "courses": [
+                            {
+                                "course_id": 48,
+                                "course_code": "IT421",
+                                "course_description": "Practicum***",
+                                "lecture_hours": 6,
+                                "laboratory_hours": 0,
+                                "credit_units": 6
+                            },
+                            {
+                                "course_id": 49,
+                                "course_code": "IT422",
+                                "course_description": "Capstone Project 2****",
+                                "lecture_hours": 2,
+                                "laboratory_hours": 1,
+                                "credit_units": 3
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "instructors": [
+            {
+                "instructor_id": 16,
+                "instructor_name": "Jovanne Alejandrino",
+                "courses": [
+                    {
+                        "course_id": 10
+                    }
+                ]
+            },
+            {
+                "instructor_id": 17,
+                "instructor_name": "Jeymar Alfarero",
+                "courses": [
+                    {
+                        "course_id": 36
+                    }
+                ]
+            },
+            {
+                "instructor_id": 23,
+                "instructor_name": "Nelma Mae Loja",
+                "courses": [
+                    {
+                        "course_id": 27
+                    },
+                    {
+                        "course_id": 39
+                    }
+                ]
+            },
+            {
+                "instructor_id": 24,
+                "instructor_name": "Lady Ben Roselle Nalzaro",
+                "courses": [
+                    {
+                        "course_id": 48
+                    }
+                ]
+            },
+            {
+                "instructor_id": 25,
+                "instructor_name": "Kres-Ann Oclarit",
+                "courses": [
+                    {
+                        "course_id": 9
+                    }
+                ]
+            },
+            {
+                "instructor_id": 28,
+                "instructor_name": "Mariannie Rebortera",
+                "courses": [
+                    {
+                        "course_id": 39
+                    }
+                ]
+            },
+            {
+                "instructor_id": 29,
+                "instructor_name": "Julieanne Tadle",
+                "courses": [
+                    {
+                        "course_id": 48
+                    }
+                ]
+            },
+            {
+                "instructor_id": 32,
+                "instructor_name": "Jonilyn Dabalos",
+                "courses": [
+                    {
+                        "course_id": 25
+                    },
+                    {
+                        "course_id": 38
+                    }
+                ]
+            },
+            {
+                "instructor_id": 33,
+                "instructor_name": "Ian Val Delos Reyes",
+                "courses": [
+                    {
+                        "course_id": 40
+                    }
+                ]
+            },
+            {
+                "instructor_id": 34,
+                "instructor_name": "John Jefferson Dela Cruz",
+                "courses": [
+                    {
+                        "course_id": 10
+                    },
+                    {
+                        "course_id": 24
+                    },
+                    {
+                        "course_id": 26
+                    }
+                ]
+            },
+            {
+                "instructor_id": 35,
+                "instructor_name": "Ariel Gamao",
+                "courses": [
+                    {
+                        "course_id": 26
+                    }
+                ]
+            },
+            {
+                "instructor_id": 36,
+                "instructor_name": "Reban Cliff Fajardo",
+                "courses": [
+                    {
+                        "course_id": 25
+                    },
+                    {
+                        "course_id": 38
+                    },
+                    {
+                        "course_id": 40
+                    }
+                ]
+            },
+            {
+                "instructor_id": 37,
+                "instructor_name": "Laarni Iba\u00f1ez",
+                "courses": [
+                    {
+                        "course_id": 25
+                    },
+                    {
+                        "course_id": 38
+                    },
+                    {
+                        "course_id": 49
+                    }
+                ]
+            },
+            {
+                "instructor_id": 38,
+                "instructor_name": "Christopher Anana",
+                "courses": [
+                    {
+                        "course_id": 25
+                    }
+                ]
+            },
+            {
+                "instructor_id": 39,
+                "instructor_name": "Analyn Casipe",
+                "courses": [
+                    {
+                        "course_id": 10
+                    },
+                    {
+                        "course_id": 24
+                    },
+                    {
+                        "course_id": 38
+                    }
+                ]
+            },
+            {
+                "instructor_id": 40,
+                "instructor_name": "Rj Suasin",
+                "courses": [
+                    {
+                        "course_id": 26
+                    },
+                    {
+                        "course_id": 39
+                    },
+                    {
+                        "course_id": 41
+                    }
+                ]
+            },
+            {
+                "instructor_id": 41,
+                "instructor_name": "Gertrude Tampus",
+                "courses": [
+                    {
+                        "course_id": 9
+                    },
+                    {
+                        "course_id": 27
+                    }
+                ]
+            },
+            {
+                "instructor_id": 42,
+                "instructor_name": "Jerson Viagedor",
+                "courses": [
+                    {
+                        "course_id": 9
+                    },
+                    {
+                        "course_id": 10
+                    }
+                ]
+            },
+            {
+                "instructor_id": 43,
+                "instructor_name": "Rogelio Masangkay",
+                "courses": [
+                    {
+                        "course_id": 26
+                    },
+                    {
+                        "course_id": 37
+                    }
+                ]
+            },
+            {
+                "instructor_id": 49,
+                "instructor_name": "Parlene Iris Ju Aranjuez",
+                "courses": [
+                    {
+                        "course_id": 11
+                    }
+                ]
+            },
+            {
+                "instructor_id": 52,
+                "instructor_name": "Jay Timbal",
+                "courses": [
+                    {
+                        "course_id": 27
+                    }
+                ]
+            },
+            {
+                "instructor_id": 54,
+                "instructor_name": "Mark Charlton Bangcaya",
+                "courses": [
+                    {
+                        "course_id": 10
+                    },
+                    {
+                        "course_id": 41
+                    }
+                ]
+            }
+        ]
+    }
+}

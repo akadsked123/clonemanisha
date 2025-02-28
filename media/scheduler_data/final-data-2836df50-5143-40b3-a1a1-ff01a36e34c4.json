@@ -1,0 +1,1888 @@
+{
+    "institute": {
+        "institute_id": 1,
+        "institute_name": "Institute of Computing",
+        "programs": [
+            {
+                "program_id": 2,
+                "program_code": "BSIS",
+                "program_name": "Bachelor of Science in Information System",
+                "semester": 2,
+                "curriculum_year": "AY2324",
+                "course_levels": [
+                    {
+                        "year_level": 1,
+                        "number_of_classes": 3,
+                        "courses": [
+                            {
+                                "course_id": 106,
+                                "course_code": "ENG111",
+                                "course_description": "Purposive Communication",
+                                "lecture_hours": 3,
+                                "laboratory_hours": 0,
+                                "credit_units": 3
+                            },
+                            {
+                                "course_id": 107,
+                                "course_code": "IS 121",
+                                "course_description": "Fundamentals of Information Systems",
+                                "lecture_hours": 2,
+                                "laboratory_hours": 1,
+                                "credit_units": 3
+                            },
+                            {
+                                "course_id": 108,
+                                "course_code": "IS 122",
+                                "course_description": "Computer Programming 2",
+                                "lecture_hours": 2,
+                                "laboratory_hours": 1,
+                                "credit_units": 3
+                            },
+                            {
+                                "course_id": 109,
+                                "course_code": "MATH111",
+                                "course_description": "Mathematics in the Modern World",
+                                "lecture_hours": 3,
+                                "laboratory_hours": 0,
+                                "credit_units": 3
+                            },
+                            {
+                                "course_id": 110,
+                                "course_code": "NSTP2",
+                                "course_description": "National Service Training Program 2",
+                                "lecture_hours": 3,
+                                "laboratory_hours": 0,
+                                "credit_units": 3
+                            },
+                            {
+                                "course_id": 111,
+                                "course_code": "PE2",
+                                "course_description": "PATH FIT2 - Fitness Exercises",
+                                "lecture_hours": 2,
+                                "laboratory_hours": 0,
+                                "credit_units": 2
+                            },
+                            {
+                                "course_id": 112,
+                                "course_code": "SS 121",
+                                "course_description": "Ethics",
+                                "lecture_hours": 3,
+                                "laboratory_hours": 0,
+                                "credit_units": 3
+                            },
+                            {
+                                "course_id": 113,
+                                "course_code": "SS 123",
+                                "course_description": "Art Appreciation",
+                                "lecture_hours": 3,
+                                "laboratory_hours": 0,
+                                "credit_units": 3
+                            }
+                        ]
+                    },
+                    {
+                        "year_level": 2,
+                        "number_of_classes": 3,
+                        "courses": [
+                            {
+                                "course_id": 121,
+                                "course_code": "GEELECT2",
+                                "course_description": "Gender and Society",
+                                "lecture_hours": 3,
+                                "laboratory_hours": 0,
+                                "credit_units": 3
+                            },
+                            {
+                                "course_id": 122,
+                                "course_code": "IS221",
+                                "course_description": "Systems Analysis and Design",
+                                "lecture_hours": 2,
+                                "laboratory_hours": 1,
+                                "credit_units": 3
+                            },
+                            {
+                                "course_id": 123,
+                                "course_code": "IS222",
+                                "course_description": "Business Process Management",
+                                "lecture_hours": 3,
+                                "laboratory_hours": 0,
+                                "credit_units": 3
+                            },
+                            {
+                                "course_id": 124,
+                                "course_code": "IS223",
+                                "course_description": "Quantitative Methods",
+                                "lecture_hours": 3,
+                                "laboratory_hours": 0,
+                                "credit_units": 3
+                            },
+                            {
+                                "course_id": 125,
+                                "course_code": "ISELEC1",
+                                "course_description": "IS Elective 1",
+                                "lecture_hours": 2,
+                                "laboratory_hours": 1,
+                                "credit_units": 3
+                            },
+                            {
+                                "course_id": 126,
+                                "course_code": "ISSPEC1",
+                                "course_description": "Accounting",
+                                "lecture_hours": 3,
+                                "laboratory_hours": 0,
+                                "credit_units": 3
+                            },
+                            {
+                                "course_id": 127,
+                                "course_code": "PE4",
+                                "course_description": "PATH-FIT4 - Menu of Dance or Sports 2",
+                                "lecture_hours": 2,
+                                "laboratory_hours": 0,
+                                "credit_units": 2
+                            },
+                            {
+                                "course_id": 128,
+                                "course_code": "SS 122",
+                                "course_description": "Life and Works of Rizal",
+                                "lecture_hours": 3,
+                                "laboratory_hours": 0,
+                                "credit_units": 3
+                            }
+                        ]
+                    },
+                    {
+                        "year_level": 3,
+                        "number_of_classes": 3,
+                        "courses": [
+                            {
+                                "course_id": 136,
+                                "course_code": "IS321",
+                                "course_description": "Project Management",
+                                "lecture_hours": 3,
+                                "laboratory_hours": 0,
+                                "credit_units": 3
+                            },
+                            {
+                                "course_id": 137,
+                                "course_code": "IS322",
+                                "course_description": "Evaluation of Business Performance",
+                                "lecture_hours": 3,
+                                "laboratory_hours": 0,
+                                "credit_units": 3
+                            },
+                            {
+                                "course_id": 138,
+                                "course_code": "IS323",
+                                "course_description": "Capstone Project 1",
+                                "lecture_hours": 2,
+                                "laboratory_hours": 1,
+                                "credit_units": 3
+                            },
+                            {
+                                "course_id": 139,
+                                "course_code": "ISELEC3",
+                                "course_description": "IS Elective 3",
+                                "lecture_hours": 2,
+                                "laboratory_hours": 1,
+                                "credit_units": 3
+                            },
+                            {
+                                "course_id": 140,
+                                "course_code": "ISSPEC4",
+                                "course_description": "Enterprise Resource Planning",
+                                "lecture_hours": 3,
+                                "laboratory_hours": 0,
+                                "credit_units": 3
+                            },
+                            {
+                                "course_id": 141,
+                                "course_code": "ISSPEC5",
+                                "course_description": "IT Security and Management",
+                                "lecture_hours": 3,
+                                "laboratory_hours": 0,
+                                "credit_units": 3
+                            },
+                            {
+                                "course_id": 142,
+                                "course_code": "ISSPEC6",
+                                "course_description": "IT Audit and Controls",
+                                "lecture_hours": 3,
+                                "laboratory_hours": 0,
+                                "credit_units": 3
+                            }
+                        ]
+                    },
+                    {
+                        "year_level": 4,
+                        "number_of_classes": 3,
+                        "courses": [
+                            {
+                                "course_id": 146,
+                                "course_code": "IS421",
+                                "course_description": "Practicum for IS",
+                                "lecture_hours": 6,
+                                "laboratory_hours": 0,
+                                "credit_units": 6
+                            },
+                            {
+                                "course_id": 147,
+                                "course_code": "IS422",
+                                "course_description": "Capstone Project 2",
+                                "lecture_hours": 2,
+                                "laboratory_hours": 1,
+                                "credit_units": 3
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "program_id": 1,
+                "program_code": "BSIT",
+                "program_name": "Bachelor of Science in Information Technology",
+                "semester": 2,
+                "curriculum_year": "AY2324",
+                "course_levels": [
+                    {
+                        "year_level": 1,
+                        "number_of_classes": 3,
+                        "courses": [
+                            {
+                                "course_id": 8,
+                                "course_code": "Eng 111",
+                                "course_description": "Purposive Communication",
+                                "lecture_hours": 3,
+                                "laboratory_hours": 0,
+                                "credit_units": 3
+                            },
+                            {
+                                "course_id": 9,
+                                "course_code": "IT 121",
+                                "course_description": "Computer Programming 2",
+                                "lecture_hours": 2,
+                                "laboratory_hours": 1,
+                                "credit_units": 3
+                            },
+                            {
+                                "course_id": 10,
+                                "course_code": "IT Elec1",
+                                "course_description": "Web System and Technologies 1",
+                                "lecture_hours": 2,
+                                "laboratory_hours": 1,
+                                "credit_units": 3
+                            },
+                            {
+                                "course_id": 11,
+                                "course_code": "Math 111",
+                                "course_description": "Mathematics in the Modern World",
+                                "lecture_hours": 3,
+                                "laboratory_hours": 0,
+                                "credit_units": 3
+                            },
+                            {
+                                "course_id": 12,
+                                "course_code": "NSTP2",
+                                "course_description": "National Service Training Program 2",
+                                "lecture_hours": 3,
+                                "laboratory_hours": 0,
+                                "credit_units": 3
+                            },
+                            {
+                                "course_id": 13,
+                                "course_code": "PE2",
+                                "course_description": "PATH FIT2-Fitness Exercise",
+                                "lecture_hours": 2,
+                                "laboratory_hours": 0,
+                                "credit_units": 2
+                            },
+                            {
+                                "course_id": 14,
+                                "course_code": "SS 121",
+                                "course_description": "Ethics",
+                                "lecture_hours": 3,
+                                "laboratory_hours": 0,
+                                "credit_units": 3
+                            },
+                            {
+                                "course_id": 15,
+                                "course_code": "SS 123",
+                                "course_description": "Art Appreciation",
+                                "lecture_hours": 3,
+                                "laboratory_hours": 0,
+                                "credit_units": 3
+                            }
+                        ]
+                    },
+                    {
+                        "year_level": 2,
+                        "number_of_classes": 3,
+                        "courses": [
+                            {
+                                "course_id": 23,
+                                "course_code": "GEELECT2",
+                                "course_description": "Gender and Society",
+                                "lecture_hours": 3,
+                                "laboratory_hours": 0,
+                                "credit_units": 3
+                            },
+                            {
+                                "course_id": 24,
+                                "course_code": "IT 221",
+                                "course_description": "Data Structures and Algorithms",
+                                "lecture_hours": 2,
+                                "laboratory_hours": 1,
+                                "credit_units": 3
+                            },
+                            {
+                                "course_id": 25,
+                                "course_code": "IT 222",
+                                "course_description": "Networking 1",
+                                "lecture_hours": 2,
+                                "laboratory_hours": 1,
+                                "credit_units": 3
+                            },
+                            {
+                                "course_id": 26,
+                                "course_code": "IT 223",
+                                "course_description": "Advanced Database System",
+                                "lecture_hours": 2,
+                                "laboratory_hours": 1,
+                                "credit_units": 3
+                            },
+                            {
+                                "course_id": 27,
+                                "course_code": "ITSPEC1",
+                                "course_description": "Accounting",
+                                "lecture_hours": 3,
+                                "laboratory_hours": 0,
+                                "credit_units": 3
+                            },
+                            {
+                                "course_id": 28,
+                                "course_code": "PE 4",
+                                "course_description": "PATH FIT4-Menu of Dance or Sports 2",
+                                "lecture_hours": 2,
+                                "laboratory_hours": 0,
+                                "credit_units": 2
+                            },
+                            {
+                                "course_id": 29,
+                                "course_code": "SS 122",
+                                "course_description": "Life and Works of Rizal",
+                                "lecture_hours": 3,
+                                "laboratory_hours": 0,
+                                "credit_units": 3
+                            }
+                        ]
+                    },
+                    {
+                        "year_level": 3,
+                        "number_of_classes": 3,
+                        "courses": [
+                            {
+                                "course_id": 36,
+                                "course_code": "IT 321",
+                                "course_description": "Human and Computer Interaction 1",
+                                "lecture_hours": 2,
+                                "laboratory_hours": 1,
+                                "credit_units": 3
+                            },
+                            {
+                                "course_id": 37,
+                                "course_code": "IT 322",
+                                "course_description": "Information Assurance and Security 1",
+                                "lecture_hours": 3,
+                                "laboratory_hours": 0,
+                                "credit_units": 3
+                            },
+                            {
+                                "course_id": 38,
+                                "course_code": "IT 323",
+                                "course_description": "Capstone Project 1**",
+                                "lecture_hours": 2,
+                                "laboratory_hours": 1,
+                                "credit_units": 3
+                            },
+                            {
+                                "course_id": 39,
+                                "course_code": "IT 324",
+                                "course_description": "Social and Professional Issues 1",
+                                "lecture_hours": 3,
+                                "laboratory_hours": 0,
+                                "credit_units": 3
+                            },
+                            {
+                                "course_id": 40,
+                                "course_code": "ITSPEC3",
+                                "course_description": "Data Mining",
+                                "lecture_hours": 2,
+                                "laboratory_hours": 1,
+                                "credit_units": 3
+                            },
+                            {
+                                "course_id": 41,
+                                "course_code": "ITSPEC4",
+                                "course_description": "Technopreneurship",
+                                "lecture_hours": 2,
+                                "laboratory_hours": 1,
+                                "credit_units": 3
+                            }
+                        ]
+                    },
+                    {
+                        "year_level": 4,
+                        "number_of_classes": 3,
+                        "courses": [
+                            {
+                                "course_id": 48,
+                                "course_code": "IT421",
+                                "course_description": "Practicum***",
+                                "lecture_hours": 6,
+                                "laboratory_hours": 0,
+                                "credit_units": 6
+                            },
+                            {
+                                "course_id": 49,
+                                "course_code": "IT422",
+                                "course_description": "Capstone Project 2****",
+                                "lecture_hours": 2,
+                                "laboratory_hours": 1,
+                                "credit_units": 3
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "instructors": [
+            {
+                "instructor_id": 16,
+                "instructor_name": "Jovanne Alejandrino",
+                "courses": [
+                    {
+                        "course_id": 147
+                    },
+                    {
+                        "course_id": 10
+                    }
+                ]
+            },
+            {
+                "instructor_id": 18,
+                "instructor_name": "Jovito Bolacoy",
+                "courses": [
+                    {
+                        "course_id": 126
+                    },
+                    {
+                        "course_id": 138
+                    }
+                ]
+            },
+            {
+                "instructor_id": 19,
+                "instructor_name": "Mark Van Buladaco",
+                "courses": [
+                    {
+                        "course_id": 124
+                    }
+                ]
+            },
+            {
+                "instructor_id": 21,
+                "instructor_name": "Hazel Gameng",
+                "courses": [
+                    {
+                        "course_id": 139
+                    }
+                ]
+            },
+            {
+                "instructor_id": 23,
+                "instructor_name": "Nelma Mae Loja",
+                "courses": [
+                    {
+                        "course_id": 126
+                    },
+                    {
+                        "course_id": 27
+                    },
+                    {
+                        "course_id": 39
+                    }
+                ]
+            },
+            {
+                "instructor_id": 24,
+                "instructor_name": "Lady Ben Roselle Nalzaro",
+                "courses": [
+                    {
+                        "course_id": 122
+                    },
+                    {
+                        "course_id": 126
+                    },
+                    {
+                        "course_id": 146
+                    },
+                    {
+                        "course_id": 48
+                    }
+                ]
+            },
+            {
+                "instructor_id": 25,
+                "instructor_name": "Kres-Ann Oclarit",
+                "courses": [
+                    {
+                        "course_id": 108
+                    },
+                    {
+                        "course_id": 137
+                    },
+                    {
+                        "course_id": 9
+                    }
+                ]
+            },
+            {
+                "instructor_id": 27,
+                "instructor_name": "Philipjohn Paja",
+                "courses": [
+                    {
+                        "course_id": 124
+                    },
+                    {
+                        "course_id": 136
+                    }
+                ]
+            },
+            {
+                "instructor_id": 29,
+                "instructor_name": "Julieanne Tadle",
+                "courses": [
+                    {
+                        "course_id": 122
+                    },
+                    {
+                        "course_id": 140
+                    },
+                    {
+                        "course_id": 146
+                    },
+                    {
+                        "course_id": 48
+                    }
+                ]
+            },
+            {
+                "instructor_id": 31,
+                "instructor_name": "Reir Erlinda Cutad",
+                "courses": [
+                    {
+                        "course_id": 136
+                    }
+                ]
+            },
+            {
+                "instructor_id": 38,
+                "instructor_name": "Christopher Anana",
+                "courses": [
+                    {
+                        "course_id": 122
+                    },
+                    {
+                        "course_id": 25
+                    }
+                ]
+            },
+            {
+                "instructor_id": 40,
+                "instructor_name": "Rj Suasin",
+                "courses": [
+                    {
+                        "course_id": 142
+                    },
+                    {
+                        "course_id": 26
+                    },
+                    {
+                        "course_id": 39
+                    },
+                    {
+                        "course_id": 41
+                    }
+                ]
+            },
+            {
+                "instructor_id": 50,
+                "instructor_name": "Rafael Dela Pe\u00f1a",
+                "courses": [
+                    {
+                        "course_id": 137
+                    },
+                    {
+                        "course_id": 141
+                    }
+                ]
+            },
+            {
+                "instructor_id": 51,
+                "instructor_name": "Queen Angelica Gado",
+                "courses": [
+                    {
+                        "course_id": 123
+                    },
+                    {
+                        "course_id": 140
+                    }
+                ]
+            },
+            {
+                "instructor_id": 52,
+                "instructor_name": "Jay Timbal",
+                "courses": [
+                    {
+                        "course_id": 107
+                    },
+                    {
+                        "course_id": 27
+                    }
+                ]
+            },
+            {
+                "instructor_id": 53,
+                "instructor_name": "Jeralyn Monta\u00f1o",
+                "courses": [
+                    {
+                        "course_id": 125
+                    }
+                ]
+            },
+            {
+                "instructor_id": 17,
+                "instructor_name": "Jeymar Alfarero",
+                "courses": [
+                    {
+                        "course_id": 36
+                    }
+                ]
+            },
+            {
+                "instructor_id": 28,
+                "instructor_name": "Mariannie Rebortera",
+                "courses": [
+                    {
+                        "course_id": 39
+                    }
+                ]
+            },
+            {
+                "instructor_id": 32,
+                "instructor_name": "Jonilyn Dabalos",
+                "courses": [
+                    {
+                        "course_id": 25
+                    },
+                    {
+                        "course_id": 38
+                    }
+                ]
+            },
+            {
+                "instructor_id": 33,
+                "instructor_name": "Ian Val Delos Reyes",
+                "courses": [
+                    {
+                        "course_id": 40
+                    }
+                ]
+            },
+            {
+                "instructor_id": 34,
+                "instructor_name": "John Jefferson Dela Cruz",
+                "courses": [
+                    {
+                        "course_id": 10
+                    },
+                    {
+                        "course_id": 24
+                    },
+                    {
+                        "course_id": 26
+                    }
+                ]
+            },
+            {
+                "instructor_id": 35,
+                "instructor_name": "Ariel Gamao",
+                "courses": [
+                    {
+                        "course_id": 26
+                    }
+                ]
+            },
+            {
+                "instructor_id": 36,
+                "instructor_name": "Reban Cliff Fajardo",
+                "courses": [
+                    {
+                        "course_id": 25
+                    },
+                    {
+                        "course_id": 38
+                    },
+                    {
+                        "course_id": 40
+                    }
+                ]
+            },
+            {
+                "instructor_id": 37,
+                "instructor_name": "Laarni Iba\u00f1ez",
+                "courses": [
+                    {
+                        "course_id": 25
+                    },
+                    {
+                        "course_id": 38
+                    },
+                    {
+                        "course_id": 49
+                    }
+                ]
+            },
+            {
+                "instructor_id": 39,
+                "instructor_name": "Analyn Casipe",
+                "courses": [
+                    {
+                        "course_id": 10
+                    },
+                    {
+                        "course_id": 24
+                    },
+                    {
+                        "course_id": 38
+                    }
+                ]
+            },
+            {
+                "instructor_id": 41,
+                "instructor_name": "Gertrude Tampus",
+                "courses": [
+                    {
+                        "course_id": 9
+                    },
+                    {
+                        "course_id": 27
+                    }
+                ]
+            },
+            {
+                "instructor_id": 42,
+                "instructor_name": "Jerson Viagedor",
+                "courses": [
+                    {
+                        "course_id": 9
+                    },
+                    {
+                        "course_id": 10
+                    }
+                ]
+            },
+            {
+                "instructor_id": 43,
+                "instructor_name": "Rogelio Masangkay",
+                "courses": [
+                    {
+                        "course_id": 26
+                    },
+                    {
+                        "course_id": 37
+                    }
+                ]
+            },
+            {
+                "instructor_id": 49,
+                "instructor_name": "Parlene Iris Ju Aranjuez",
+                "courses": [
+                    {
+                        "course_id": 11
+                    }
+                ]
+            },
+            {
+                "instructor_id": 54,
+                "instructor_name": "Mark Charlton Bangcaya",
+                "courses": [
+                    {
+                        "course_id": 10
+                    },
+                    {
+                        "course_id": 41
+                    }
+                ]
+            }
+        ],
+        "classrooms": [
+            {
+                "room_id": 1,
+                "room_name": "IC COMLAB 1",
+                "is_lab": true
+            },
+            {
+                "room_id": 2,
+                "room_name": "IC COMLAB 2",
+                "is_lab": true
+            },
+            {
+                "room_id": 3,
+                "room_name": "IC COMLAB 3",
+                "is_lab": true
+            },
+            {
+                "room_id": 4,
+                "room_name": "IC COMLAB 4",
+                "is_lab": true
+            },
+            {
+                "room_id": 5,
+                "room_name": "IC AES LAB",
+                "is_lab": true
+            },
+            {
+                "room_id": 6,
+                "room_name": "MAC LAB",
+                "is_lab": true
+            },
+            {
+                "room_id": 7,
+                "room_name": "IC NETWORKING LAB",
+                "is_lab": true
+            },
+            {
+                "room_id": 8,
+                "room_name": "AB3-3",
+                "is_lab": false
+            },
+            {
+                "room_id": 9,
+                "room_name": "AB3-4",
+                "is_lab": false
+            },
+            {
+                "room_id": 10,
+                "room_name": "AB3-5",
+                "is_lab": false
+            },
+            {
+                "room_id": 11,
+                "room_name": "AB3-6",
+                "is_lab": false
+            },
+            {
+                "room_id": 12,
+                "room_name": "AB3-7",
+                "is_lab": false
+            }
+        ],
+        "timetable": [
+            {
+                "meeting_id": "M0001",
+                "meeting_time": "M*WF 08:00 - 09:00",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0002",
+                    "M0003",
+                    "M0031",
+                    "M0032",
+                    "M0049",
+                    "M0050"
+                ]
+            },
+            {
+                "meeting_id": "M0002",
+                "meeting_time": "MW*F 08:00 - 09:00",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0001",
+                    "M0003",
+                    "M0031",
+                    "M0032",
+                    "M0049",
+                    "M0050"
+                ]
+            },
+            {
+                "meeting_id": "M0003",
+                "meeting_time": "MWF* 08:00 - 09:00",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0001",
+                    "M0002",
+                    "M0031",
+                    "M0032",
+                    "M0049",
+                    "M0050"
+                ]
+            },
+            {
+                "meeting_id": "M0004",
+                "meeting_time": "M*WF 09:00 - 10:00",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0005",
+                    "M0006",
+                    "M0031",
+                    "M0032",
+                    "M0033",
+                    "M0034",
+                    "M0049",
+                    "M0050",
+                    "M0051",
+                    "M0052"
+                ]
+            },
+            {
+                "meeting_id": "M0005",
+                "meeting_time": "MW*F 09:00 - 10:00",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0004",
+                    "M0006",
+                    "M0031",
+                    "M0032",
+                    "M0033",
+                    "M0034",
+                    "M0049",
+                    "M0050",
+                    "M0051",
+                    "M0052"
+                ]
+            },
+            {
+                "meeting_id": "M0006",
+                "meeting_time": "MWF* 09:00 - 10:00",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0004",
+                    "M0005",
+                    "M0031",
+                    "M0032",
+                    "M0033",
+                    "M0034",
+                    "M0049",
+                    "M0050",
+                    "M0051",
+                    "M0052"
+                ]
+            },
+            {
+                "meeting_id": "M0007",
+                "meeting_time": "M*WF 10:00 - 11:00",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0008",
+                    "M0009",
+                    "M0033",
+                    "M0034",
+                    "M0051",
+                    "M0052"
+                ]
+            },
+            {
+                "meeting_id": "M0008",
+                "meeting_time": "MW*F 10:00 - 11:00",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0007",
+                    "M0009",
+                    "M0033",
+                    "M0034",
+                    "M0051",
+                    "M0052"
+                ]
+            },
+            {
+                "meeting_id": "M0009",
+                "meeting_time": "MWF* 10:00 - 11:00",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0007",
+                    "M0008",
+                    "M0033",
+                    "M0034",
+                    "M0051",
+                    "M0052"
+                ]
+            },
+            {
+                "meeting_id": "M0010",
+                "meeting_time": "M*WF 11:00 - 12:00",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0011",
+                    "M0012",
+                    "M0033",
+                    "M0034",
+                    "M0051",
+                    "M0052"
+                ]
+            },
+            {
+                "meeting_id": "M0011",
+                "meeting_time": "MW*F 11:00 - 12:00",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0010",
+                    "M0012",
+                    "M0033",
+                    "M0034",
+                    "M0051",
+                    "M0052"
+                ]
+            },
+            {
+                "meeting_id": "M0012",
+                "meeting_time": "MWF* 11:00 - 12:00",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0010",
+                    "M0011",
+                    "M0033",
+                    "M0034",
+                    "M0051",
+                    "M0052"
+                ]
+            },
+            {
+                "meeting_id": "M0013",
+                "meeting_time": "M*WF 13:00 - 14:00",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0014",
+                    "M0015",
+                    "M0035",
+                    "M0036",
+                    "M0053",
+                    "M0054"
+                ]
+            },
+            {
+                "meeting_id": "M0014",
+                "meeting_time": "MW*F 13:00 - 14:00",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0013",
+                    "M0015",
+                    "M0035",
+                    "M0036",
+                    "M0053",
+                    "M0054"
+                ]
+            },
+            {
+                "meeting_id": "M0015",
+                "meeting_time": "MWF* 13:00 - 14:00",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0013",
+                    "M0014",
+                    "M0035",
+                    "M0036",
+                    "M0053",
+                    "M0054"
+                ]
+            },
+            {
+                "meeting_id": "M0016",
+                "meeting_time": "M*WF 14:00 - 15:00",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0017",
+                    "M0018",
+                    "M0035",
+                    "M0036",
+                    "M0037",
+                    "M0038",
+                    "M0053",
+                    "M0054",
+                    "M0055",
+                    "M0056"
+                ]
+            },
+            {
+                "meeting_id": "M0017",
+                "meeting_time": "MW*F 14:00 - 15:00",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0016",
+                    "M0018",
+                    "M0035",
+                    "M0036",
+                    "M0037",
+                    "M0038",
+                    "M0053",
+                    "M0054",
+                    "M0055",
+                    "M0056"
+                ]
+            },
+            {
+                "meeting_id": "M0018",
+                "meeting_time": "MWF* 14:00 - 15:00",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0016",
+                    "M0017",
+                    "M0035",
+                    "M0036",
+                    "M0037",
+                    "M0038",
+                    "M0053",
+                    "M0054",
+                    "M0055",
+                    "M0056"
+                ]
+            },
+            {
+                "meeting_id": "M0019",
+                "meeting_time": "M*WF 15:00 - 16:00",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0020",
+                    "M0021",
+                    "M0037",
+                    "M0038",
+                    "M0055",
+                    "M0056"
+                ]
+            },
+            {
+                "meeting_id": "M0020",
+                "meeting_time": "MW*F 15:00 - 16:00",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0019",
+                    "M0021",
+                    "M0037",
+                    "M0038",
+                    "M0055",
+                    "M0056"
+                ]
+            },
+            {
+                "meeting_id": "M0021",
+                "meeting_time": "MWF* 15:00 - 16:00",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0019",
+                    "M0020",
+                    "M0037",
+                    "M0038",
+                    "M0055",
+                    "M0056"
+                ]
+            },
+            {
+                "meeting_id": "M0022",
+                "meeting_time": "M*WF 16:00 - 17:00",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0023",
+                    "M0024",
+                    "M0037",
+                    "M0038",
+                    "M0055",
+                    "M0056"
+                ]
+            },
+            {
+                "meeting_id": "M0023",
+                "meeting_time": "MW*F 16:00 - 17:00",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0022",
+                    "M0024",
+                    "M0037",
+                    "M0038",
+                    "M0055",
+                    "M0056"
+                ]
+            },
+            {
+                "meeting_id": "M0024",
+                "meeting_time": "MWF* 16:00 - 17:00",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0022",
+                    "M0023",
+                    "M0037",
+                    "M0038",
+                    "M0055",
+                    "M0056"
+                ]
+            },
+            {
+                "meeting_id": "M0025",
+                "meeting_time": "M*WF 17:00 - 18:00",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0026",
+                    "M0027",
+                    "M0039",
+                    "M0040",
+                    "M0057",
+                    "M0058"
+                ]
+            },
+            {
+                "meeting_id": "M0026",
+                "meeting_time": "MW*F 17:00 - 18:00",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0025",
+                    "M0027",
+                    "M0039",
+                    "M0040",
+                    "M0057",
+                    "M0058"
+                ]
+            },
+            {
+                "meeting_id": "M0027",
+                "meeting_time": "MWF* 17:00 - 18:00",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0025",
+                    "M0026",
+                    "M0039",
+                    "M0040",
+                    "M0057",
+                    "M0058"
+                ]
+            },
+            {
+                "meeting_id": "M0028",
+                "meeting_time": "M*WF 18:00 - 19:00",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0029",
+                    "M0030",
+                    "M0039",
+                    "M0040",
+                    "M0057",
+                    "M0058"
+                ]
+            },
+            {
+                "meeting_id": "M0029",
+                "meeting_time": "MW*F 18:00 - 19:00",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0028",
+                    "M0030",
+                    "M0039",
+                    "M0040",
+                    "M0057",
+                    "M0058"
+                ]
+            },
+            {
+                "meeting_id": "M0030",
+                "meeting_time": "MWF* 18:00 - 19:00",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0028",
+                    "M0029",
+                    "M0039",
+                    "M0040",
+                    "M0057",
+                    "M0058"
+                ]
+            },
+            {
+                "meeting_id": "M0031",
+                "meeting_time": "M*W_ 08:00 - 09:30",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0001",
+                    "M0002",
+                    "M0003",
+                    "M0004",
+                    "M0005",
+                    "M0006",
+                    "M0032",
+                    "M0049",
+                    "M0050"
+                ]
+            },
+            {
+                "meeting_id": "M0032",
+                "meeting_time": "MW*_ 08:00 - 09:30",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0001",
+                    "M0002",
+                    "M0003",
+                    "M0004",
+                    "M0005",
+                    "M0006",
+                    "M0031",
+                    "M0049",
+                    "M0050"
+                ]
+            },
+            {
+                "meeting_id": "M0033",
+                "meeting_time": "M*W_ 09:30 - 12:00",
+                "credit_hours": "5",
+                "conflicts": [
+                    "M0004",
+                    "M0005",
+                    "M0006",
+                    "M0007",
+                    "M0008",
+                    "M0009",
+                    "M0010",
+                    "M0011",
+                    "M0012",
+                    "M0034",
+                    "M0051",
+                    "M0052"
+                ]
+            },
+            {
+                "meeting_id": "M0034",
+                "meeting_time": "MW*_ 09:30 - 12:00",
+                "credit_hours": "5",
+                "conflicts": [
+                    "M0004",
+                    "M0005",
+                    "M0006",
+                    "M0007",
+                    "M0008",
+                    "M0009",
+                    "M0010",
+                    "M0011",
+                    "M0012",
+                    "M0033",
+                    "M0051",
+                    "M0052"
+                ]
+            },
+            {
+                "meeting_id": "M0035",
+                "meeting_time": "M*W_ 13:00 - 14:30",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0013",
+                    "M0014",
+                    "M0015",
+                    "M0016",
+                    "M0017",
+                    "M0018",
+                    "M0036",
+                    "M0053",
+                    "M0054"
+                ]
+            },
+            {
+                "meeting_id": "M0036",
+                "meeting_time": "MW*_ 13:00 - 14:30",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0013",
+                    "M0014",
+                    "M0015",
+                    "M0016",
+                    "M0017",
+                    "M0018",
+                    "M0035",
+                    "M0053",
+                    "M0054"
+                ]
+            },
+            {
+                "meeting_id": "M0037",
+                "meeting_time": "M*W_ 14:30 - 17:00",
+                "credit_hours": "5",
+                "conflicts": [
+                    "M0016",
+                    "M0017",
+                    "M0018",
+                    "M0019",
+                    "M0020",
+                    "M0021",
+                    "M0022",
+                    "M0023",
+                    "M0024",
+                    "M0038",
+                    "M0055",
+                    "M0056"
+                ]
+            },
+            {
+                "meeting_id": "M0038",
+                "meeting_time": "MW*_ 14:30 - 17:00",
+                "credit_hours": "5",
+                "conflicts": [
+                    "M0016",
+                    "M0017",
+                    "M0018",
+                    "M0019",
+                    "M0020",
+                    "M0021",
+                    "M0022",
+                    "M0023",
+                    "M0024",
+                    "M0037",
+                    "M0055",
+                    "M0056"
+                ]
+            },
+            {
+                "meeting_id": "M0039",
+                "meeting_time": "M*W_ 17:00 - 19:30",
+                "credit_hours": "5",
+                "conflicts": [
+                    "M0025",
+                    "M0026",
+                    "M0027",
+                    "M0028",
+                    "M0029",
+                    "M0030",
+                    "M0040",
+                    "M0057",
+                    "M0058"
+                ]
+            },
+            {
+                "meeting_id": "M0040",
+                "meeting_time": "MW*_ 17:00 - 19:30",
+                "credit_hours": "5",
+                "conflicts": [
+                    "M0025",
+                    "M0026",
+                    "M0027",
+                    "M0028",
+                    "M0029",
+                    "M0030",
+                    "M0039",
+                    "M0057",
+                    "M0058"
+                ]
+            },
+            {
+                "meeting_id": "M0041",
+                "meeting_time": "T*TH 08:00 - 09:30",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0042",
+                    "M0059",
+                    "M0060",
+                    "M0061",
+                    "M0062"
+                ]
+            },
+            {
+                "meeting_id": "M0042",
+                "meeting_time": "TTH* 08:00 - 09:30",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0041",
+                    "M0059",
+                    "M0060",
+                    "M0061",
+                    "M0062"
+                ]
+            },
+            {
+                "meeting_id": "M0043",
+                "meeting_time": "T*TH 09:30 - 12:00",
+                "credit_hours": "5",
+                "conflicts": [
+                    "M0044",
+                    "M0061",
+                    "M0062",
+                    "M0063",
+                    "M0064"
+                ]
+            },
+            {
+                "meeting_id": "M0044",
+                "meeting_time": "TTH* 09:30 - 12:00",
+                "credit_hours": "5",
+                "conflicts": [
+                    "M0043",
+                    "M0061",
+                    "M0062",
+                    "M0063",
+                    "M0064"
+                ]
+            },
+            {
+                "meeting_id": "M0045",
+                "meeting_time": "T*TH 14:30 - 17:00",
+                "credit_hours": "5",
+                "conflicts": [
+                    "M0046",
+                    "M0067",
+                    "M0068",
+                    "M0069",
+                    "M0070"
+                ]
+            },
+            {
+                "meeting_id": "M0046",
+                "meeting_time": "TTH* 14:30 - 17:00",
+                "credit_hours": "5",
+                "conflicts": [
+                    "M0045",
+                    "M0067",
+                    "M0068",
+                    "M0069",
+                    "M0070"
+                ]
+            },
+            {
+                "meeting_id": "M0047",
+                "meeting_time": "T*TH 17:00 - 19:30",
+                "credit_hours": "5",
+                "conflicts": [
+                    "M0048",
+                    "M0069",
+                    "M0070",
+                    "M0071",
+                    "M0072"
+                ]
+            },
+            {
+                "meeting_id": "M0048",
+                "meeting_time": "TTH* 17:00 - 19:30",
+                "credit_hours": "5",
+                "conflicts": [
+                    "M0047",
+                    "M0069",
+                    "M0070",
+                    "M0071",
+                    "M0072"
+                ]
+            },
+            {
+                "meeting_id": "M0049",
+                "meeting_time": "W*F_ 08:00 - 09:30",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0001",
+                    "M0002",
+                    "M0003",
+                    "M0004",
+                    "M0005",
+                    "M0006",
+                    "M0031",
+                    "M0032",
+                    "M0050"
+                ]
+            },
+            {
+                "meeting_id": "M0050",
+                "meeting_time": "WF*_ 08:00 - 09:30",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0001",
+                    "M0002",
+                    "M0003",
+                    "M0004",
+                    "M0005",
+                    "M0006",
+                    "M0031",
+                    "M0032",
+                    "M0049"
+                ]
+            },
+            {
+                "meeting_id": "M0051",
+                "meeting_time": "W*F_ 09:30 - 12:00",
+                "credit_hours": "5",
+                "conflicts": [
+                    "M0004",
+                    "M0005",
+                    "M0006",
+                    "M0007",
+                    "M0008",
+                    "M0009",
+                    "M0010",
+                    "M0011",
+                    "M0012",
+                    "M0033",
+                    "M0034",
+                    "M0052"
+                ]
+            },
+            {
+                "meeting_id": "M0052",
+                "meeting_time": "WF*_ 09:30 - 12:00",
+                "credit_hours": "5",
+                "conflicts": [
+                    "M0004",
+                    "M0005",
+                    "M0006",
+                    "M0007",
+                    "M0008",
+                    "M0009",
+                    "M0010",
+                    "M0011",
+                    "M0012",
+                    "M0033",
+                    "M0034",
+                    "M0051"
+                ]
+            },
+            {
+                "meeting_id": "M0053",
+                "meeting_time": "W*F_ 13:00 - 14:30",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0013",
+                    "M0014",
+                    "M0015",
+                    "M0016",
+                    "M0017",
+                    "M0018",
+                    "M0035",
+                    "M0036",
+                    "M0054"
+                ]
+            },
+            {
+                "meeting_id": "M0054",
+                "meeting_time": "WF*_ 13:00 - 14:30",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0013",
+                    "M0014",
+                    "M0015",
+                    "M0016",
+                    "M0017",
+                    "M0018",
+                    "M0035",
+                    "M0036",
+                    "M0053"
+                ]
+            },
+            {
+                "meeting_id": "M0055",
+                "meeting_time": "W*F_ 14:30 - 17:00",
+                "credit_hours": "5",
+                "conflicts": [
+                    "M0016",
+                    "M0017",
+                    "M0018",
+                    "M0019",
+                    "M0020",
+                    "M0021",
+                    "M0022",
+                    "M0023",
+                    "M0024",
+                    "M0037",
+                    "M0038",
+                    "M0056"
+                ]
+            },
+            {
+                "meeting_id": "M0056",
+                "meeting_time": "WF*_ 14:30 - 17:00",
+                "credit_hours": "5",
+                "conflicts": [
+                    "M0016",
+                    "M0017",
+                    "M0018",
+                    "M0019",
+                    "M0020",
+                    "M0021",
+                    "M0022",
+                    "M0023",
+                    "M0024",
+                    "M0037",
+                    "M0038",
+                    "M0055"
+                ]
+            },
+            {
+                "meeting_id": "M0057",
+                "meeting_time": "W*F_ 17:00 - 19:30",
+                "credit_hours": "5",
+                "conflicts": [
+                    "M0025",
+                    "M0026",
+                    "M0027",
+                    "M0028",
+                    "M0029",
+                    "M0030",
+                    "M0039",
+                    "M0040",
+                    "M0058"
+                ]
+            },
+            {
+                "meeting_id": "M0058",
+                "meeting_time": "WF*_ 17:00 - 19:30",
+                "credit_hours": "5",
+                "conflicts": [
+                    "M0025",
+                    "M0026",
+                    "M0027",
+                    "M0028",
+                    "M0029",
+                    "M0030",
+                    "M0039",
+                    "M0040",
+                    "M0057"
+                ]
+            },
+            {
+                "meeting_id": "M0059",
+                "meeting_time": "T*TH 07:30 - 09:00",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0041",
+                    "M0042",
+                    "M0060"
+                ]
+            },
+            {
+                "meeting_id": "M0060",
+                "meeting_time": "TTH* 07:30 - 09:00",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0041",
+                    "M0042",
+                    "M0059"
+                ]
+            },
+            {
+                "meeting_id": "M0061",
+                "meeting_time": "T*TH 09:00 - 10:30",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0041",
+                    "M0042",
+                    "M0043",
+                    "M0044",
+                    "M0062"
+                ]
+            },
+            {
+                "meeting_id": "M0062",
+                "meeting_time": "TTH* 09:00 - 10:30",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0041",
+                    "M0042",
+                    "M0043",
+                    "M0044",
+                    "M0061"
+                ]
+            },
+            {
+                "meeting_id": "M0063",
+                "meeting_time": "T*TH 10:30 - 12:00",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0043",
+                    "M0044",
+                    "M0064"
+                ]
+            },
+            {
+                "meeting_id": "M0064",
+                "meeting_time": "TTH* 10:30 - 12:00",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0043",
+                    "M0044",
+                    "M0063"
+                ]
+            },
+            {
+                "meeting_id": "M0065",
+                "meeting_time": "T*TH 13:00 - 14:30",
+                "credit_hours": "3",
+                "conflicts": "M0066"
+            },
+            {
+                "meeting_id": "M0066",
+                "meeting_time": "TTH* 13:00 - 14:30",
+                "credit_hours": "3",
+                "conflicts": "M0065"
+            },
+            {
+                "meeting_id": "M0067",
+                "meeting_time": "T*TH 14:30 - 16:00",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0045",
+                    "M0046",
+                    "M0068"
+                ]
+            },
+            {
+                "meeting_id": "M0068",
+                "meeting_time": "TTH* 14:30 - 16:00",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0045",
+                    "M0046",
+                    "M0067"
+                ]
+            },
+            {
+                "meeting_id": "M0069",
+                "meeting_time": "T*TH 16:00 - 17:30",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0045",
+                    "M0046",
+                    "M0047",
+                    "M0048",
+                    "M0070"
+                ]
+            },
+            {
+                "meeting_id": "M0070",
+                "meeting_time": "TTH* 16:00 - 17:30",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0045",
+                    "M0046",
+                    "M0047",
+                    "M0048",
+                    "M0069"
+                ]
+            },
+            {
+                "meeting_id": "M0071",
+                "meeting_time": "T*TH 17:30 - 19:00",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0047",
+                    "M0048",
+                    "M0072"
+                ]
+            },
+            {
+                "meeting_id": "M0072",
+                "meeting_time": "TTH* 17:30 - 19:00",
+                "credit_hours": "3",
+                "conflicts": [
+                    "M0047",
+                    "M0048",
+                    "M0071"
+                ]
+            }
+        ],
+        "classroom_timetable": []
+    }
+}

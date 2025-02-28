@@ -1,0 +1,64 @@
+{% load static %}
+{% load compress %}
+<div class="hs-dropdown [--placement:bottom-right] relative inline-flex">
+  <button id="hs-header-base-mega-menu-small"
+          type="button"
+          class="hs-dropdown-toggle w-full p-2 flex items-center text-sm text-gray-800 hover:bg-gray-100 rounded-lg focus:outline-none focus:bg-gray-100"
+          aria-haspopup="menu"
+          aria-expanded="false"
+          aria-label="Mega Menu">
+    <svg class="flex-shrink-0 size-4"
+         xmlns="http://www.w3.org/2000/svg"
+         width="24"
+         height="24"
+         viewBox="0 0 24 24"
+         fill="none"
+         stroke="currentColor"
+         stroke-width="2"
+         stroke-linecap="round"
+         stroke-linejoin="round">
+      <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+      <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
+    </svg>
+    &nbspNotifications
+    
+  </span>
+   <div id="notification_count" class="hidden">
+     <span class="flex absolute top-0 start-0 -mt-2 -me-2">
+    <span class="animate-ping absolute inline-flex size-full rounded-full bg-red-400 opacity-75 dark:bg-red-600"></span>
+    <span id="total_unread" class="relative inline-flex text-xs bg-red-500 text-white rounded-full py-0.5 px-1.5">
+      9+
+    </span></div>
+    <svg class="hs-dropdown-open:-rotate-180 md:hs-dropdown-open:rotate-0 duration-300 shrink-0 size-4 ms-auto md:ms-1"
+         xmlns="http://www.w3.org/2000/svg"
+         width="24"
+         height="24"
+         viewBox="0 0 24 24"
+         fill="none"
+         stroke="currentColor"
+         stroke-width="2"
+         stroke-linecap="round"
+         stroke-linejoin="round">
+      <path d="m6 9 6 6 6-6" />
+    </svg>
+  </button>
+  <div class="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden w-96 bg-white shadow rounded-lg p-2"
+       role="menu"
+       aria-orientation="vertical"
+       aria-labelledby="hs-header-base-mega-menu-small">
+    <div class="py-1 md:px-1 space-y-0.5">
+      <div id="notificationsContainer"
+           class="max-h-96 overflow-y-auto overflow-hidden [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full   [&::-webkit-scrollbar-thumb]:bg-gray-300">
+          
+      </div>
+      <a class="p-3 flex justify-center w-full bg-gray-100 focus:outline-none focus:bg-gray-100 rounded-lg  text-gray-500 hover:text-gray-800"
+         href="{% url 'user:notification' username=user.username %}">
+        <p class="text-sm text-center font-semibold">View all notifications</p>
+        
+      </a>
+    </div>
+  </div>
+</div>
+{% compress js %}
+  <script src="{% static 'js/notifications.js' %}"></script>
+{% endcompress js %}

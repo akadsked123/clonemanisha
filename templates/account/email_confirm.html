@@ -1,0 +1,84 @@
+{% extends "_base.html" %}
+{% load compress %}
+{% load static %}
+{% load i18n %}
+{% load allauth account %}
+{% load allauth socialaccount %}
+{% get_providers as socialaccount_providers %}
+<title>
+  {% block title %}
+    Password Reset
+  {% endblock title %}
+</title>
+{% block content %}
+  <div {% include "./includes/background.html" %}>
+    <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0">
+      <div class="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
+        <div class="p-6 space-y-4 md:space-y-4 sm:p-8">
+          <div class="flex items-center justify-center">
+            <a href="{% url 'account_login' %}"
+               class="text-xl font-bold leading-tight tracking-tight flex items-center text-gray-900 md:text-2xl">
+              <img class="w-80 h-auto"
+                   src="{% static 'images/logo/acadsked-logo-1.png' %}"
+                   alt="logo">
+            </a>
+          </div>
+          <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
+            {% trans "Confirm Email Address" %}
+          </h1>
+          {% if confirmation %}
+            {% if can_confirm %}
+              <p class="mb-3 text-gray-500 text-sm">
+                {% blocktrans with confirmation.email_address.email as email %}Please confirm that <a href="mailto:{{ email }}" class="text-sm font-medium text-primary-600 hover:underline">{{ email }}</a> is an email address for user {% endblocktrans %}<span id="text" class="text-sm font-medium text-primary-600">{{ confirmation.email_address.user.first_name }} {{ confirmation.email_address.user.last_name }}</span>
+              </p>
+              {% compress js %}
+                <script>
+document.addEventListener('DOMContentLoaded', () => {
+  const textElement = document.getElementById('text');
+  const text = textElement.innerText;
+
+  // Function to convert text to title case
+  function toTitleCase(text) {
+    return text
+      .toLowerCase() // Convert all text to lowercase
+      .split(' ') // Split text into words
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize first letter of each word
+      .join(' '); // Join words back into a single string
+  }
+
+  textElement.innerText = toTitleCase(text);
+});
+                </script>
+              {% endcompress js %}
+              {% url 'account_confirm_email' confirmation.key as action_url %}
+              {% element form method="post" action=action_url %}
+              {% slot actions %}
+              {% csrf_token %}
+              {% element button type="submit" %}
+              <button type="submit"
+                      class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-colors duration-300 ease-in-out">
+                {% trans 'Confirm email' %}
+              </button>
+            {% endelement %}
+          {% endslot %}
+        {% endelement %}
+      {% else %}
+        <p class="mb-3 text-gray-500 text-sm">
+          {% blocktrans %}Unable to confirm {{ email }} because it is already confirmed by a different account.{% endblocktrans %}
+        </p>
+      {% endif %}
+    {% else %}
+      {% url 'account_email' as email_url %}
+      <p class="mb-3 text-gray-500 text-sm">
+        {% blocktrans %}This email confirmation link expired or is invalid. Please <a href="{{ email_url }}">issue a new email confirmation request</a>.{% endblocktrans %}
+      </p>
+    {% endif %}
+    <div class="flex items-center justify-end">
+      <a href="{% url 'account_login' %}"
+         class="text-sm font-medium text-primary-600 hover:underline">{% trans "Back to Login" %}</a>
+    </div>
+  </form>
+</div>
+</div>
+</div>
+{% endblock content %}

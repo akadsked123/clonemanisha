@@ -1,0 +1,238 @@
+{% extends "_base.html" %}
+{% load compress %}
+{% load i18n %}
+{% load static %}
+{% block title %}
+  Notification
+{% endblock title %}
+{% block content %}
+  {% if user_type == 2 %}
+    {% include "pages/vpaa/includes/navbar.html" %}
+  {% elif user_type == 3 %}
+    {% include "pages/dean/includes/navbar.html" %}
+  {% elif user_type == 1 %}
+    {% include "pages/registrar/includes/_navbar.html" %}
+  {% elif user_type == 4 %}
+    {% include "pages/progchair/includes/_navbar.html" %}
+  {% elif user_type == 5 %}
+    {% include "pages/faculty/includes/navbar.html" %}
+  {% endif %}
+  <div class="w-full lg:ps-64 bg-gray-100 h-full">
+    <div class="p-6 space-y-3">
+      <!-- Table Section -->
+      <div class="flex flex-col">
+        <div class="-m-1.5 overflow-x-auto overflow-hidden [&::-webkit-scrollbar]:h-3 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300">
+          <div class="p-1.5 min-w-full inline-block align-middle">
+            <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
+              <!-- Header -->
+              <div class="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-b border-gray-200">
+                <div>
+                  <p class="text-2xl font-extrabold  text-gray-900">Notifications</p>
+                </div>
+               
+                <div>
+                {% if notifications %}
+                  <div class="inline-flex gap-x-2">
+                    <form id="mark-all-as-read-form"
+                          action="{% url 'user:mark_all_as_read' %}"
+                          method="post"
+                          style="display: none">
+                      {% csrf_token %}
+                    </form>
+                    <button id="mark-all-as-read-button"
+                            class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
+                            type="button">
+                      <svg xmlns="http://www.w3.org/2000/svg"
+                           width="16"
+                           height="16"
+                           fill="currentColor"
+                           class="bi bi-check-square"
+                           viewBox="0 0 16 16">
+                        <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z" />
+                        <path d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425z" />
+                      </svg>
+                      Mark all as read
+                    </button>
+                    {% compress js %}
+                      <script>
+                          document.getElementById('mark-all-as-read-button').addEventListener('click', function() {
+                              fetch("{% url 'user:mark_all_as_read' %}", {
+                                  method: 'POST',
+                                  headers: {
+                                      'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                                      'Content-Type': 'application/json'
+                                  },
+                                  body: JSON.stringify({})
+                              })
+                              .then(response => response.json())
+                          .then(data => {
+                                  if (data.status === 'success') {
+                                      // Update the UI to reflect that all notifications are read
+                                      document.querySelectorAll('tr').forEach(item => {
+                                          if (item.classList.contains('bg-gray-100')) {
+                                              item.classList.remove('bg-gray-100');
+                                          }
+                                      });
+                                  }
+                              });
+                          });
+                      </script>
+                    {% endcompress js %}
+                  </div>
+                   
+                   {% endif %}
+                </div>
+              </div>
+              <!-- End Header -->
+              <!-- Table -->
+                {% if notifications %}
+              <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-100">
+                  <tr>
+                    <th scope="col" class="px-6 py-3 text-start">
+                      <div class="flex items-center gap-x-2">
+                        <span class="text-xs font-semibold uppercase tracking-wide text-gray-800">#</span>
+                      </div>
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-start">
+                      <div class="flex items-center gap-x-2">
+                        <span class="text-xs font-semibold uppercase tracking-wide text-gray-800">Description</span>
+                      </div>
+                    </th>
+                  </tr>
+                </thead>
+                                                               <tbody class="bg-white divide-y divide-gray-200">
+                                  {% for notification in notifications %}
+                                    <tr class="{% if not notification.is_read %}bg-gray-100{% endif %}">
+                                      <td class="size-px whitespace-nowrap">
+                                        <div class="px-6 py-3">
+                                          <span class="block text-sm font-semibold text-gray-700">{{ forloop.counter|add:pagination_offset|escape }}</span>
+                                        </div>
+                                      </td>
+                                      <td class="h-px">
+                                        <div class="px-6 py-3">
+                                          <div class="flex items-center gap-x-3">
+                                            <img class="inline-block size-[38px] rounded-full"
+                                                 src="{% if notification.profile_image_url %}{{ notification.profile_image_url|escape }}{% else %}https://ui-avatars.com/api/?name={{ notification.first_name|cut:' '|escape }}{% if notification.middle_name %}{{ notification.middle_name|cut:' '|escape }}{% endif %}{{ notification.last_name|cut:' '|escape }}&background=random{% endif %}"
+                                                 alt="Avatar">
+                                            <div class="grow">
+                                              <span class="block text-xs text-gray-500">{{ notification.date_time|escape }}</span>
+                                              <span class="block text-sm font-semibold text-gray-700">{{ notification.full_name|escape }}</span>
+                                              {% comment %} <span class="block text-sm text-gray-500">{{ notification.email|escape }}</span> {% endcomment %}
+                                              <span class="block text-sm text-gray-800">{{ notification.message|safe }}</span>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </td>
+                                    </tr>
+                                  {% endfor %}
+                                </tbody>
+              </table>
+              <!-- End Table -->
+              <!-- Footer -->
+              <div class="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-t border-gray-200">
+                <div>
+                  <p class="text-sm font-medium text-gray-600">
+                    <span class="text-gray-800">{{ page_obj.paginator.count }}</span> result{{ page_obj.paginator.count|pluralize }}
+                  </p>
+                </div>
+                <div>
+                  <div class="inline-flex gap-x-2 items-center justify-center w-full">
+                    {% if page_obj.has_other_pages %}
+                      <p class="text-sm text-gray-600 text-center">
+                        <span class="font-semibold text-gray-800">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+                      </p>
+                    {% endif %}
+                    {% if page_obj.has_previous %}
+                      <a href="?page={{ page_obj.previous_page_number }}"
+                         class="py-1.5 px-2 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none">
+                        <svg class="flex-shrink-0 size-4"
+                             xmlns="http://www.w3.org/2000/svg"
+                             width="24"
+                             height="24"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="2"
+                             stroke-linecap="round"
+                             stroke-linejoin="round">
+                          <path d="m15 18-6-6 6-6" />
+                        </svg>
+                        Prev
+                      </a>
+                    {% else %}
+                      <button type="button"
+                              class="disabled py-1.5 px-2 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-gray-200 text-gray-800 shadow-sm ">
+                        <svg class="flex-shrink-0 size-4"
+                             xmlns="http://www.w3.org/2000/svg"
+                             width="24"
+                             height="24"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="2"
+                             stroke-linecap="round"
+                             stroke-linejoin="round">
+                          <path d="m15 18-6-6 6-6" />
+                        </svg>
+                        Prev
+                      </button>
+                    {% endif %}
+                    {% if page_obj.has_next %}
+                      <a href="?page={{ page_obj.next_page_number }}"
+                         class="py-1.5 px-2 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none">
+                        Next
+                        <svg class="flex-shrink-0 size-4"
+                             xmlns="http://www.w3.org/2000/svg"
+                             width="24"
+                             height="24"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="2"
+                             stroke-linecap="round"
+                             stroke-linejoin="round">
+                          <path d="m9 18 6-6-6-6" />
+                        </svg>
+                      </a>
+                    {% else %}
+                      <button type="button"
+                              class="disabled py-1.5 px-2 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-gray-200 text-gray-800 shadow-sm ">
+                        <svg class="flex-shrink-0 size-4"
+                             xmlns="http://www.w3.org/2000/svg"
+                             width="24"
+                             height="24"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="2"
+                             stroke-linecap="round"
+                             stroke-linejoin="round">
+                          <path d="m9 18 6-6-6-6" />
+                        </svg>
+                        Next
+                      </button>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+              <!-- End Footer -->
+              {% else %}
+               <div class="flex flex-auto flex-col justify-center items-center p-4 md:p-5 h-96">
+              <svg xmlns="http://www.w3.org/2000/svg" class="size-10 text-gray-500 bi bi-bell-slash" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M5.164 14H15c-.299-.199-.557-.553-.78-1-.9-1.8-1.22-5.12-1.22-6q0-.396-.06-.776l-.938.938c.02.708.157 2.154.457 3.58.161.767.377 1.566.663 2.258H6.164zm5.581-9.91a4 4 0 0 0-1.948-1.01L8 2.917l-.797.161A4 4 0 0 0 4 7c0 .628-.134 2.197-.459 3.742q-.075.358-.166.718l-1.653 1.653q.03-.055.059-.113C2.679 11.2 3 7.88 3 7c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0c.942.19 1.788.645 2.457 1.284zM10 15a2 2 0 1 1-4 0zm-9.375.625a.53.53 0 0 0 .75.75l14.75-14.75a.53.53 0 0 0-.75-.75z" />
+              </svg>
+              <p class="mt-2 text-sm text-gray-800">No notifications</p>
+            </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        <!-- End Card -->
+      </div>
+      <!-- End Table Section -->
+    </div>
+    {% include "./includes/footer.html" %}
+  </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,471 @@
+{% load static %}
+{% load allauth i18n %}
+{% load compress %}
+<div id="add-schedule-in-class-group"
+     class="transition-opacity hs-overlay hidden size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto"
+     role="dialog"
+     tabindex="-1">
+  <div class="hs-overlay-animation-target hs-overlay-open:scale-100 hs-overlay-open:opacity-100 scale-95 opacity-0 ease-in-out transition-all duration-200 sm:max-w-lg sm:w-full m-3 sm:mx-auto min-h-[calc(100%-3.5rem)] flex items-center">
+    <div class="w-full flex flex-col bg-white border shadow-sm rounded-xl pointer-events-auto">
+      <div class="p-4 overflow-y-auto">
+        <div class="flex justify-between items-center">
+          <div>
+            <h2 class="text-xl font-bold text-gray-800">Create Schedule for {{ selected_class_group.class_group_name }} </h2>
+          </div>
+          <button type="button"
+                  class="size-8 inline-flex justify-center items-center gap-x-2 rounded-full border border-transparent bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none"
+                  aria-label="Close"
+                  data-hs-overlay="#add-schedule-in-class-group">
+            <span class="sr-only">Close</span>
+            <svg class="shrink-0 size-4"
+                 xmlns="http://www.w3.org/2000/svg"
+                 width="24"
+                 height="24"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+              <path d="M18 6 6 18"></path>
+              <path d="m6 6 12 12"></path>
+            </svg>
+          </button>
+        </div>
+        <form method="post">
+          {% csrf_token %}
+          <div class="max-full">
+            <label class="block text-sm font-medium my-2">Instructor</label>
+            <select id="instructor-dropdown-2"
+                    name="instructor_id"
+                    class="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300">
+              <option selected="" disabled>Select Instructor</option>
+              <option value="">No Instructor (TBA)</option>
+              {% for instructor in instructors_options %}
+                <option value="{{ instructor.instructor_id }}">{{ instructor.instructor_name }} ({{ instructor.program_code }}) </option>
+              {% endfor %}
+            </select>
+            
+
+            <p id="instructor-helper" class="text-xs my-2 text-blue-600">Assigning an instructor who is already scheduled for that course will not be allowed, and the existing assigned instructor will be used instead.</p>
+            <label class="block text-sm font-medium my-2">Course</label>
+            <select id="course-dropdown"
+                    name="course_id"
+                    class="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300">
+              <option selected="" disabled>Select Course</option>
+              {% for course in courses_options %}
+                <option value="{{ course.course_id }}">{{ course.course_code }} - {{ course.course_description }}</option>
+              {% endfor %}
+            </select>
+            <label class="block text-sm font-medium mt-2">Learning Mode</label>
+            <div class="grid sm:grid-cols-2 gap-2 my-2">
+              <label for="face-to-face-class-2"
+                     class="flex p-3 w-full bg-white border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500">
+                <input type="radio"
+                       name="learning-mode"
+                       value="0"
+                       class="shrink-0 mt-0.5 border-gray-200 rounded-full text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                       id="face-to-face-class-2"
+                       checked="">
+                <span class="text-sm text-gray-500 ms-3">Face-to-face Class</span>
+              </label>
+              <label for="online-class-2"
+                     class="flex p-3 w-full bg-white border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500">
+                <input type="radio"
+                       name="learning-mode"
+                       value="1"
+                       class="shrink-0 mt-0.5 border-gray-200 rounded-full text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                       id="online-class-2">
+                <span class="text-sm text-gray-500 ms-3">Online Class</span>
+              </label>
+            </div>
+            <p id="course-text-helper" class="text-xs my-2 text-red-600"></p>
+                        <label class="block text-sm font-medium my-2">Classroom</label>
+            <select id="class-classroom-dropdown"
+                    name="classroom_id"
+                    class="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300">
+              <option selected="" disabled>Select Classroom</option>
+              {% for classroom in classrooms_options %}
+                <option value="{{ class_group.class_group_id }}"
+                        data-year-level="{{ classroom.room_id }}">{{ classroom.room_name }} ({{ classroom.is_lab|yesno:"Laboratory,Lecture" }}) </option>
+              {% endfor %}
+            </select>
+            <label class="block text-sm font-medium my-2">Day</label>
+            <ul class="flex flex-row">
+              <li class="inline-flex items-center text-sm font-medium bg-white border text-gray-800 -mt-px rounded-s-lg flex-1">
+                <div class="relative flex items-start w-full">
+                  <input type="checkbox"
+                         id="monday-2"
+                         class="peer hidden meeting-day"
+                         name="meeting_day"
+                         value="Monday" />
+                  <label for="monday-2"
+                         class="w-full text-center select-none cursor-pointer rounded-s-lg py-3 px-3 transition-colors duration-200 ease-in-out peer-checked:bg-primary-600 peer-checked:text-white">
+                    Mon
+                  </label>
+                </div>
+              </li>
+              <li class="inline-flex items-center text-sm font-medium bg-white border text-gray-800 -mt-px flex-1">
+                <div class="relative flex items-start w-full">
+                  <input type="checkbox"
+                         id="tuesday-2"
+                         class="peer hidden meeting-day"
+                         name="meeting_day"
+                         value="Tuesday" />
+                  <label for="tuesday-2"
+                         class="w-full text-center select-none cursor-pointer py-3 px-3 transition-colors duration-200 ease-in-out peer-checked:bg-primary-600 peer-checked:text-white">
+                    Tue
+                  </label>
+                </div>
+              </li>
+              <li class="inline-flex items-center text-sm font-medium bg-white border text-gray-800 -mt-px flex-1">
+                <div class="relative flex items-start w-full">
+                  <input type="checkbox"
+                         id="wednesday-2"
+                         class="peer hidden meeting-day"
+                         name="meeting_day"
+                         value="Wednesday" />
+                  <label for="wednesday-2"
+                         class="w-full text-center select-none cursor-pointer py-3 px-3 transition-colors duration-200 ease-in-out peer-checked:bg-primary-600 peer-checked:text-white">
+                    Wed
+                  </label>
+                </div>
+              </li>
+              <li class="inline-flex items-center text-sm font-medium bg-white border text-gray-800 -mt-px flex-1">
+                <div class="relative flex items-start w-full">
+                  <input type="checkbox"
+                         id="thursday-2"
+                         class="peer hidden meeting-day"
+                         name="meeting_day"
+                         value="Thursday" />
+                  <label for="thursday-2"
+                         class="w-full text-center select-none cursor-pointer py-3 px-3 transition-colors duration-200 ease-in-out peer-checked:bg-primary-600 peer-checked:text-white">
+                    Thu
+                  </label>
+                </div>
+              </li>
+              <li class="inline-flex items-center text-sm font-medium bg-white border text-gray-800 -mt-px flex-1">
+                <div class="relative flex items-start w-full">
+                  <input type="checkbox"
+                         id="friday-2"
+                         class="peer hidden meeting-day"
+                         name="meeting_day"
+                         value="Friday" />
+                  <label for="friday-2"
+                         class="w-full text-center select-none cursor-pointer py-3 px-3 transition-colors duration-200 ease-in-out peer-checked:bg-primary-600 peer-checked:text-white">
+                    Fri
+                  </label>
+                </div>
+              </li>
+              <li class="inline-flex items-center text-sm font-medium rounded-e-lg bg-white border text-gray-800 -mt-px flex-1">
+                <div class="relative flex items-start w-full">
+                  <input type="checkbox"
+                         id="saturday-2"
+                         class="peer hidden meeting-day"
+                         name="meeting_day"
+                         value="Saturday" />
+                  <label for="saturday-2"
+                         class="w-full text-center select-none cursor-pointer rounded-e-lg  py-3 px-3 transition-colors duration-200 ease-in-out peer-checked:bg-primary-600 peer-checked:text-white">
+                    Sat
+                  </label>
+                </div>
+              </li>
+              {% comment %} <li class="inline-flex items-center text-sm font-medium bg-white border text-gray-800 -mt-px rounded-e-lg flex-1">
+                <div class="relative flex items-start w-full">
+                  <input type="checkbox"
+                         id="sunday-2"
+                         class="peer hidden meeting-day"
+                         name="meeting_day"
+                         value="Sunday" />
+                  <label for="sunday-2"
+                         class="w-full text-center select-none cursor-pointer rounded-e-lg py-3 px-3 transition-colors duration-200 ease-in-out peer-checked:bg-primary-600 peer-checked:text-white">
+                    Sun
+                  </label>
+                </div>
+              </li> {% endcomment %}
+            </ul>
+            {% compress js %}
+              <script>
+                document.querySelectorAll('.meeting-day').forEach(checkbox => {
+                  checkbox.addEventListener('change', function() {
+                    if (this.checked) {
+                      document.querySelectorAll('.meeting-day').forEach(cb => {
+                        if (cb !== this) cb.checked = false;
+                      });
+                    }
+                  });
+                });
+              </script>
+            {% endcompress js %}
+            <div class="grid grid-cols-2 grid-rows-1 gap-2">
+              <div>
+                <label for="start-time-dropdown-2" class="block text-sm font-medium my-2">Start time</label>
+                <select id="start-time-dropdown-2"
+                        required
+                        name="start_time"
+                        class="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none  [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300">
+                  <option selected="" disabled>Start time</option>
+                </select>
+              </div>
+              <div>
+                <label for="end-time-dropdown-2" class="block text-sm font-medium my-2">End time</label>
+                <select id="end-time-dropdown-2"
+                        required
+                        name="end_time"
+                        class="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none  [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300">
+                  <option selected="" disabled>End time</option>
+                </select>
+              </div>
+            </div>
+            {% compress js %}
+              <script>
+                  function populateTimeDropdown(dropdown) {
+                    const startTime = new Date();
+                    startTime.setHours(7, 0, 0);
+                    const endTime = new Date();
+                    endTime.setHours(20, 30, 0); // 8:30 PM
+                    const lunchStart = new Date();
+                    lunchStart.setHours(12, 0, 0);
+                    const lunchEnd = new Date();
+                    lunchEnd.setHours(13, 0, 0);
+
+                    while (startTime <= endTime) { // Change to <= to include 8:30 PM
+                      if (startTime >= lunchStart && startTime < lunchEnd) {
+                        startTime.setMinutes(startTime.getMinutes() + 30);
+                        continue;
+                      }
+                      const option = document.createElement('option');
+                      option.value = startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+                      option.textContent = startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+                      dropdown.appendChild(option);
+                      startTime.setMinutes(startTime.getMinutes() + 30);
+                    }
+                  }
+
+                  function updateEndTimeDropdown() {
+                    const startTimeDropdown = document.getElementById('start-time-dropdown-2');
+                    const endTimeDropdown = document.getElementById('end-time-dropdown-2');
+                    const selectedStartTime = startTimeDropdown.value;
+                    if (!selectedStartTime) return;
+
+                    const [hours, minutes, period] = selectedStartTime.match(/(\d+):(\d+)\s*(AM|PM)/).slice(1);
+                    let startTime = new Date();
+                    startTime.setHours(period === 'PM' && hours !== '12' ? parseInt(hours) + 12 : parseInt(hours), parseInt(minutes), 0);
+
+                    const endTime = new Date();
+                    endTime.setHours(20, 30, 0); // 8:30 PM
+
+                    const lunchStart = new Date();
+                    lunchStart.setHours(12, 0, 0); // 12:00 PM
+                    const lunchEnd = new Date();
+                    lunchEnd.setHours(13, 0, 0); // 1:00 PM
+
+                    endTimeDropdown.innerHTML = '<option selected="" disabled>End time</option>';
+                    let currentTime = new Date(startTime.getTime() + 60 * 60000); // Start with 1 hour later
+
+                    while (currentTime <= endTime) { // Change to <= to include 8:30 PM
+                      if ((currentTime > lunchStart && currentTime < lunchEnd) || currentTime.getHours() === 13) {
+                        currentTime.setMinutes(currentTime.getMinutes() + 30);
+                        continue;
+                      }
+
+                      const option = document.createElement('option');
+                      let duration = Math.floor((currentTime - startTime) / 60000); // Duration in minutes
+
+                      // Adjust duration if it crosses the lunch break
+                      if (startTime < lunchStart && currentTime > lunchEnd) {
+                        duration -= 60; // Subtract 1 hour for lunch break
+                      }
+
+                      const hours = Math.floor(duration / 60);
+                      const minutes = duration % 60;
+                      const durationLabel = minutes === 0 ? `${hours} hr${hours > 1 ? 's' : ''}` : `${hours}.${minutes / 30 * 5} hr${hours > 0 ? 's' : ''}`;
+                      option.value = currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+                      option.textContent = `${currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })} (${durationLabel})`;
+                      endTimeDropdown.appendChild(option);
+                      currentTime.setMinutes(currentTime.getMinutes() + 30); // Increment by 30 minutes
+                    }
+                  }
+
+                  document.addEventListener('DOMContentLoaded', function() {
+                    const startTimeDropdown = document.getElementById('start-time-dropdown-2');
+                    const endTimeDropdown = document.getElementById('end-time-dropdown-2');
+                    populateTimeDropdown(startTimeDropdown);
+                    startTimeDropdown.addEventListener('change', updateEndTimeDropdown);
+                  });
+              </script>
+            {% endcompress js %}
+            <p id="meeting-time-helper" class="text-xs my-2 text-red-600"></p>
+          </div>
+          <input type="hidden"
+                 id="result-identification-3"
+                 value="{{ result_identification }}">
+          <div class="bg-gray-50 w-full mt-3 py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 text-gray-800"
+                   id="vacant-time-slots-info-list-3" style="display: none;"
+                   >
+                <div>
+                  <h3 class="text-sm font-semibold">Vacant time slots</h3>
+                  <div id="vacant-time-slots-info-3" class="mt-1 text-sm">
+                    <!-- Vacant times will be inserted here -->
+                  </div>
+                </div>
+              </div>
+          <div class="flex justify-end items-center gap-x-2 mt-4">
+            <input type="hidden"
+                   name="class_group_id"
+                   value="{{ selected_class_group_id }}">
+            <button type="button"
+                    class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
+                    data-hs-overlay="#add-schedule-in-class-group">Cancel</button>
+            <button type="submit"
+                    name="CreateTimetableSubmit"
+                    class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-50 disabled:pointer-events-none">
+              Save
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% compress js %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const startTimeDropdown3 = document.getElementById('start-time-dropdown-2');
+    const endTimeDropdown3 = document.getElementById('end-time-dropdown-2');
+    const dayCheckboxes3 = document.querySelectorAll('.meeting-day');
+    const classroomDropdown3 = document.getElementById('class-classroom-dropdown');
+    const courseDropdown3 = document.getElementById('course-dropdown');
+    const saveButton3 = document.querySelector('button[name="CreateTimetableSubmit"]');
+    const onlineClassRadio3 = document.getElementById('online-class-2');
+    const faceToFaceClassRadio3 = document.getElementById('face-to-face-class-2');
+    const instructorDropdown3 = document.getElementById('instructor-dropdown-2');
+    const resultIdentification = document.getElementById('result-identification-3').value;
+
+    function toggleClassroomDropdown3() {
+      if (onlineClassRadio3.checked) {
+        classroomDropdown3.disabled = true;
+        classroomDropdown3.innerHTML = '<option selected="" disabled>Classroom disabled due to learning mode.</option>';
+      } else {
+        classroomDropdown3.disabled = false;
+        const options = classroomDropdown3.querySelectorAll('option');
+        if (options.length === 0 || options[0].disabled) {
+          classroomDropdown3.innerHTML = '<option selected="" disabled>Select Classroom</option>';
+          {% for classroom in classrooms_options %}
+            classroomDropdown3.innerHTML += '<option value="{{ classroom.room_id }}">{{ classroom.room_name }} ({{ classroom.is_lab|yesno:"LAB,LEC" }}) </option>';
+          {% endfor %}
+        }
+      }
+    }
+    onlineClassRadio3.addEventListener('change', toggleClassroomDropdown3);
+    faceToFaceClassRadio3.addEventListener('change', toggleClassroomDropdown3);
+
+    saveButton3.addEventListener('click', function(event) {
+      const anyDaySelected3 = Array.from(dayCheckboxes3).some(checkbox => checkbox.checked);
+      let missingFields = [];
+
+      if (startTimeDropdown3.value === 'Start time') {
+        missingFields.push('Start time');
+      }
+      if (endTimeDropdown3.value === 'End time') {
+        missingFields.push('End time');
+      }
+      if (!anyDaySelected3) {
+        missingFields.push('Day');
+      }
+      if (classroomDropdown3.value === 'Select Classroom' && !onlineClassRadio3.checked) {
+        missingFields.push('Classroom');
+      }
+      if (courseDropdown3.value === 'Select Course') {
+        missingFields.push('Course');
+      }
+      if (instructorDropdown3.value === 'Select Instructor') {
+        missingFields.push('Instructor');
+      }
+
+      if (missingFields.length > 0) {
+        event.preventDefault();
+        const fieldLabel = missingFields.length > 1 ? 'fields' : 'field';
+        const allLabel = missingFields.length > 1 ? 'all ' : '';
+        const message = 'Please fill out ' + allLabel + 'required ' + fieldLabel + '. Missing ' + fieldLabel + ': ' + missingFields.slice(0, -1).join(', ') + (missingFields.length > 1 ? ', and ' : '') + missingFields.slice(-1);
+        showToast(message, { delay: 10000, colorClass: 'bg-blue-600', iconClass: 'info' });
+      }
+    });
+
+    function fetchVacantTimes() {
+      const selectedClassroom = classroomDropdown3.value;
+      const selectedDay = Array.from(dayCheckboxes3).find(checkbox => checkbox.checked)?.value;
+
+      if (selectedClassroom && selectedDay && resultIdentification) {
+        const url = `/api/v2/classrooms/vacant-times/${resultIdentification}/${selectedClassroom}/`;
+
+        console.log('Fetching data from URL:', url);
+
+        fetch(url)
+          .then(response => response.json())
+          .then(data => {
+            console.log('Data received:', data);
+            const dayKey = selectedDay.charAt(0).toUpperCase() + selectedDay.slice(1);
+            const times = data[dayKey];
+            console.log('Times for selected day:', times);
+            displayVacantTimes(times, selectedDay);
+          })
+          .catch(error => console.error('Error fetching vacant times:', error));
+      }
+    }
+
+    function displayVacantTimes(times, day) {
+      const vacantTimeSlotsInfoList3 = document.getElementById('vacant-time-slots-info-list-3');
+      const vacantTimeSlotsInfo3 = document.getElementById('vacant-time-slots-info-3');
+      const heading = document.querySelector('#vacant-time-slots-info-list-3 h3');
+      const selectedClassroomOption = classroomDropdown3.options[classroomDropdown3.selectedIndex];
+      const roomName = selectedClassroomOption.textContent;
+      heading.textContent = `Vacant time slots on ${day.charAt(0).toUpperCase() + day.slice(1)} for ${roomName}`;
+      vacantTimeSlotsInfo3.innerHTML = '';
+      console.log('Times:', times);
+    
+      if (times && times.length > 0) {
+        console.log('Times available for the selected day:', times);
+        const ul = document.createElement('ul');
+        ul.classList.add('list-disc', 'space-y-1', 'ps-5');
+        times.forEach(time => {
+          const li = document.createElement('li');
+          li.textContent = time;
+          ul.appendChild(li);
+        });
+        vacantTimeSlotsInfo3.appendChild(ul);
+        vacantTimeSlotsInfoList3.style.display = 'block';
+      } else {
+        console.log('No times available for the selected day.');
+        const noTimesMessage = document.createElement('p');
+        noTimesMessage.textContent = 'No times available for the selected day.';
+        vacantTimeSlotsInfo3.appendChild(noTimesMessage);
+        vacantTimeSlotsInfoList3.style.display = 'block';
+      }
+    }
+
+    dayCheckboxes3.forEach(checkbox => {
+      checkbox.addEventListener('change', function() {
+        if (this.checked) {
+          dayCheckboxes3.forEach(otherCheckbox => {
+            if (otherCheckbox !== this) {
+              otherCheckbox.checked = false;
+            }
+          });
+          if (!classroomDropdown3.disabled) {
+            fetchVacantTimes();
+          }
+        }
+      });
+    });
+
+    classroomDropdown3.addEventListener('change', function() {
+      if (!classroomDropdown3.disabled) {
+        fetchVacantTimes();
+      }
+    });
+
+    toggleClassroomDropdown3();
+  });
+</script>
+{% endcompress js %}

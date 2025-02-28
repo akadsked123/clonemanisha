@@ -1,0 +1,14 @@
+{% extends "_base.html" %}
+{% load static %}
+{% block title %}
+  Dashboard
+{% endblock title %}
+{% block content %}
+  {% include "./includes/navbar.html" %}
+  <div class="w-full lg:ps-64 bg-gray-100 h-full">
+    <div class="p-6 space-y-3">
+      <p class="text-2xl font-extrabold text-gray-900">Welcome back, {{ request.user.first_name }}!</p>
+      <div class="px-6 py-4 bg-white border rounded-lg">{% include "./includes/cards-instructors.html" %}</div>
+    </div>
+  </div>
+{% endblock content %}

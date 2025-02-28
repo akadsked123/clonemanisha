@@ -1,0 +1,112 @@
+{% load static %}
+{% load allauth i18n %}
+{% load compress %}
+<div id="create-group"
+     class="transition-opacity hs-overlay hidden size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto"
+     role="dialog"
+     tabindex="-1">
+  <div class="hs-overlay-animation-target hs-overlay-open:scale-100 hs-overlay-open:opacity-100 scale-95 opacity-0 ease-in-out transition-all duration-200 sm:max-w-lg sm:w-full m-3 sm:mx-auto min-h-[calc(100%-3.5rem)] flex items-center">
+    <div class="w-full flex flex-col bg-white border shadow-sm rounded-xl pointer-events-auto">
+      <div class="p-4 overflow-y-auto">
+        <div class="flex justify-between items-center">
+          <div>
+            <h2 class="text-xl font-bold text-gray-800">Create Academic Year</h2>
+          </div>
+          <button type="button"
+                  class="size-8 inline-flex justify-center items-center gap-x-2 rounded-full border border-transparent bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none"
+                  aria-label="Close"
+                  data-hs-overlay="#create-group">
+            <span class="sr-only">Close</span>
+            <svg class="shrink-0 size-4"
+                 xmlns="http://www.w3.org/2000/svg"
+                 width="24"
+                 height="24"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+              <path d="M18 6 6 18"></path>
+              <path d="m6 6 12 12"></path>
+            </svg>
+          </button>
+        </div>
+        <form method="post">
+          {% csrf_token %}
+          <div class="max-full">
+            <label for="create_group" class="block text-sm font-medium mb-2">Academic year</label>
+            <input type="text"
+                   required
+                   maxlength="50"
+                   name="group_name"
+                   autocomplete="off"
+                   id="create_group"
+                   value=""
+                   class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none"
+                   placeholder="e.g. AY2324">
+            <p id="group-name-helper" class="text-xs mt-2 text-red-600"></p>
+            <label for="semester" class="block text-sm font-medium mb-2">Semester</label>
+            <select id="semester"
+                    name="semester"
+                    class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500"
+                    required>
+              <option value="" selected disabled>Select semester</option>
+              {% for value, display in semester_choices %}<option value="{{ value }}">{{ display }}</option>{% endfor %}
+            </select>
+            <p id="select-semester-helper" class="text-xs mt-2 text-red-600"></p>
+            <label for="curriculum" class="block text-sm font-medium mb-2">Curriculum year</label>
+            <select id="curriculum"
+                    name="curriculum"
+                    class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500"
+                    required>
+              <option value="" selected disabled>Select curriculum year</option>
+              {% for curriculum in curriculum_choices %}
+                <option value="{{ curriculum.curriculum_id }}">{{ curriculum.curriculum_year }}</option>
+              {% endfor %}
+            </select>
+            <p id="select-curriculum-helper" class="text-xs mt-2 text-red-600"></p>
+            {% comment %} <div class="bg-gray-50 border border-gray-200 text-sm text-gray-600 rounded-lg p-4"
+                 role="alert"
+                 tabindex="-1"
+                 aria-labelledby="hs-link-on-right-label">
+              <div class="flex">
+                <div class="shrink-0">
+                  <svg class="shrink-0 size-4 mt-0.5"
+                       xmlns="http://www.w3.org/2000/svg"
+                       width="24"
+                       height="24"
+                       viewBox="0 0 24 24"
+                       fill="none"
+                       stroke="currentColor"
+                       stroke-width="2"
+                       stroke-linecap="round"
+                       stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M12 16v-4"></path>
+                    <path d="M12 8h.01"></path>
+                  </svg>
+                </div>
+                <div class="flex-1 md:flex md:justify-between ms-2">
+                  <p id="hs-link-on-right-label" class="text-sm">
+                    Only curriculum years with courses will appear in the dropdown selection.
+                  </p>
+                </div>
+              </div>
+            </div> {% endcomment %}
+          </div>
+          <div class="flex justify-end items-center gap-x-2 mt-4">
+            <button type="button"
+                    class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
+                    data-hs-overlay="#create-group">Cancel</button>
+            <button type="submit"
+                    name="CreateGroupSubmit"
+                    class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-50 disabled:pointer-events-none">
+              Save
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

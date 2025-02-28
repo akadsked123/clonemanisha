@@ -1,0 +1,507 @@
+{% extends "_base.html" %}
+{% load compress %}
+{% load static %}
+{% block title %}
+  {{ program.program_name }}
+{% endblock title %}
+{% block content %}
+  {% include "./includes/_navbar.html" %}
+  {% include "./includes/_add_curriculum_year_modal.html" %}
+  <div class="w-full lg:ps-64 bg-gray-100 h-full">
+    <div class="p-6 space-y-3">
+      <p class="text-2xl font-extrabold text-gray-900 uppercase">Add Course: {{ program.program_name }}</p>
+      <ol class="flex items-center whitespace-nowrap">
+        <li class="inline-flex items-center">
+          <a class="flex items-center text-sm text-gray-500 hover:text-primary-600 focus:outline-none focus:text-primary-600"
+             href="{% url 'curriculum:curriculum_maintenance_and_management' %}">Curriculum</a>
+          <svg class="shrink-0 size-5 text-gray-400 mx-2"
+               width="16"
+               height="16"
+               viewBox="0 0 16 16"
+               fill="none"
+               xmlns="http://www.w3.org/2000/svg"
+               aria-hidden="true">
+            <path d="M6 13L10 3" stroke="currentColor" stroke-linecap="round"></path>
+          </svg>
+        </li>
+        <li class="inline-flex items-center">
+          <a class="flex items-center text-sm text-gray-500 hover:text-primary-600 focus:outline-none focus:text-primary-600"
+             href="#">
+            {{ program.institute.institute_name }}
+            <svg class="shrink-0 size-5 text-gray-400 mx-2"
+                 width="16"
+                 height="16"
+                 viewBox="0 0 16 16"
+                 fill="none"
+                 xmlns="http://www.w3.org/2000/svg"
+                 aria-hidden="true">
+              <path d="M6 13L10 3" stroke="currentColor" stroke-linecap="round"></path>
+            </svg>
+          </a>
+        </li>
+        <li class="inline-flex items-center text-sm font-semibold text-gray-800 truncate"
+            aria-current="page">{{ program.program_name }}</li>
+      </ol>
+      <div class="bg-white border rounded-lg overflow-hidden">
+        <div class="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center">
+          <div class="sm:col-span-1">
+            <label for="hs-as-table-product-review-search" class="sr-only">Search</label>
+            <div class="relative">
+              <input type="text"
+                     id="hs-as-table-product-review-search"
+                     name="hs-as-table-product-review-search"
+                     class="py-2 px-3 ps-11 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none"
+                     placeholder="Search">
+              <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-4">
+                <svg class="size-4 text-gray-400"
+                     xmlns="http://www.w3.org/2000/svg"
+                     width="16"
+                     height="16"
+                     fill="currentColor"
+                     viewBox="0 0 16 16">
+                  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="sm:col-span-2">
+            <div class="hs-dropdown relative inline-flex">
+              <button id="hs-dropdown-toggle"
+                      type="button"
+                      class="hs-dropdown-toggle py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
+                      aria-haspopup="menu"
+                      aria-expanded="false"
+                      aria-label="Dropdown">
+                <span>{{ selected_curriculum_name }}</span>
+                <svg class="hs-dropdown-open:rotate-180 size-4"
+                     xmlns="http://www.w3.org/2000/svg"
+                     width="24"
+                     height="24"
+                     viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="2"
+                     stroke-linecap="round"
+                     stroke-linejoin="round">
+                  <path d="m6 9 6 6 6-6" />
+                </svg>
+              </button>
+              <div class="hs-dropdown-menu min-w-48 transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden z-10">
+                <div class="hs-dropdown-open:ease-in hs-dropdown-open:opacity-100 hs-dropdown-open:scale-100 transition ease-out opacity-0 scale-95 duration-200 mt-2 origin-top-left min-w-48 bg-white shadow-md rounded-lg p-2"
+                     data-hs-transition>
+                  <span class="block py-2 px-3 text-xs font-medium uppercase text-gray-400">Options</span>
+                  {% for curriculum_year in available_curriculum_years %}
+                    <a class="flex justify-between items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
+                       href="?curriculum={{ curriculum_year.pk }}">
+                      {% if curriculum_year.pk|stringformat:"s" == request.GET.curriculum %}
+                        {{ curriculum_year.curriculum_year }}
+                        <svg class="shrink-0 size-3.5 text-gray-800"
+                             xmlns="http://www.w3.org/2000/svg"
+                             width="24"
+                             height="24"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="2"
+                             stroke-linecap="round"
+                             stroke-linejoin="round">
+                          <path d="M20 6 9 17l-5-5"></path>
+                        </svg>
+                      {% else %}
+                        {{ curriculum_year.curriculum_year }}
+                      {% endif %}
+                    </a>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+            <button type="button"
+                    data-hs-overlay="#add-curriculum-year"
+                    class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-50 disabled:pointer-events-none">
+              Add Curriculum Year
+            </button>
+            <button type="submit"
+                    form="AddCoursesForm"
+                    name="AddCourseSubmit"
+                    class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-50 disabled:pointer-events-none">
+              Save Changes
+            </button>
+          </div>
+        </div>
+        <!--Display Selected Institute, Program, and Curriculum Year-->
+        <div class="px-6 pb-4">
+          <div class="items-center grid grid-cols-1 lg:grid-cols-2 px-6 py-4 bg-gray-50 {% if selected_curriculum_name == 'Select Curriculum Year' %}bg-red-100 border-red-200{% endif %} border rounded-lg overflow-hidden">
+            <div>
+              <h2 class="text-xl font-bold text-gray-800">Curriculum Details</h2>
+              <p class="text-sm pt-1 text-gray-600">
+                Institute: <span class="font-medium text-gray-800">{{ program.institute.institute_name }}</span>
+              </p>
+              <p class="text-sm text-gray-600">
+                Program: <span class="font-medium text-gray-800">{{ program.program_name }}</span>
+              </p>
+              <p class="text-sm text-gray-600">
+                Curriculum Year:  <span class="font-medium  text-gray-800 {% if selected_curriculum_name == 'Select Curriculum Year' %}text-red-500{% endif %}">
+              {{ selected_curriculum_name }}</span>
+            </p>
+          </div>
+          {% comment %} <div>
+            <p class="text-sm text-gray-600">
+              Total Course: <span class="font-medium text-gray-800">{{ overall_totals.courses }}</span>
+            </p>
+            <p class="text-sm text-gray-600">
+              Total Lecture: <span class="font-medium text-gray-800">{{ overall_totals.lecture }}</span>
+            </p>
+            <p class="text-sm text-gray-600">
+              Total Lab: <span class="font-medium text-gray-800">{{ overall_totals.lab }}</span>
+            </p>
+            <p class="text-sm text-gray-600">
+              Total Credit Units:  <span class="font-medium text-gray-800">{{ overall_totals.credit_units }}</span>
+            </p>
+          </div> {% endcomment %}
+        </div>
+      </div>
+    </div>
+    <form method="POST" id="AddCoursesForm">
+      {% csrf_token %}
+      <!-- Display Courses-->
+      {% if grouped_courses %}
+        {% for year_level, semesters in grouped_courses.items %}
+          <!-- Year Level Header -->
+          <div class="border rounded-lg overflow-hidden mb-3">
+            {% for semester, courses in semesters.items %}
+              <!-- Semester Header -->
+              <div class="px-6 py-4 border-b border-gray-200 bg-primary-600">
+                {% if forloop.first %}<p class="text-2xl font-extrabold text-white uppercase">{{ year_level }}</p>{% endif %}
+                <p class="text-sm text-white">{{ semester }}</p>
+              </div>
+              <!-- Hidden inputs for selected curriculum year and program -->
+              <input type="hidden"
+                     required
+                     name="curriculum"
+                     value="{{ request.GET.curriculum }}">
+              <input type="hidden"
+                     required
+                     name="program"
+                     value="{{ request.GET.program }}">
+              <table class="min-w-full divide-y"
+                     data-year-level="{{ year_level }}"
+                     data-semester="{{ semester }}">
+                <thead class="bg-gray-50">
+                  <tr>
+                    <th scope="col" class="px-6 py-3 text-start">
+                      <p class="group inline-flex items-center gap-x-2 text-xs font-semibold uppercase text-gray-800">#</p>
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-start">
+                      <p class="group inline-flex items-center gap-x-2 text-xs font-semibold uppercase text-gray-800">Course Code</p>
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-start">
+                      <p class="group inline-flex items-center gap-x-2 text-xs font-semibold uppercase text-gray-800">Description</p>
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-start">
+                      <p class="group inline-flex items-center gap-x-2 text-xs font-semibold uppercase text-gray-800">Lecture Hours</p>
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-start">
+                      <p class="group inline-flex items-center gap-x-2 text-xs font-semibold uppercase text-gray-800">Lab Hours</p>
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-start">
+                      <p class="group inline-flex items-center gap-x-2 text-xs font-semibold uppercase text-gray-800">Action</p>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% if courses %}
+                    {% for course in courses %}
+                      <tr class="course-field bg-white">
+                        <td>
+                          <p class="row-number px-6 text-sm text-gray-800">{{ forloop.counter }}</p>
+                        </td>
+                        <td>
+                          <input type="text"
+                                 value="{{ course.course_code }}"
+                                 name="course_code"
+                                 autocomplete="off"
+                                 maxlength="10"
+                                 required
+                                 id="course-code-input-{{ course.id }}"
+                                 class="py-2 px-3 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none"
+                                 placeholder="Course Code">
+                        </td>
+                        <td>
+                          <input type="text"
+                                 value="{{ course.course_description }}"
+                                 name="course_description"
+                                 id="course-description-input-{{ course.id }}"
+                                 autocomplete="off"
+                                 maxlength="100"
+                                 required
+                                 class="no-spinner py-2 px-3 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none"
+                                 placeholder="Course Description">
+                        </td>
+                        <td>
+                          <input type="number"
+                                 name="lecture"
+                                 value="{{ course.lecture }}"
+                                 autocomplete="off"
+                                 required
+                                 id="lecture-input-{{ course.id }}"
+                                 class="no-spinner py-2 px-3 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none"
+                                 placeholder="Lecture"
+                                 min="1"
+                                 max="9">
+                        </td>
+                        <td>
+                          <input type="number"
+                                 name="laboratory"
+                                 id="laboratory-input-{{ course.id }}"
+                                 value="{{ course.laboratory }}"
+                                 autocomplete="off"
+                                 required
+                                 class="no-spinner py-2 px-3 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none"
+                                 placeholder="Laboratory"
+                                 min="0"
+                                 max="9">
+                        </td>
+                        <td>
+                          <input type="hidden"  required name="course_id" value="{{ course.id }}">
+                          <input type="hidden"
+                                 min="1"
+                                 max="3"
+                                 required
+                                 name="semester"
+                                 value="{{ course.semester }}">
+                          <input type="hidden"
+                                 min="1"
+                                 max="4"
+                                 required
+                                 name="year_level"
+                                 value="{{ course.year_level }}">
+                          <button class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-red-500 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
+                                  id="removeFieldButton-{{ course.id }}">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 width="16"
+                                 height="16"
+                                 fill="currentColor"
+                                 class="bi bi-x"
+                                 viewBox="0 0 16 16">
+                              <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+                            </svg>
+                            Remove
+                          </button>
+                        </td>
+                      </tr>
+                    {% endfor %}
+                  {% else %}
+                    <tr class="no-courses">
+                      <td colspan="6" class="size-px whitespace-nowrap">{% include "./includes/_no_data.html" %}</td>
+                    </tr>
+                  {% endif %}
+                </tbody>
+              </table>
+              <div class="w-full bg-white">
+                <button type="button"
+                        data-year-level="{{ year_level }}"
+                        id="addFieldButton-{{ year_level }}-{{ semester }}"
+                        data-semester="{{ semester }}"
+                        class="m-2 py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-blue-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none">
+                  <svg class="shrink-0 size-3.5"
+                       xmlns="http://www.w3.org/2000/svg"
+                       width="24"
+                       height="24"
+                       viewBox="0 0 24 24"
+                       fill="none"
+                       stroke="currentColor"
+                       stroke-width="2"
+                       stroke-linecap="round"
+                       stroke-linejoin="round">
+                    <path d="M5 12h14"></path>
+                    <path d="M12 5v14"></path>
+                  </svg>
+                  Add Course
+                </button>
+              </div>
+            {% endfor %}
+          </div>
+        {% endfor %}
+      {% else %}
+        <div class="min-h-60 flex flex-col bg-white border shadow-sm rounded-xl">
+          <div class="flex flex-auto flex-col justify-center items-center p-4 md:p-5">
+            <svg class="size-10 text-gray-500"
+                 xmlns="http://www.w3.org/2000/svg"
+                 width="16"
+                 height="16"
+                 fill="currentColor"
+                 viewBox="0 0 16 16">
+              <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1h-2.5a2 2 0 0 0-1.6.8L8 14.333 6.1 11.8a2 2 0 0 0-1.6-.8H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2.5a1 1 0 0 1 .8.4l1.9 2.533a1 1 0 0 0 1.6 0l1.9-2.533a1 1 0 0 1 .8-.4H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z" />
+              <path d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6m0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5" />
+            </svg>
+            <p id="no-data-message" class="mt-2 text-sm text-gray-800">Select a curriculum year to display the courses.</p>
+          </div>
+        </div>
+      {% endif %}
+      <!-- End of Display Courses-->
+    </form>
+  </div>
+  {% compress js %}
+    <script>
+  let isDirty = false;
+  let isFormSubmitting = false;
+
+  function validateInput(input, min, max) {
+    const value = parseInt(input.value, 10);
+    // Check if the input is empty or out of the specified range
+    if (input.type === 'text') {
+      if (input.value.trim() === "") {
+        input.classList.add('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
+        input.classList.remove('border-gray-200', 'focus:border-primary-500', 'focus:ring-primary-500');
+      } else {
+        input.classList.remove('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
+        input.classList.add('border-gray-200', 'focus:border-primary-500', 'focus:ring-primary-500');
+      }
+    } else {
+      if (isNaN(value) || value < min || value > max || input.value.trim() === "") {
+        input.classList.add('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
+        input.classList.remove('border-gray-200', 'focus:border-primary-500', 'focus:ring-primary-500');
+      } else {
+        input.classList.remove('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
+        input.classList.add('border-gray-200', 'focus:border-primary-500', 'focus:ring-primary-500');
+      }
+    }
+    isDirty = true; // Mark as dirty when input is changed
+  }
+
+  function attachValidation() {
+    document.querySelectorAll('[id^="laboratory-input-"]').forEach(function(input) {
+      input.addEventListener('input', function() {
+        validateInput(this, 0, 9);
+      });
+    });
+
+    document.querySelectorAll('[id^="lecture-input-"]').forEach(function(input) {
+      input.addEventListener('input', function() {
+        validateInput(this, 1, 9);
+      });
+    });
+
+    document.querySelectorAll('[id^="course-code-input-"]').forEach(function(input) {
+      input.addEventListener('input', function() {
+        validateInput(this);
+      });
+    });
+
+    document.querySelectorAll('[id^="course-description-input-"]').forEach(function(input) {
+      input.addEventListener('input', function() {
+        validateInput(this); 
+      });
+    });
+  }
+
+  attachValidation();
+
+  const yearLevelMapping = {
+    'First Year': 1,
+    'Second Year': 2,
+    'Third Year': 3,
+    'Fourth Year': 4
+  };
+  const semesterMapping = {
+    '1st Semester': 1,
+    '2nd Semester': 2,
+    '3rd Semester': 3
+  };
+
+  document.querySelectorAll('[id^="addFieldButton-"]').forEach(button => {
+    button.addEventListener('click', function() {
+      const yearLevelStr = this.getAttribute('data-year-level');
+      const semesterStr = this.getAttribute('data-semester');
+      const yearLevel = yearLevelMapping[yearLevelStr];
+      const semester = semesterMapping[semesterStr];
+      const table = document.querySelector(`table[data-year-level="${yearLevelStr}"][data-semester="${semesterStr}"] tbody`);
+
+      const noCoursesRow = table.querySelector('.no-courses');
+      if (noCoursesRow) {
+        noCoursesRow.remove();
+      }
+
+      const newRow = document.createElement('tr');
+      const rowNumber = table.querySelectorAll('tr').length + 1;
+      newRow.classList.add('course-field', 'bg-white');
+      newRow.innerHTML = `
+        <td>
+          <p class="px-6 text-sm text-gray-800">${rowNumber}</p>
+        </td>
+        <td>
+          <input type="text" required id="course-code-input-${semester}-${yearLevel}-${rowNumber}" maxlength="10" autocomplete="off" name="course_code" class="py-2 px-3 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500" placeholder="Course Code">
+        </td>
+        <td>
+          <input type="text" required id="course-description-input-${semester}-${yearLevel}-${rowNumber}" maxlength="100" autocomplete="off" name="course_description" class="no-spinner py-2 px-3 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500" placeholder="Course Description">
+        </td>
+        <td>
+          <input type="number" required id="lecture-input-${semester}-${yearLevel}-${rowNumber}" autocomplete="off" name="lecture" class="no-spinner py-2 px-3 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500" placeholder="Lecture" min="1" max="9">
+        </td>
+        <td>
+          <input type="number" required id="laboratory-input-${semester}-${yearLevel}-${rowNumber}" autocomplete="off" name="laboratory" class="no-spinner py-2 px-3 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500" placeholder="Laboratory" min="0" max="9">
+        </td>
+        <td>
+          <input type="hidden" required name="course_id" value="">
+          <input type="hidden" required min="1" max="3" name="semester" value="${semester}">
+          <input type="hidden" required min="1" max="4" name="year_level" value="${yearLevel}">
+          <button type="button" id="removeFieldButton-{{ course.id }}" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-red-500 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+              <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+            Remove
+          </button>
+        </td>
+      `;
+      table.appendChild(newRow);
+      attachRemoveEvent(newRow.querySelector('[id^="removeFieldButton-"]'));
+      attachValidation();
+    });
+  });
+
+  function attachRemoveEvent(button) {
+    button.addEventListener('click', function() {
+      const row = this.closest('tr');
+      const table = row.closest('tbody');
+      row.remove();
+
+      if (table.querySelectorAll('tr.course-field').length === 0) {
+        const noCoursesRow = document.createElement('tr');
+        noCoursesRow.classList.add('no-courses');
+        noCoursesRow.innerHTML = `<td colspan="6" class="size-px whitespace-nowrap">{% include "./includes/_no_data.html" %}</td>`;
+        table.appendChild(noCoursesRow);
+      }
+      updateRowNumbers(table);
+    });
+  }
+
+  function updateRowNumbers(table) {
+    const rows = table.querySelectorAll('tr.course-field');
+    rows.forEach((row, index) => {
+      row.querySelector('.row-number').textContent = index + 1;
+    });
+  }
+
+  // Initialize remove buttons for existing fields
+  document.querySelectorAll('[id^="removeFieldButton-"]').forEach(button => {
+    attachRemoveEvent(button);
+  });
+
+  // Event listener for beforeunload
+  window.addEventListener('beforeunload', function (e) {
+     if (isDirty && !isFormSubmitting) { // Update condition
+      e.preventDefault();
+      e.returnValue = ''; // Standard for most browsers
+    }
+  });
+
+document.querySelectorAll('form').forEach(form => {
+    form.addEventListener('submit', function() {
+        isFormSubmitting = true; // Set the flag when form is submitted
+    });
+});
+
+    </script>
+  {% endcompress %}
+</div>
+{% endblock content %}

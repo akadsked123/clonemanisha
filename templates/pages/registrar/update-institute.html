@@ -1,0 +1,90 @@
+{% extends "_base.html" %}
+{% load static %}
+{% block title %}
+  Curriculum Maintenance and Management
+{% endblock title %}
+{% block content %}
+  {% include "./includes/_navbar.html" %}
+  {% include "./includes/_add_program_modal.html" %}
+  <div class="w-full lg:ps-64 bg-gray-100 h-full">
+    <div class="p-6 space-y-3">
+      <p class="text-2xl font-extrabold text-gray-900 uppercase">Curriculum Maintenance and Management</p>
+      <div class="px-6 py-4 border-gray-200 bg-white border rounded-lg">
+        <div class="flex justify-end gap-2">
+          <a type="button"
+             href="{% url 'curriculum:curriculum_maintenance_and_management' %}"
+             class="py-2 px-3 iinline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none">
+            Cancel
+          </a>
+          <button form="updateInstituteForm"
+                  type="submit"
+                  name="UpdateInstituteSubmit"
+                  class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-50 disabled:pointer-events-none">
+            Save Changes
+          </button>
+        </div>
+      </div>
+      <div class="border rounded-lg overflow-hidden">
+        <div class="px-6 py-4 border-b border-gray-200 bg-primary-600">
+          <p class="text-2xl font-extrabold text-white uppercase">{{ year_level }}</p>
+          <p class="text-sm text-white">{{ semester }}</p>
+        </div>
+        <form method="post" id="updateInstituteForm">
+          {% csrf_token %}
+          {% if institutes %}
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-50 rounded-lg">
+                <tr>
+                  <th scope="col" class="px-6 py-3 text-start">
+                    <p class="group inline-flex items-center gap-x-2 text-xs font-semibold uppercase text-gray-800">#</p>
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-start">
+                    <p class="group inline-flex items-center gap-x-2 text-xs font-semibold uppercase text-gray-800">Institute Code</p>
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-start">
+                    <p class="group inline-flex items-center gap-x-2 text-xs font-semibold uppercase text-gray-800">Institute Name</p>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for institute in institutes %}
+                  <tr class="bg-white">
+                    <td>
+                      <p class="row-number px-6 text-sm text-gray-800">{{ forloop.counter }}</p>
+                      <input type="hidden"
+                             name="institute_id_{{ institute.institute_id }}"
+                             value="{{ institute.institute_id }}">
+                    </td>
+                    <td>
+                      <input type="text"
+                             value="{{ institute.acronym }}"
+                             name="acronym_{{ institute.institute_id }}"
+                             autocomplete="off"
+                             maxlength="10"
+                             required
+                             class="py-2 px-3 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none"
+                             placeholder="Institute Code">
+                    </td>
+                    <td>
+                      <input type="text"
+                             value="{{ institute.institute_name }}"
+                             name="institute_name_{{ institute.institute_id }}"
+                             autocomplete="off"
+                             maxlength="100"
+                             required
+                             class="no-spinner py-2 px-3 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none"
+                             placeholder="Institute Name">
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          {% else %}
+            <div class="min-h-60 flex flex-col bg-white border shadow-sm rounded-b-xl">{% include "partials/_no_data.html" %}</div>
+          {% endif %}
+        </form>
+        <!-- End of Display Institute and Programs-->
+      </div>
+    </div>
+  </div>
+{% endblock content %}

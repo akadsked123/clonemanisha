@@ -1,0 +1,178 @@
+{% extends "_base.html" %}
+{% load static %}
+{% load compress %}
+{% block title %}
+  List of Conflicts
+{% endblock title %}
+{% block content %}
+  {% include "../includes/_navbar.html" %}
+  {% include "../includes/_delete_class_group_modal.html" %}
+  {% include "../includes/_add_class_group_modal.html" %}
+  {% include "../includes/_update_class_group_modal.html" %}
+  {% include "../includes/_assign_schedule_for_class_group_modal.html" %}
+  {% include "../includes/_add_schedule_for_class_group.html" %}
+    {% include "partials/_spinner.html" %}
+  <div class="w-full lg:ps-64 bg-gray-100 h-full">
+    <div class="p-6 space-y-3">
+      <p class="text-2xl font-extrabold text-gray-900">Conflicts</p>
+      <div class="flex">
+        <div class="flex bg-gray-200 rounded-lg transition p-1">
+          <nav class="flex gap-x-2">
+            <a class="py-3 px-4 inline-flex items-center gap-2 bg-transparent text-sm text-gray-500 hover:text-gray-700 font-medium rounded-lg hover:hover:text-blue-600 focus:outline-none focus:hover:text-blue-600"
+               href="{% url 'timetable:scheduler-classrooms' result_identification %}?classroom_id={{ selected_classroom_id }}&classroom_type={{ selected_classroom_type|default:'all' }}">Classrooms Timetable</a>
+            <a class="py-3 px-4 inline-flex items-center gap-2 bg-transparent text-sm text-gray-500 font-medium rounded-lg shadow-sm focus:outline-none"
+               href="{% url 'timetable:scheduler-class-groups' result_identification %}?class_group_id={{ selected_class_group_id }}&year_level={{ selected_year_level }}">Class Set Timetable</a>
+            <a class="py-3 px-4 inline-flex items-center gap-2 bg-transparent text-sm text-gray-500 hover:text-gray-700 font-medium rounded-lg hover:hover:text-blue-600 focus:outline-none focus:hover:text-blue-600"
+               href="{% url 'timetable:scheduler-instructors' result_identification %}?instructor_id={{ selected_instructor_id }}&view={{ view_mode }}">Instructors Timetable</a>
+            <a class="py-3 px-4 inline-flex items-center gap-2  bg-white  text-sm text-gray-700 hover:text-gray-700 font-medium rounded-lg hover:hover:text-blue-600 focus:outline-none focus:hover:text-blue-600"
+               href="{% url 'timetable:list-of-conflicts' result_identification %}">List of Conflicts</a>
+          </nav>
+        </div>
+      </div>
+
+            {% compress js %}
+      <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const links = document.querySelectorAll('a[href*="timetable"]');
+    const spinner = document.getElementById('loading-spinner');
+
+    links.forEach(link => {
+      link.addEventListener('click', function(event) {
+        spinner.classList.remove('hidden');
+      });
+    });
+
+    window.addEventListener('load', function() {
+      spinner.classList.add('hidden');
+    });
+  });
+</script>
+      {% endcompress js %}
+      <div class="px-6 py-4 bg-white border rounded-lg">
+
+      <div class="bg-white border border-gray-200 rounded-lg p-4" role="alert" tabindex="-1" aria-labelledby="hs-discovery-label">
+  <div class="flex">
+    <div class="shrink-0">
+      <svg class="shrink-0 size-4 text-gray-600 mt-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <path d="M12 16v-4"></path>
+        <path d="M12 8h.01"></path>
+      </svg>
+    </div>
+    <div class="ms-3">
+      <h3 id="hs-discovery-label" class="text-gray-800 font-semibold">
+        Legend
+      </h3>
+       <div class="inline-flex items-center">
+  <span class="size-2 inline-block bg-red-500 rounded-full me-2"></span>
+  <span class="text-gray-600 text-sm"><span class="font-semibold">Critical Issue</span> – Conflicts like overlapping schedules or errors that must be resolved immediately.</span>
+</div>
+      <div class="inline-flex items-center">
+  <span class="size-2 inline-block bg-yellow-300 rounded-full me-2"></span>
+  <span class="text-gray-600 text-sm"><span class="font-semibold">Pending Assignment</span> – Requires attention, such as a classroom or instructor not yet assigned. Action is optional but recommended.</span>
+</div>
+<div class="inline-flex items-center">
+  <span class="size-2 inline-block bg-blue-600 rounded-full me-2 dark:bg-blue-500"></span>
+  <span class="text-gray-600 text-sm"> <span class="font-semibold">General Information</span> – Non-critical updates, notifications, or supporting details for reference.</span>
+</div>      
+    </div>
+  </div>
+</div>
+    
+
+
+
+        {% if conflicts %}
+          <div class="bg-red-50 border mt-3 border-red-200 text-sm text-red-800 rounded-lg p-4"
+               role="alert"
+               tabindex="-1"
+               aria-labelledby="hs-with-list-label">
+            <div class="flex">
+              <div class="shrink-0">
+                <svg class="shrink-0 size-4 mt-0.5"
+                     xmlns="http://www.w3.org/2000/svg"
+                     width="24"
+                     height="24"
+                     viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="2"
+                     stroke-linecap="round"
+                     stroke-linejoin="round">
+                  <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path>
+                  <path d="M12 9v4"></path>
+                  <path d="M12 17h.01"></path>
+                </svg>
+              </div>
+              <div class="ms-4">
+                <h3 id="hs-with-list-label" class="text-sm font-semibold">
+                  {% if total_conflicts == 1 %}
+                    There is {{ total_conflicts }} conflict in the class schedule. Please resolve it.
+                  {% else %}
+                    There are {{ total_conflicts }} conflicts in the class schedule. Please resolve them.
+                  {% endif %}
+                </h3>
+                <div class="mt-2 text-sm text-red-700">
+                  <ul class="list-disc space-y-1 ps-5">
+                    {% for conflict in conflicts %}
+                      <li>
+                      
+                          {{ conflict|safe }}
+
+                          </li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+            {% if warnings %}
+              <div class="bg-yellow-50 border mt-3 border-yellow-200 text-sm text-yellow-800 rounded-lg p-4"
+                   role="alert"
+                   tabindex="-1"
+                   aria-labelledby="hs-with-description-label">
+                <div class="flex">
+                  <div class="shrink-0">
+                    <svg class="shrink-0 size-4 mt-0.5"
+                         xmlns="http://www.w3.org/2000/svg"
+                         width="24"
+                         height="24"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         stroke-linecap="round"
+                         stroke-linejoin="round">
+                      <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path>
+                      <path d="M12 9v4"></path>
+                      <path d="M12 17h.01"></path>
+                    </svg>
+                  </div>
+                  <div class="ms-4">
+                    <h3 id="hs-with-description-label" class="text-sm font-semibold">
+                      {% if total_warnings == 1 %}
+                        There is {{ total_warnings }} course that does not have an assigned class group, day, time, or room. Please assign it.
+                      {% else %}
+                        There are {{ total_warnings }} courses that do not have assigned class groups, days, times, or rooms. Please assign them
+                      {% endif %}
+                    </h3>
+                    <div class="mt-1 text-sm text-yellow-700">
+                      <ul class="list-disc space-y-1 ps-5">
+                        {% for warning in warnings %}
+                          <li>
+
+                              {{ warning|safe }}
+
+                              </li>
+                            {% endfor %}
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                {% endif %}
+      </div>
+    </div>
+  </div>
+{% endblock content %}

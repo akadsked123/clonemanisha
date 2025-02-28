@@ -1,0 +1,457 @@
+{% extends "_base.html" %}
+{% load static %}
+{% load compress %}
+{% block title %}
+  My Schedule
+{% endblock title %}
+{% block content %}
+  {% include "./includes/navbar.html" %}
+  <div class="w-full lg:ps-64 bg-gray-100 h-full">
+    <div class="p-6 space-y-3">
+      <p class="text-2xl font-extrabold text-gray-900">My Schedule</p>
+      <div class="px-6 py-4 bg-white border rounded-lg">
+        <div class="grid gap-3 md:flex md:justify-between md:items-center">
+          <div class="flex-shrink-0 group block py-3 px-4  rounded-lg border border-gray-200 bg-white">
+            <div class="flex items-center">
+              <img class="inline-block flex-shrink-0 size-[62px] rounded-full"
+                   src="{% if request.user.profile_image and request.user.profile_image.url %}{{ request.user.profile_image.url }}{% else %}https://ui-avatars.com/api/?name={{ request.user.first_name|cut:' ' }}{% if request.user.middle_name %}{{ request.user.middle_name }}{% endif %}{{ request.user.last_name }}&background=random{% endif %}"
+                   alt="Image Description">
+              <div class="ms-3">
+                <h3 class="font-semibold text-gray-800 uppercase">
+                  {{ request.user.first_name }}
+                  {% if request.user.middle_name %}{{ request.user.middle_name }}{% endif %}
+                  {{ request.user.last_name }}
+                </h3>
+                <p class="text-sm font-medium text-gray-400 lowercase">{{ request.user.email }}</p>
+              </div>
+            </div>
+          </div>
+          <div class="inline-flex gap-x-2">
+
+
+          
+          {% if generated_schedules %}
+
+
+          
+          {% if view_mode == 'table' %}
+           <a href="?result_identification={{ result_identification }}&view=grid"  class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none">
+                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-grid-3x2-gap-fill" viewBox="0 0 16 16">
+  <path d="M1 4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1zM1 9a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1z"/>
+</svg> Grid View
+                </a>
+                  {% else %}
+           <a href="?result_identification={{ result_identification }}&view=table"  class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-card-list" viewBox="0 0 16 16">
+  <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2z"/>
+  <path d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8m0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-1-5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0M4 8a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0m0 2.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0"/>
+</svg>  Table View
+                </a>
+                  {% endif %}
+
+
+                  
+<a href="{% url 'timetable:generate_pdf' result_identification selected_instructor_id %}" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none" onclick="openPrintWindow(event, this.href);">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+  <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
+  <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z"/>
+</svg> Download Schedule
+</a> 
+                  
+  <form method="get" class="flex" id="instructorForm">
+     
+      <select name="result_identification"
+              id="result_identification"
+              class="py-3 px-4 pe-9 block max-w-full border-gray-200 rounded-s-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300">
+          {% for schedule in generated_schedules %}
+              <option value="{{ schedule.result_identification }}">
+                  {{ schedule.academic_year }}
+                  {% if schedule.semester == 1 %}
+                      (1st Semester)
+                  {% elif schedule.semester == 2 %}
+                      (2nd Semester)
+                  {% elif schedule.semester == 3 %}
+                      (3rd Semester)
+                  {% endif %}
+              </option>
+          {% endfor %}
+      </select>
+       <input type="hidden" name="view" value="{{ view_mode }}">
+      <button type="submit"
+              class="py-2 px-3 gap-2 inline-flex items-center text-sm font-medium rounded-e-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
+          <svg xmlns="http://www.w3.org/2000/svg"
+               width="16"
+               height="16"
+               fill="currentColor"
+               class="bi bi-search"
+               viewBox="0 0 16 16">
+              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+          </svg>
+          Find Schedule
+      </button>
+  </form>
+  
+  <script>
+  function updateFormAction() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const viewMode = urlParams.get('view') || 'grid';
+      const selectedScheduleId = document.getElementById('result_identification').value;
+      const form = document.getElementById('instructorForm');
+      form.action = `/timetable/my-schedule/?result_identification=${selectedScheduleId}&view=${viewMode}`;
+  }
+  </script>
+
+
+              {% comment %} <button type="button"
+                      class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-50 disabled:pointer-events-none">
+                Print Schedule
+              </button>
+              <button type="button"
+                      class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
+                Save as PDF
+              </button> {% endcomment %}
+              {% endif %}
+          </div>
+        </div>
+        {% if conflicts %}
+          <div class="bg-red-50 border mt-3 border-red-200 text-sm text-red-800 rounded-lg p-4"
+               role="alert"
+               tabindex="-1"
+               aria-labelledby="hs-with-list-label">
+            <div class="flex">
+              <div class="shrink-0">
+                <svg class="shrink-0 size-4 mt-0.5"
+                     xmlns="http://www.w3.org/2000/svg"
+                     width="24"
+                     height="24"
+                     viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="2"
+                     stroke-linecap="round"
+                     stroke-linejoin="round">
+                  <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path>
+                  <path d="M12 9v4"></path>
+                  <path d="M12 17h.01"></path>
+                </svg>
+              </div>
+              <div class="ms-4">
+                <h3 id="hs-with-list-label" class="text-sm font-semibold">
+                  {% if total_conflicts == 1 %}
+                    There is {{ total_conflicts }} conflict in the class schedule. Please contact your Program Chairperson to resolve it.
+                  {% else %}
+                    There are {{ total_conflicts }} conflicts in the class schedule. Please contact your Program Chairperson to resolve them.
+                  {% endif %}
+                </h3>
+                <div class="mt-2 text-sm text-red-700">
+                  <ul class="list-disc space-y-1 ps-5">
+                    {% for conflict in conflicts %}
+                      <li>
+                        <button class="hover:underline focus:outline-none focus:underline">
+                          {{ conflict|safe }}
+                          <button>
+                          </li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+            {% if warnings %}
+              <div class="bg-yellow-50 border mt-3 border-yellow-200 text-sm text-yellow-800 rounded-lg p-4"
+                   role="alert"
+                   tabindex="-1"
+                   aria-labelledby="hs-with-description-label">
+                <div class="flex">
+                  <div class="shrink-0">
+                    <svg class="shrink-0 size-4 mt-0.5"
+                         xmlns="http://www.w3.org/2000/svg"
+                         width="24"
+                         height="24"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         stroke-linecap="round"
+                         stroke-linejoin="round">
+                      <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path>
+                      <path d="M12 9v4"></path>
+                      <path d="M12 17h.01"></path>
+                    </svg>
+                  </div>
+                  <div class="ms-4">
+                    <h3 id="hs-with-description-label" class="text-sm font-semibold">
+                      {% if total_warnings == 1 %}
+                        There is {{ total_warnings }} course that does not have an assigned class group, day, time, or room. Please contact your Program Chairperson to resolve it.
+                      {% else %}
+                        There are {{ total_warnings }} courses that do not have assigned class groups, days, times, or rooms. Please contact your Program Chairperson to resolve them.
+                      {% endif %}
+                    </h3>
+                    <div class="mt-1 text-sm text-yellow-700">
+                      <ul class="list-disc space-y-1 ps-5">
+                        {% for warning in warnings %}
+                          <li>
+                            <button class="hover:underline focus:outline-none focus:underline">
+                              {{ warning|safe }}
+                              <button>
+                              </li>
+                            {% endfor %}
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                {% endif %}
+                {% if view_mode == 'table' %}
+                <div class="flex flex-col mt-3">
+                  <div class="overflow-hidden -m-1.5 overflow-x-auto [&::-webkit-scrollbar]:h-3 [&::-webkit-scrollbar-thumb]:rounded-full   [&::-webkit-scrollbar-thumb]:bg-gray-300">
+                    <div class="p-1.5 min-w-full inline-block align-middle">
+                      <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
+                        <table class="min-w-full divide-y divide-gray-200">
+                          <thead class="bg-primary-600">
+                            <tr>
+                              <th scope="col" class="px-6 py-3 text-start">
+                                <span class="text-xs font-semibold uppercase tracking-wide text-white whitespace-nowrap">Course Code</span>
+                              </th>
+                              <th scope="col" class="px-3 py-3 text-start">
+                                <span class="text-xs font-semibold uppercase tracking-wide text-white whitespace-nowrap">Course Description</span>
+                              </th>
+                              <th scope="col" class="px-3 py-3 text-start">
+                                <span class="text-xs font-semibold uppercase tracking-wide text-white whitespace-nowrap">Class Set</span>
+                              </th>
+                              <th scope="col" class="px-3 py-3 text-start">
+                                <span class="text-xs font-semibold uppercase tracking-wide text-white whitespace-nowrap">Schedule</span>
+                              </th>
+                              <th scope="col" class="px-3 py-3 text-start">
+                                <span class="text-xs font-semibold uppercase tracking-wide text-white whitespace-nowrap">Units</span>
+                              </th>
+                          
+                            </tr>
+                          </thead>
+                          <tbody class="divide-y divide-gray-200">
+                            {% if instructor_timetable %}
+                              {% for item in instructor_timetable %}
+                                <tr class="hover:bg-gray-50 odd:bg-white even:bg-gray-100">
+                                  <td class="size-px whitespace-nowrap">
+                                    <div class="px-6 py-2">
+                                      <div class="block text-sm text-gray-800">{{ item.course_code }}</div>
+                                    </div>
+                                  </td>
+                                  <td class="size-px whitespace-nowrap">
+                                    <div class="px-2 py-2">
+                                      <div class="block text-sm text-gray-800">{{ item.course_description }}</div>
+                                    </div>
+                                  </td>
+                                  <td class="size-px whitespace-nowrap">
+                                    <div class="px-2 py-2">
+                                      <div class="block text-sm text-gray-800">{{ item.class_group_name }}</div>
+                                    </div>
+                                  </td>
+                                  <td class="size-px whitespace-nowrap">
+                                    <div class="px-2 py-2">
+                                      <div class="block text-sm text-gray-800">
+                                        <ul class="text-sm">
+                                          {% for schedule_item in item.schedule %}<li>{{ schedule_item }}</li>{% endfor %}
+                                        </ul>
+                                      </div>
+                                    </div>
+                                  </td>
+                                  <td class="size-px whitespace-nowrap">
+                                    <div class="px-2 py-2">
+                                      <div class="block text-sm text-gray-800">{{ item.units }}</div>
+                                    </div>
+                                  </td>
+                                </tr>
+                              {% endfor %}
+                              <tr class="bg-white">
+                                <td colspan="4" class="size-px whitespace-nowrap">
+                                  <div class="px-6 py-3">
+                                    <div class="block text-sm text-end text-gray-800 font-semibold">Total Units:</div>
+                                  </div>
+                                </td>
+                                <td class="size-px whitespace-nowrap">
+                                  <div class="px-2 py-3">
+                                    <div class="block text-sm text-gray-800 font-semibold text-start">{{ total_units }}</div>
+                                  </div>
+                                </td>
+                              </tr>
+                            {% else %}
+                              <tr id="no-results-row">
+                                <td colspan="10">
+                                  <div class="min-h-60 flex flex-col mt-2">
+                                    <div class="flex flex-auto flex-col justify-center items-center p-4 md:p-5">
+                                      <svg class="size-10 text-gray-500"
+                                           xmlns="http://www.w3.org/2000/svg"
+                                           width="24"
+                                           height="24"
+                                           viewBox="0 0 24 24"
+                                           fill="none"
+                                           stroke="currentColor"
+                                           stroke-width="1"
+                                           stroke-linecap="round"
+                                           stroke-linejoin="round">
+                                        <line x1="22" x2="2" y1="12" y2="12"></line>
+                                        <path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z">
+                                        </path>
+                                        <line x1="6" x2="6.01" y1="16" y2="16"></line>
+                                        <line x1="10" x2="10.01" y1="16" y2="16"></line>
+                                      </svg>
+                                      <p id="no-data-message-3" class="mt-2 text-sm text-gray-800">No schedule has been assigned.</p>
+                                    </div>
+                                  </div>
+                                </td>
+                              </tr>
+                            {% endif %}
+                          </tbody>
+                        </table>
+
+
+                          {% else %}
+                                        <div class="mt-3">
+                  <div class="p-3 sm:p-0">
+                    <div class="grid grid-cols-[80px_repeat(6,_1fr)] grid-rows-[auto_repeat(14,_50px)] gap-1 p-5 bg-white border border-gray-300 rounded-lg mt-3"
+                         id="timetable">
+                      <div></div>
+                      {% for day in days %}
+                        <div class="text-center font-bold p-2 border-b border-gray-300 text-sm">{{ day }}</div>
+                      {% endfor %}
+                      <!-- Time slots on the left side -->
+                      {% for period in periods %}
+                        <div class="col-start-1 flex items-center justify-center text-gray-500 text-xs border-t border-gray-300 p-1 h-12">
+                          {{ period }}
+                        </div>
+                      {% endfor %}
+                      
+                       {% for entry in instructor_timetable %}
+                            {% for view in entry.timetable_view %}
+                                <button id="cards" class="timetable-entry rounded-lg p-2 text-white text-xs flex flex-col justify-center items-center cursor-pointer 
+                                    {% if view.timetable_result_detail_id in conflicting_ids %}
+                                        bg-red-600
+                                    {% elif view.timetable_result_detail_id in no_schedule_or_room_ids %}
+                                        bg-yellow-400
+                                    {% else %}
+                                        bg-primary-600
+                                    {% endif %}"
+                                    type="button"
+                                    data-hs-overlay="#assign-schedule-classroom"
+                                    data-days="{{ view.meeting_day }}"
+                                    data-time="{{ view.meeting_time }}"
+                                    data-room-name="{{ view.room_name }}"
+                                    data-timetable-result-id="{{ view.timetable_result_id }}"
+                                    data-timetable-result-detail-id="{{ view.timetable_result_detail_id }}"
+                                    data-instructor-id="{{ view.instructor_id }}"
+                                    data-classroom-id="{{ view.room_id }}"
+                                    data-start-time="{{ view.start_time }}"
+                                    data-end-time="{{ view.end_time }}"
+                                    data-meeting-day="{{ view.meeting_day }}"
+                                    data-result-identification="{{ view.result_identification }}">
+                                    <h3 class="m-0 text-base font-bold text-center">{{ view.course_code }}</h3>
+                                    <p class="m-0 text-sm font-bold text-center">{{ view.meeting_time }}</p>
+                                    <p class="m-0 text-xs text-center">{{ view.room_name }}</p>
+                                    <p class="m-0 text-xs text-center">{{ view.class_group_name }}</p>
+                                    <p class="m-0 text-sm hidden">{{ view.meeting_day }}</p>
+                                </button>
+                            {% endfor %}
+                        {% endfor %}
+                    </div>
+                  </div>
+                </div>
+                          {% compress js %}
+          <script>
+                document.addEventListener('DOMContentLoaded', function() {
+          document.body.addEventListener('click', function(event) {
+            const assignButton = event.target.closest('.timetable-entry');
+            if (assignButton) {
+              const timetableId = assignButton.getAttribute('data-timetable-result-id');
+              const timetableDetailId = assignButton.getAttribute('data-timetable-result-detail-id');
+              document.getElementById('timetable-result-id').value = timetableId;
+              document.getElementById('timetable-detail-result-id').value = timetableDetailId;
+            }
+          });
+        
+          const dayMap = {
+            'Monday': 2,
+            'Tuesday': 3,
+            'Wednesday': 4,
+            'Thursday': 5,
+            'Friday': 6,
+            'Saturday': 7
+          };
+        
+          const timeMap = {
+            '07:00 AM': 2,
+            '07:30 AM': 3,
+            '08:00 AM': 4,
+            '08:30 AM': 5,
+            '09:00 AM': 6,
+            '09:30 AM': 7,
+            '10:00 AM': 8,
+            '10:30 AM': 9,
+            '11:00 AM': 10,
+            '11:30 AM': 11,
+            '12:00 PM': 12,
+            '12:30 PM': 13,
+            '01:00 PM': 14,
+            '01:30 PM': 15,
+            '02:00 PM': 16,
+            '02:30 PM': 17,
+            '03:00 PM': 18,
+            '03:30 PM': 19,
+            '04:00 PM': 20,
+            '04:30 PM': 21,
+            '05:00 PM': 22,
+            '05:30 PM': 23,
+            '06:00 PM': 24,
+            '06:30 PM': 25,
+            '07:00 PM': 26,
+            '07:30 PM': 27,
+            '08:00 PM': 28
+          };
+        
+          const entries = document.querySelectorAll('.timetable-entry');
+          entries.forEach(entry => {
+            const days = entry.getAttribute('data-days') ? entry.getAttribute('data-days').split(',') : [];
+            
+            if (entry.id === 'cards' && !days.length) {
+              entry.style.display = 'none';
+              return;
+            }
+        
+            const time = entry.getAttribute('data-time') || '';
+            const roomName = entry.getAttribute('data-room-name') || 'null';
+            const h3Element = entry.querySelector('h3');
+            const courseCode = h3Element ? h3Element.textContent.trim() : '';
+        
+            if (!courseCode || !time) {
+              console.log(`Missing days for course: ${courseCode} in room: ${roomName}`);
+              return;
+            }
+        
+            const [startTime, endTime] = time.split(' - ');
+            days.forEach(day => {
+              const trimmedDay = day.trim();
+              if (dayMap[trimmedDay]) {
+                const newEntry = entry.cloneNode(true);
+                newEntry.style.gridColumnStart = dayMap[trimmedDay];
+                newEntry.style.gridRowStart = timeMap[startTime.trim()];
+                newEntry.style.gridRowEnd = `span ${timeMap[endTime.trim()] - timeMap[startTime.trim()]}`;
+        
+                document.getElementById('timetable').appendChild(newEntry);
+              }
+            });
+        
+            entry.remove();
+          });
+        });
+          </script>
+          {% endcompress js %}
+                {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endblock content %}

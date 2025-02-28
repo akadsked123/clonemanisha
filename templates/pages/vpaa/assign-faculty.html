@@ -1,0 +1,19 @@
+{% extends "_base.html" %}
+{% load static %}
+{% block title %}
+    Institute of Computing
+{% endblock title %}
+{% block content %}
+    {% include "./includes/navbar.html" %}
+    <div class="w-full lg:ps-64 bg-gray-100 h-full">
+        <div class="p-6 space-y-3">
+            <p class="text-2xl font-extrabold text-gray-900">Institute of Computing</p>
+            {% include "./includes/breadcrumb.html" %}
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                {% include "./includes/form-asign-faculty.html" %}
+                {% include "./includes/table-asigned-faculty.html" %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

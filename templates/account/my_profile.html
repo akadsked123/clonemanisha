@@ -1,0 +1,390 @@
+{% extends "_base.html" %}
+{% load compress %}
+{% load i18n %}
+{% load static %}
+{% block title %}
+  My Profile
+{% endblock title %}
+{% block content %}
+  {% if user_type == 1 %}
+    {% include "pages/registrar/includes/_navbar.html" %}
+  {% elif user_type == 2 %}
+    {% include "pages/vpaa/includes/navbar.html" %}
+  {% elif user_type == 3 %}
+    {% include "pages/dean/includes/navbar.html" %}
+  {% elif user_type == 4 %}
+    {% include "pages/progchair/includes/_navbar.html" %}
+  {% elif user_type == 5 %}
+    {% include "pages/faculty/includes/navbar.html" %}
+  {% endif %}
+  <div class="w-full lg:ps-64 bg-gray-100 h-full">
+    <div class="p-6 space-y-3">
+    <p class="text-2xl font-extrabold text-gray-900">My Profile</p>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+    <div class="bg-white rounded-xl shadow p-4 sm:p-7">
+    
+      <form method="post">
+      <div class="grid sm:grid-cols-12 gap-2 sm:gap-2 py-8 first:pt-0 last:pb-0 border-t first:border-transparent border-gray-200">
+        {% csrf_token %}
+        <div class="sm:col-span-12">
+          <h2 class="text-lg font-semibold text-gray-800">
+            Faculty Information
+          </h2>
+        </div>
+         {% if not faculty_profile.institute or not faculty_profile.program or not faculty_profile.employment_status %}
+        <div class="sm:col-span-12 bg-yellow-50 border border-yellow-200 text-sm text-yellow-800 rounded-lg p-4" role="alert" tabindex="-1" aria-labelledby="hs-with-description-label">
+  <div class="flex">
+    <div class="shrink-0">
+      <svg class="shrink-0 size-4 mt-0.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path>
+        <path d="M12 9v4"></path>
+        <path d="M12 17h.01"></path>
+      </svg>
+    </div>
+    <div class="ms-4">
+      <h3 id="hs-with-description-label" class="text-sm font-semibold">
+        Required Fields
+      </h3>
+      <div class="mt-1 text-sm text-yellow-700">
+        Fill out all fields to allow the program chair to assign a schedule.
+      </div>
+    </div>
+  </div>
+</div>
+        {% endif %}
+        <div class="sm:col-span-3">
+          <label class="inline-block text-sm font-medium text-gray-500">
+            Institute
+          </label>
+        </div>
+              <div class="sm:col-span-9">
+          <select id="institute" name="institute" class="bg-gray-50 border border-gray-300 py-2 px-3 block w-full rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 {% if not faculty_profile.institute %}bg-red-50 border-red-500{% endif %}" required>
+            <option value="" disabled {% if not faculty_profile.institute %}selected{% endif %}>Select Institute</option>
+            {% for institute in institutes %}
+              <option value="{{ institute.institute_id }}" {% if institute.institute_id == faculty_profile.institute.institute_id %}selected{% endif %}>
+                {{ institute.institute_name }}
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="sm:col-span-3">
+          <label class="inline-block text-sm font-medium text-gray-500">
+            Program
+          </label>
+        </div>
+        <div class="sm:col-span-9">
+          <select id="program" name="program" class="bg-gray-50 border border-gray-300 py-2 px-3 block w-full rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 {% if not faculty_profile.program %}bg-red-50 border-red-500{% endif %}" required {% if user.user_type == 4 %}disabled{% endif %}>
+              <option value="" disabled {% if not faculty_profile.program %}selected{% endif %}>Select Program</option>
+              {% for program in programs %}
+                  <option value="{{ program.program_id }}" {% if program.program_id == faculty_profile.program.program_id %}selected{% endif %}>
+                      {{ program.program_name }}
+                  </option>
+              {% endfor %}
+          </select>
+        </div>
+        <div class="sm:col-span-3">
+          <label class="inline-block text-sm font-medium text-gray-500">
+            Employment Status
+          </label>
+        </div>
+        <div class="sm:col-span-9">
+          <select id="employment_status" name="employment_status" class="bg-gray-50 border border-gray-300 py-2 px-3 block w-full rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 {% if not faculty_profile.employment_status %}bg-red-50 border-red-500{% endif %}" required>
+            <option value="" disabled {% if not faculty_profile.employment_status %}selected{% endif %}>Select Employment Status</option>
+            {% for key, value in faculty_profile.user.EMPLOYMENT_STATUS_CHOICES %}
+              <option value="{{ key }}" {% if key|stringformat:"s" == faculty_profile.employment_status|stringformat:"s" %}selected{% endif %}>
+                {{ value }}
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+          <div class="sm:col-span-3">
+            <label class="inline-block text-sm font-medium text-gray-500">
+              Designation
+            </label>
+          </div>
+          <div class="sm:col-span-9">
+            <input placeholder="Designation" name="designation" autocomplete="off" value="{{ faculty_profile.designation|default_if_none:'' }}" type="text" class="bg-gray-50 border border-gray-300 py-2 px-3 pe-11 block w-full shadow-sm rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
+          </div>
+          <div class="sm:col-span-3">
+            <label class="inline-block text-sm font-medium text-gray-500">
+              Academic Rank
+            </label>
+          </div>
+          <div class="sm:col-span-9">
+            <input placeholder="Academic Rank" name="academic_rank" autocomplete="off" value="{{ faculty_profile.academic_rank|default_if_none:'' }}" type="text" class="bg-gray-50 border border-gray-300 py-2 px-3 pe-11 block w-full shadow-sm rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
+          </div>
+      </div>
+      <div class="grid sm:grid-cols-12 gap-2 sm:gap-2 py-8 first:pt-0 last:pb-0 border-t first:border-transparent border-gray-200">
+        <div class="sm:col-span-12">
+          <h2 class="text-lg font-semibold text-gray-800">
+           Educational Background
+          </h2>
+        </div>
+       <div class="sm:col-span-3">
+  <label class="inline-block text-sm font-medium text-gray-500">
+    Undergraduate Degree<span id="undergraduate_count_label"></span>
+  </label>
+</div>
+<div class="sm:col-span-9">
+  <div id="undergraduate_degrees" class="flex flex-col gap-2">
+    {% if faculty_profile.undergraduate_degrees.count == 0 %}
+      <input placeholder="Undergraduate Degree" autocomplete="off" name="undergraduate_degree_1" value="" type="text" class="bg-gray-50 border border-gray-300 py-2 px-3 pe-11 block w-full shadow-sm rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500">
+    {% else %}
+      {% for degree in faculty_profile.undergraduate_degrees.all %}
+        <input placeholder="Undergraduate Degree" autocomplete="off" name="undergraduate_degree_{{ forloop.counter }}" value="{{ degree.name }}" type="text" class="bg-gray-50 border border-gray-300 py-2 px-3 pe-11 block w-full shadow-sm rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500">
+      {% endfor %}
+    {% endif %}
+  </div>
+  <p class="mt-3">
+    <button id="add_undergraduate_degree" type="button" class="inline-flex items-center gap-x-1 text-sm text-blue-600 decoration-2 hover:underline focus:outline-none focus:underline font-medium">
+      <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>
+      Add
+    </button>
+  </p>
+</div>
+
+<div class="sm:col-span-3">
+  <label class="inline-block text-sm font-medium text-gray-500">
+    Graduate Degree<span id="graduate_count_label"></span>
+  </label>
+</div>
+<div class="sm:col-span-9">
+  <div id="graduate_degrees"class="flex flex-col gap-2">
+    {% if faculty_profile.graduate_degrees.count == 0 %}
+      <input placeholder="Graduate Degree" autocomplete="off" name="graduate_degree_1" value="" type="text" class="bg-gray-50 border border-gray-300 py-2 px-3 pe-11 block w-full shadow-sm rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500">
+    {% else %}
+      {% for degree in faculty_profile.graduate_degrees.all %}
+        <input placeholder="Graduate Degree" autocomplete="off" name="graduate_degree_{{ forloop.counter }}" value="{{ degree.name }}" type="text" class="bg-gray-50 border border-gray-300 py-2 px-3 pe-11 block w-full shadow-sm rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500">
+      {% endfor %}
+    {% endif %}
+  </div>
+  <p class="mt-3">
+    <button id="add_graduate_degree" type="button" class="inline-flex items-center gap-x-1 text-sm text-blue-600 decoration-2 hover:underline focus:outline-none focus:underline font-medium">
+      <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>
+      Add
+    </button>
+  </p>
+</div>
+{% compress js %}
+<script>
+  // Handle dynamic addition of Undergraduate Degree fields
+  let undergraduateCounter = document.querySelectorAll('[name^="undergraduate_degree"]').length || 1;
+  let graduateCounter = document.querySelectorAll('[name^="graduate_degree"]').length || 1;
+
+  document.getElementById('add_undergraduate_degree').addEventListener('click', function () {
+    undergraduateCounter++;
+    const undergraduateDegreesDiv = document.getElementById('undergraduate_degrees');
+    const newInput = document.createElement('input');
+    newInput.type = 'text';
+    newInput.name = `undergraduate_degree_${undergraduateCounter}`;
+    newInput.placeholder = 'Undergraduate Degree';
+    newInput.className = 'bg-gray-50 border border-gray-300 py-2 px-3 pe-11 block w-full shadow-sm rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500';
+    undergraduateDegreesDiv.appendChild(newInput);
+  });
+
+  // Handle dynamic addition of Graduate Degree fields
+  document.getElementById('add_graduate_degree').addEventListener('click', function () {
+    graduateCounter++;
+    const graduateDegreesDiv = document.getElementById('graduate_degrees');
+    const newInput = document.createElement('input');
+    newInput.type = 'text';
+    newInput.name = `graduate_degree_${graduateCounter}`;
+    newInput.placeholder = 'Graduate Degree';
+    newInput.className = 'bg-gray-50 border border-gray-300 py-2 px-3 pe-11 block w-full shadow-sm rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500';
+    graduateDegreesDiv.appendChild(newInput);
+  });
+</script>
+{% endcompress js %}
+
+      </div>
+      <div class="py-8 first:pt-0 last:pb-0 border-t first:border-transparent border-gray-200">
+        <h2 class="text-lg font-semibold text-gray-800">
+          Data Privacy Act of 2012
+        </h2>
+        <p class="mt-3 text-sm text-gray-600">
+          I consent to the following terms and conditions on the collection, use, processing and disclosure of my personal data: I am aware that the Davao del Norte State College has collected and stored my personal data upon accomplishment of this form. These data include my full name, contact details like addresses, and landline/mobile numbers. I express my consent for the Davao del Norte State College to collect, store my personal information. I hereby affirm my right to be informed, object to processing, access, and rectify and to suspend or withdraw my personal data pursuant to the provisions of the RA 10173 and its implementing rules and regulations.
+
+        </p>
+        <p class="mt-2 text-sm text-gray-600">
+          By clicking the Agree button below, I warrant that I have read, understood all of the above provisions, and agreed with its full implementation.
+        </p>
+      </div>
+      <button type="submit" name="UpdateProfile" class="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
+        Submit
+      </button>
+    </form>
+        </div>
+
+  <div class="bg-white rounded-xl shadow p-4 sm:p-7">
+      <div class="grid sm:grid-cols-12 gap-2 sm:gap-2 py-8 first:pt-0 last:pb-0 border-t first:border-transparent border-gray-200">
+        <div class="sm:col-span-12">
+          <h2 class="text-lg font-semibold text-gray-800">
+           Team Teach
+          </h2>
+        </div>
+        <div class="sm:col-span-3">
+          <label for="af-submit-application-email" class="inline-block text-sm font-medium text-gray-500">
+            Leader
+          </label>
+        </div>
+        <div class="sm:col-span-9">
+          <input disabled id="af-submit-application-email" type="email" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
+        </div>
+           <div class="sm:col-span-3">
+          <label for="af-submit-application-email" class="inline-block text-sm font-medium text-gray-500">
+            Highest Educational Attainment
+          </label>
+        </div>
+
+         <div class="sm:col-span-9">
+          <input disabled id="af-submit-application-email" type="email" class="py-2 px-3 pe-11 block w-full border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
+        </div>
+</div>
+
+ <div class="grid sm:grid-cols-12 gap-2 sm:gap-2 py-8 first:pt-0 last:pb-0 border-t first:border-transparent border-gray-200">
+        <div class="sm:col-span-12">
+          <h2 class="text-lg font-semibold text-gray-800">
+           Time Schedule
+          </h2>
+        </div>
+
+      <div class="sm:col-span-12">
+        <div class="-m-1.5 overflow-x-auto">
+          <div class="p-1.5 min-w-full inline-block align-middle">
+            <div class="border rounded-lg overflow-hidden">
+              <table class="min-w-full divide-y divide-gray-200">
+                <thead>
+                  <tr>
+                    <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Core Time {{ core_time_label }} </th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                  <tr>
+                    <td class="px-6 py-4 text-sm font-medium text-gray-800 break-words"> {{ core_time }} </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+  <div class="sm:col-span-12">
+        <div class="-m-1.5 overflow-x-auto">
+          <div class="p-1.5 min-w-full inline-block align-middle">
+            <div class="border rounded-lg overflow-hidden">
+              <table class="min-w-full divide-y divide-gray-200">
+                <thead>
+                  <tr>
+                    <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Student Consultation Time</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                  <tr>
+                    <td class="px-6 py-4 text-sm font-medium text-gray-800 break-words"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      </div>
+
+
+
+ <div class="grid sm:grid-cols-12 gap-2 sm:gap-2 py-8 first:pt-0 last:pb-0 border-t first:border-transparent border-gray-200">
+        <div class="sm:col-span-12">
+          <h2 class="text-lg font-semibold text-gray-800">
+           Admin Load Release
+          </h2>
+        </div>
+          
+      <div class="sm:col-span-12">
+        <div class="-m-1.5 overflow-x-auto">
+          <div class="p-1.5 min-w-full inline-block align-middle">
+            <div class="border rounded-lg overflow-hidden">
+              <table class="min-w-full divide-y divide-gray-200">
+                <thead>
+                  <tr>
+                    <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Description</th>
+                    <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Hour</th>
+                    <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Units</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+            {% if admin_load_releases %}
+              {% for release in admin_load_releases %}
+                <tr>
+                  <td class="px-6 py-4 text-sm font-medium text-gray-800 break-words">{{ release.description }}</td>
+                  <td class="px-6 py-4 text-sm text-gray-800 break-words">{{ release.hour }}</td>
+                  <td class="px-6 py-4 text-sm text-gray-800 break-words">{{ release.unit }}</td>
+                </tr>
+              {% endfor %}
+            {% else %}
+              <tr>
+                <td class="px-6 py-4 text-sm font-medium text-gray-800 break-words"></td>
+                <td class="px-6 py-4 text-sm text-gray-800 break-words"></td>
+                <td class="px-6 py-4 text-sm text-gray-800 break-words"></td>
+              </tr>
+            {% endif %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+       
+      </div>
+ <div class="grid sm:grid-cols-12 gap-2 sm:gap-2 py-8 first:pt-0 last:pb-0 border-t first:border-transparent border-gray-200">
+        <div class="sm:col-span-12">
+          <h2 class="text-lg font-semibold text-gray-800">
+           REP Load Release
+          </h2>
+        </div>
+
+             <div class="sm:col-span-12">
+        <div class="-m-1.5 overflow-x-auto">
+          <div class="p-1.5 min-w-full inline-block align-middle">
+            <div class="border rounded-lg overflow-hidden">
+              <table class="min-w-full divide-y divide-gray-200">
+                <thead>
+                  <tr>
+                    <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Description</th>
+                    <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Hour</th>
+                    <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Units</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                   {% if rep_load_releases %}
+              {% for release in rep_load_releases %}
+                <tr>
+                  <td class="px-6 py-4 text-sm font-medium text-gray-800 break-words">{{ release.description }}</td>
+                  <td class="px-6 py-4 text-sm text-gray-800 break-words">{{ release.hour }}</td>
+                  <td class="px-6 py-4 text-sm text-gray-800 break-words">{{ release.unit }}</td>
+                </tr>
+              {% endfor %}
+            {% else %}
+              <tr>
+                <td class="px-6 py-4 text-sm font-medium text-gray-800 break-words"></td>
+                <td class="px-6 py-4 text-sm text-gray-800 break-words"></td>
+                <td class="px-6 py-4 text-sm text-gray-800 break-words"></td>
+              </tr>
+            {% endif %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+         
+      </div>
+
+    </div>
+    </div>
+        </div>
+    {% include "./includes/footer.html" %}
+  </div>
+{% endblock content %}

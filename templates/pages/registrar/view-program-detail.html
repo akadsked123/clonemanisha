@@ -1,0 +1,505 @@
+{% extends "_base.html" %}
+{% load compress %}
+{% load static %}
+{% block title %}
+  {{ program.program_name }}
+{% endblock title %}
+{% block content %}
+  {% include "./includes/_navbar.html" %}
+  {% include "./includes/_edit_program_modal.html" %}
+  {% include "./includes/_edit_course_modal.html" %}
+  {% include "./includes/_delete_course_modal.html" %}
+  {% include "./includes/_copy_curriculum_modal.html" %}
+  <div class="w-full lg:ps-64 bg-gray-100 h-full">
+    <div class="p-6 space-y-3">
+      <p class="text-2xl font-extrabold text-gray-900 uppercase">
+        {{ program.program_name }} ({{ selected_curriculum_name }})
+      </p>
+      <p class="text-2xl font-extrabold text-gray-900 uppercase"></p>
+      <ol class="flex items-center whitespace-nowrap">
+        <li class="inline-flex items-center">
+          <a class="flex items-center text-sm text-gray-500 hover:text-primary-600 focus:outline-none focus:text-primary-600"
+             href="{% url 'curriculum:curriculum_maintenance_and_management' %}">Curriculum</a>
+          <svg class="shrink-0 size-5 text-gray-400 mx-2"
+               width="16"
+               height="16"
+               viewBox="0 0 16 16"
+               fill="none"
+               xmlns="http://www.w3.org/2000/svg"
+               aria-hidden="true">
+            <path d="M6 13L10 3" stroke="currentColor" stroke-linecap="round"></path>
+          </svg>
+        </li>
+        <li class="inline-flex items-center">
+          <a class="flex items-center text-sm text-gray-500 hover:text-primary-600 focus:outline-none focus:text-primary-600"
+             href="#">
+            {{ program.institute.institute_name }}
+            <svg class="shrink-0 size-5 text-gray-400 mx-2"
+                 width="16"
+                 height="16"
+                 viewBox="0 0 16 16"
+                 fill="none"
+                 xmlns="http://www.w3.org/2000/svg"
+                 aria-hidden="true">
+              <path d="M6 13L10 3" stroke="currentColor" stroke-linecap="round"></path>
+            </svg>
+          </a>
+        </li>
+        <li class="inline-flex items-center text-sm font-semibold text-gray-800 truncate"
+            aria-current="page">{{ program.program_name }}</li>
+      </ol>
+      <!-- End of total count -->
+      <div class="bg-white border rounded-lg overflow-hidden">
+        <div class="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center">
+          <div class="sm:col-span-1">
+            <label for="hs-as-table-product-review-search" class="sr-only">Search</label>
+            <div class="relative">
+              <input type="text"
+                     id="hs-as-table-product-review-search"
+                     name="hs-as-table-product-review-search"
+                     class="py-2 px-3 ps-11 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none"
+                     placeholder="Search">
+              <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-4">
+                <svg class="size-4 text-gray-400"
+                     xmlns="http://www.w3.org/2000/svg"
+                     width="16"
+                     height="16"
+                     fill="currentColor"
+                     viewBox="0 0 16 16">
+                  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="sm:col-span-2">
+            <div class="inline-flex gap-x-2">
+              <div class="hs-dropdown relative inline-flex">
+                <button id="hs-dropdown-toggle"
+                        type="button"
+                        class="hs-dropdown-toggle py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
+                        aria-haspopup="menu"
+                        aria-expanded="false"
+                        aria-label="Dropdown">
+                  <svg class="shrink-0 size-3.5 text-gray-800"
+                       xmlns="http://www.w3.org/2000/svg"
+                       width="24"
+                       height="24"
+                       viewBox="0 0 24 24"
+                       fill="none"
+                       stroke="currentColor"
+                       stroke-width="2"
+                       stroke-linecap="round"
+                       stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                    <polyline points="7 10 12 15 17 10" /><line x1="12" x2="12" y1="15" y2="3" />
+                  </svg>
+                  Export
+                </button>
+                <div class="hs-dropdown-menu min-w-48 transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden z-10">
+                  <div class="hs-dropdown-open:ease-in hs-dropdown-open:opacity-100 hs-dropdown-open:scale-100 transition ease-out opacity-0 scale-95 duration-200 mt-2 origin-top-left min-w-48 bg-white shadow-md rounded-lg p-2"
+                       data-hs-transition>
+                    <span class="block py-2 px-3 text-xs font-medium uppercase text-gray-400">Options</span>
+                    <a class="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
+                       href="#">
+                      <svg class="shrink-0 size-4"
+                           xmlns="http://www.w3.org/2000/svg"
+                           width="24"
+                           height="24"
+                           viewBox="0 0 24 24"
+                           fill="none"
+                           stroke="currentColor"
+                           stroke-width="2"
+                           stroke-linecap="round"
+                           stroke-linejoin="round">
+                        <polyline points="6 9 6 2 18 2 18 9" />
+                        <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
+                        <rect width="12" height="8" x="6" y="14" />
+                      </svg>
+                      Print
+                    </a>
+                    <a class="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
+                       href="#">
+                      <svg class="size-4"
+                           xmlns="http://www.w3.org/2000/svg"
+                           width="16"
+                           height="16"
+                           fill="currentColor"
+                           viewBox="0 0 16 16">
+                        <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z" />
+                        <path d="M4.603 14.087a.81.81 0 0 1-.438-.42c-.195-.388-.13-.776.08-1.102.198-.307.526-.568.897-.787a7.68 7.68 0 0 1 1.482-.645 19.697 19.697 0 0 0 1.062-2.227 7.269 7.269 0 0 1-.43-1.295c-.086-.4-.119-.796-.046-1.136.075-.354.274-.672.65-.823.192-.077.4-.12.602-.077a.7.7 0 0 1 .477.365c.088.164.12.356.127.538.007.188-.012.396-.047.614-.084.51-.27 1.134-.52 1.794a10.954 10.954 0 0 0 .98 1.686 5.753 5.753 0 0 1 1.334.05c.364.066.734.195.96.465.12.144.193.32.2.518.007.192-.047.382-.138.563a1.04 1.04 0 0 1-.354.416.856.856 0 0 1-.51.138c-.331-.014-.654-.196-.933-.417a5.712 5.712 0 0 1-.911-.95 11.651 11.651 0 0 0-1.997.406 11.307 11.307 0 0 1-1.02 1.51c-.292.35-.609.656-.927.787a.793.793 0 0 1-.58.029zm1.379-1.901c-.166.076-.32.156-.459.238-.328.194-.541.383-.647.547-.094.145-.096.25-.04.361.01.022.02.036.026.044a.266.266 0 0 0 .035-.012c.137-.056.355-.235.635-.572a8.18 8.18 0 0 0 .45-.606zm1.64-1.33a12.71 12.71 0 0 1 1.01-.193 11.744 11.744 0 0 1-.51-.858 20.801 20.801 0 0 1-.5 1.05zm2.446.45c.15.163.296.3.435.41.24.19.407.253.498.256a.107.107 0 0 0 .07-.015.307.307 0 0 0 .094-.125.436.436 0 0 0 .059-.2.095.095 0 0 0-.026-.063c-.052-.062-.2-.152-.518-.209a3.876 3.876 0 0 0-.612-.053zM8.078 7.8a6.7 6.7 0 0 0 .2-.828c.031-.188.043-.343.038-.465a.613.613 0 0 0-.032-.198.517.517 0 0 0-.145.04c-.087.035-.158.106-.196.283-.04.192-.03.469.046.822.024.111.054.227.09.346z" />
+                      </svg>
+                      .PDF
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="hs-dropdown relative inline-flex">
+                <button id="hs-dropdown-toggle"
+                        type="button"
+                        class="hs-dropdown-toggle py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
+                        aria-haspopup="menu"
+                        aria-expanded="false"
+                        aria-label="Dropdown">
+                  <span>{{ selected_curriculum_name }}</span>
+                  <svg class="hs-dropdown-open:rotate-180 size-4"
+                       xmlns="http://www.w3.org/2000/svg"
+                       width="24"
+                       height="24"
+                       viewBox="0 0 24 24"
+                       fill="none"
+                       stroke="currentColor"
+                       stroke-width="2"
+                       stroke-linecap="round"
+                       stroke-linejoin="round">
+                    <path d="m6 9 6 6 6-6" />
+                  </svg>
+                </button>
+                <div class="hs-dropdown-menu min-w-48 transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden z-10">
+                  <div class="hs-dropdown-open:ease-in hs-dropdown-open:opacity-100 hs-dropdown-open:scale-100 transition ease-out opacity-0 scale-95 duration-200 mt-2 origin-top-left min-w-48 bg-white shadow-md rounded-lg p-2"
+                       data-hs-transition>
+                    <span class="block py-2 px-3 text-xs font-medium uppercase text-gray-400">Options</span>
+                    {% for curriculum_year in curriculum_years %}
+                      <a class="flex justify-between items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
+                         href="?curriculum={{ curriculum_year.pk }}">
+                        {% if curriculum_year.pk|stringformat:"s" == request.GET.curriculum %}
+                          {{ curriculum_year.curriculum_year }}
+                          <svg class="shrink-0 size-3.5 text-gray-800"
+                               xmlns="http://www.w3.org/2000/svg"
+                               width="24"
+                               height="24"
+                               viewBox="0 0 24 24"
+                               fill="none"
+                               stroke="currentColor"
+                               stroke-width="2"
+                               stroke-linecap="round"
+                               stroke-linejoin="round">
+                            <path d="M20 6 9 17l-5-5"></path>
+                          </svg>
+                        {% else %}
+                          {{ curriculum_year.curriculum_year }}
+                        {% endif %}
+                      </a>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+              <!-- Dropdown for selecting Program -->
+              <div class="hs-dropdown relative inline-flex">
+                <button id="hs-program-dropdown-toggle"
+                        type="button"
+                        class="hs-dropdown-toggle py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
+                        aria-haspopup="menu"
+                        aria-expanded="false"
+                        aria-label="Dropdown">
+                  <span>{{ program.program_name }}</span>
+                  <svg class="hs-dropdown-open:rotate-180 size-4"
+                       xmlns="http://www.w3.org/2000/svg"
+                       width="24"
+                       height="24"
+                       viewBox="0 0 24 24"
+                       fill="none"
+                       stroke="currentColor"
+                       stroke-width="2"
+                       stroke-linecap="round"
+                       stroke-linejoin="round">
+                    <path d="m6 9 6 6 6-6" />
+                  </svg>
+                </button>
+                <div class="hs-dropdown-menu min-w-72 transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden z-10">
+                  <div class="hs-dropdown-open:ease-in hs-dropdown-open:opacity-100 hs-dropdown-open:scale-100 transition ease-out opacity-0 scale-95 duration-200 mt-2 origin-top-left bg-white shadow-md rounded-lg p-2"
+                       data-hs-transition>
+                    <span class="block py-2 px-3 text-xs font-medium uppercase text-gray-400">Options</span>
+                    {% for prog in selected_programs %}
+                      <a class="flex justify-between items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
+                         href="{% url 'curriculum:view_program_detail' institute_slug=institute.institute_slug program_slug=prog.program_slug %}?curriculum={{ request.GET.curriculum }}">
+                        {% if prog.pk == program.pk %}
+                          {{ prog.program_name }}
+                          <svg class="shrink-0 size-3.5 text-gray-800"
+                               xmlns="http://www.w3.org/2000/svg"
+                               width="24"
+                               height="24"
+                               viewBox="0 0 24 24"
+                               fill="none"
+                               stroke="currentColor"
+                               stroke-width="2"
+                               stroke-linecap="round"
+                               stroke-linejoin="round">
+                            <path d="M20 6 9 17l-5-5"></path>
+                          </svg>
+                        {% else %}
+                          {{ prog.program_name }}
+                        {% endif %}
+                      </a>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+              <a href="{% url 'curriculum:add_program_detail' institute_slug=institute.institute_slug program_slug=program.program_slug %}?{{ request.GET.urlencode }}"
+                 type="button"
+                 class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-50 disabled:pointer-events-none">
+                Add Curriculum
+              </a>
+              <button type="button"
+                      aria-haspopup="dialog"
+                      aria-expanded="false"
+                      aria-controls="hs-scale-animation-modal"
+                      data-hs-overlay="#edit-program"
+                      class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-50 disabled:pointer-events-none">
+                Edit Program
+              </button>
+              <button type="button"
+                      aria-haspopup="dialog"
+                      aria-expanded="false"
+                      aria-controls="hs-scale-animation-modal"
+                      data-hs-overlay="#copy-curriculum"
+                      class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-50 disabled:pointer-events-none">
+                Copy Curriculum
+              </button>
+              {% if current_url %}
+                <a href="{% url 'curriculum:update_program_detail' institute_slug=institute.institute_slug program_slug=program.program_slug %}?{{ request.GET.urlencode }}"
+                   type="button"
+                   class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-50 disabled:pointer-events-none">
+                  Update Curriculum
+                </a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        <!--Display Selected Institute, Program, and Curriculum Year-->
+        <div class="px-6 pb-4">
+          <div class="items-center grid grid-cols-1 lg:grid-cols-2 px-6 py-4 bg-gray-50 border rounded-lg overflow-hidden">
+            <div>
+              <h2 class="text-xl font-bold text-gray-800">Curriculum Details</h2>
+              <p class="text-sm pt-1 text-gray-600">
+                Institute: <span class="font-medium text-gray-800">{{ program.institute.institute_name }}</span>
+              </p>
+              <p class="text-sm text-gray-600">
+                Program: <span class="font-medium text-gray-800">{{ program.program_name }}</span>
+              </p>
+              <p class="text-sm text-gray-600">
+                Curriculum Year:  <span class="font-medium  text-gray-800 {% if selected_curriculum_name == 'Select Curriculum Year' %}text-red-500{% endif %}">
+              {{ selected_curriculum_name }}</span>
+            </p>
+          </div>
+          <div>
+            <p class="text-sm text-gray-600">
+              Total Course: <span class="font-medium text-gray-800">{{ overall_totals.courses }}</span>
+            </p>
+            <p class="text-sm text-gray-600">
+              Total Lecture: <span class="font-medium text-gray-800">{{ overall_totals.lecture }}</span>
+            </p>
+            <p class="text-sm text-gray-600">
+              Total Lab: <span class="font-medium text-gray-800">{{ overall_totals.lab }}</span>
+            </p>
+            <p class="text-sm text-gray-600">
+              Total Credit Units:  <span class="font-medium text-gray-800">{{ overall_totals.credit_units }}</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Display Courses-->
+    {% if grouped_courses %}
+      {% for year_level, semesters in grouped_courses.items %}
+        <!-- Year Level Header -->
+        <div class="border rounded-lg overflow-hidden">
+          {% for semester, courses in semesters.items %}
+            <!-- Semester Header -->
+            <div class="px-6 py-4 border-b border-gray-200 bg-primary-600">
+              {% if forloop.first %}<p class="text-2xl font-extrabold text-white uppercase">{{ year_level }}</p>{% endif %}
+              <p class="text-sm text-white">{{ semester }}</p>
+            </div>
+            <!-- Courses Table -->
+            {% if courses %}
+              <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                  <tr>
+                    <th scope="col" class="px-6 py-3 text-start">
+                      <p class="group inline-flex items-center gap-x-2 text-xs font-semibold uppercase text-gray-800">#</p>
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-start">
+                      <p class="group inline-flex items-center gap-x-2 text-xs font-semibold uppercase text-gray-800">Course Code</p>
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-start">
+                      <p class="group inline-flex items-center gap-x-2 text-xs font-semibold uppercase text-gray-800">Description</p>
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-start">
+                      <p class="group inline-flex items-center gap-x-2 text-xs font-semibold uppercase text-gray-800">Lecture Hours</p>
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-start">
+                      <p class="group inline-flex items-center gap-x-2 text-xs font-semibold uppercase text-gray-800">Lab Hours</p>
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-start">
+                      <p class="group inline-flex items-center gap-x-2 text-xs font-semibold uppercase text-gray-800">Credit Units</p>
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-start">
+                      <p class="group inline-flex items-center gap-x-2 text-xs font-semibold uppercase text-gray-800">Actions</p>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                  {% for course in courses %}
+                    <tr class="bg-white hover:bg-gray-50">
+                      <td class="size-px whitespace-nowrap">
+                        <div class="px-6 py-2">
+                          <div class="block text-sm text-gray-800">{{ forloop.counter }}</div>
+                        </div>
+                      </td>
+                      <td class="size-px whitespace-nowrap">
+                        <div class="px-6 py-2">
+                          <div class="block text-sm text-gray-800">{{ course.course_code }}</div>
+                        </div>
+                      </td>
+                      <td class="size-px whitespace-nowrap">
+                        <div class="px-6 py-2">
+                          <div class="block text-sm text-gray-800">{{ course.course_description }}</div>
+                        </div>
+                      </td>
+                      <td class="size-px whitespace-nowrap">
+                        <div class="px-6 py-2">
+                          <div class="block text-sm text-gray-800">{{ course.lecture }}</div>
+                        </div>
+                      </td>
+                      <td class="size-px whitespace-nowrap">
+                        <div class="px-6 py-2">
+                          <div class="block text-sm text-gray-800">{{ course.laboratory }}</div>
+                        </div>
+                      </td>
+                      <td class="size-px whitespace-nowrap">
+                        <div class="px-6 py-2">
+                          <div class="block text-sm text-gray-800">{{ course.credit_units }}</div>
+                        </div>
+                      </td>
+                      <td class="size-px whitespace-nowrap">
+                        <div class="px-6 py-2">
+                          <div class="hs-dropdown [--placement:bottom-right] relative inline-block">
+                            <button id="hs-table-dropdown-1"
+                                    type="button"
+                                    class="hs-dropdown-toggle py-1.5 px-2 inline-flex justify-center items-center gap-2 rounded-lg text-gray-700 align-middle disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-primary-600 transition-all text-sm"
+                                    aria-haspopup="menu"
+                                    aria-expanded="false"
+                                    aria-label="Dropdown">
+                              <svg class="shrink-0 size-4"
+                                   xmlns="http://www.w3.org/2000/svg"
+                                   width="24"
+                                   height="24"
+                                   viewBox="0 0 24 24"
+                                   fill="none"
+                                   stroke="currentColor"
+                                   stroke-width="2"
+                                   stroke-linecap="round"
+                                   stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="1" /><circle cx="19" cy="12" r="1" /><circle cx="5" cy="12" r="1" />
+                              </svg>
+                            </button>
+                            <div class="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden divide-y divide-gray-200 min-w-40 z-20 bg-white shadow-2xl rounded-lg p-2 mt-2"
+                                 role="menu"
+                                 aria-orientation="vertical"
+                                 aria-labelledby="hs-table-dropdown-1">
+                              <div class="py-2 first:pt-0 last:pb-0">
+                                <span class="block py-2 px-3 text-xs font-medium uppercase text-gray-400">Actions</span>
+                                <button aria-haspopup="dialog"
+                                        aria-expanded="false"
+                                        aria-controls="hs-scale-animation-modal"
+                                        data-hs-overlay="#edit-course"
+                                        class="w-full flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
+                                        data-course-id="{{ course.course_id }}"
+                                        data-course-code="{{ course.course_code }}"
+                                        data-course-description="{{ course.course_description }}"
+                                        data-lecture="{{ course.lecture }}"
+                                        data-laboratory="{{ course.laboratory }}"
+                                        data-credit-units="{{ course.credit_units }}"
+                                        data-semester="{{ course.semester }}"
+                                        data-year-level="{{ course.year_level }}">Edit</button>
+                              </div>
+                              <div class="py-2 first:pt-0 last:pb-0">
+                                <button aria-haspopup="dialog"
+                                        aria-expanded="false"
+                                        aria-controls="hs-scale-animation-modal"
+                                        data-hs-overlay="#delete-course"
+                                        data-course-code="{{ course.course_code }}"
+                                        data-course-id="{{ course.course_id }}"
+                                        data-course-description="{{ course.course_description }}"
+                                        class="w-full flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-red-600 hover:bg-gray-100 focus:ring-2 focus:ring-primary-500">
+                                  Delete
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  {% endfor %}
+                  <tr class="bg-gray-50">
+                    <td colspan="3" class="size-px whitespace-nowrap">
+                      <div class="px-6 py-3">
+                        <div class="block text-sm text-end text-gray-800 font-semibold">Total Units</div>
+                      </div>
+                    </td>
+                    <td class="size-px whitespace-nowrap">
+                      <div class="px-6 py-3">
+                        <div id="lecture-{{ year_level }}-{{ semester }}"
+                             class="block text-sm text-gray-800 font-semibold"></div>
+                      </div>
+                    </td>
+                    <td class="size-px whitespace-nowrap">
+                      <div class="px-6 py-3">
+                        <div id="lab-{{ year_level }}-{{ semester }}"
+                             class="block text-sm text-gray-800 font-semibold"></div>
+                      </div>
+                    </td>
+                    <td colspan="2" class="size-px whitespace-nowrap">
+                      <div class="px-6 py-3">
+                        <div id="credit_units-{{ year_level }}-{{ semester }}"
+                             class="block text-sm text-gray-800 font-semibold"></div>
+                      </div>
+                    </td>
+                  </tr>
+                  {% compress js %}
+                    <!-- Render JSON data -->
+                    <script>
+                          const totals = {{ totals|safe }};
+                          document.addEventListener("DOMContentLoaded", function() {
+                            // Insert totals for each semester
+                            for (const [year, semesters] of Object.entries(totals)) {
+                              for (const [semester, details] of Object.entries(semesters)) {
+                                document.getElementById(`lecture-${year}-${semester}`).innerText = details.lecture;
+                                document.getElementById(`lab-${year}-${semester}`).innerText = details.lab;
+                                document.getElementById(`credit_units-${year}-${semester}`).innerText = details.credit_units;
+                              }
+                            }
+                          });
+                    </script>
+                  {% endcompress %}
+                </tbody>
+              </table>
+            {% else %}
+              <tr class="bg-white hover:bg-gray-50">
+                <td class="size-px whitespace-nowrap">
+                  <div class="px-6 py-3">{% include "partials/_no_data.html" %}</div>
+                </td>
+              </tr>
+            {% endif %}
+          {% endfor %}
+        </div>
+      {% endfor %}
+    {% else %}
+      <div class="min-h-60 flex flex-col bg-white border shadow-sm rounded-xl">
+        <div class="flex flex-auto flex-col justify-center items-center p-4 md:p-5">
+          <svg class="size-10 text-gray-500"
+               xmlns="http://www.w3.org/2000/svg"
+               width="16"
+               height="16"
+               fill="currentColor"
+               viewBox="0 0 16 16">
+            <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1h-2.5a2 2 0 0 0-1.6.8L8 14.333 6.1 11.8a2 2 0 0 0-1.6-.8H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2.5a1 1 0 0 1 .8.4l1.9 2.533a1 1 0 0 0 1.6 0l1.9-2.533a1 1 0 0 1 .8-.4H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z" />
+            <path d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6m0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5" />
+          </svg>
+          <p id="no-data-message" class="mt-2 text-sm text-gray-800">Select a curriculum year to display the courses.</p>
+        </div>
+      </div>
+    {% endif %}
+    <!-- End of Display Courses-->
+  </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,332 @@
+<div id="add-institute"
+     class="hs-overlay hidden size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto">
+  <div class="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto">
+    <div class="flex flex-col bg-white border shadow-sm rounded-xl pointer-events-auto">
+      <div class="flex justify-between items-center py-3 px-4  border-b">
+        <h3 class="font-bold text-gray-800">Add institute</h3>
+        <button type="button"
+                class="flex justify-center items-center size-7 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none"
+                data-hs-overlay="#add-institute">
+          <span class="sr-only">Close</span>
+          <svg class="flex-shrink-0 size-4"
+               xmlns="http://www.w3.org/2000/svg"
+               width="24"
+               height="24"
+               viewBox="0 0 24 24"
+               fill="none"
+               stroke="currentColor"
+               stroke-width="2"
+               stroke-linecap="round"
+               stroke-linejoin="round">
+            <path d="M18 6 6 18"></path>
+            <path d="m6 6 12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <form method="post" action="{% url 'institutes:list-of-institute' %}">
+        {% csrf_token %}
+        <div class="p-4 overflow-y-auto">
+          <label for="input-label" class="block text-sm font-medium mb-2">Institute Code</label>
+          <input name="acronym"
+                 type="text"
+                 id="input-label"
+                 class="mb-2 py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500"
+                 placeholder="e.g. IC"
+                 required
+                 autofocus="">
+          <label for="input-label" class="block text-sm font-medium mb-2">Institute Name</label>
+          <input name="institute_name"
+                 type="text"
+                 id="input-label"
+                 class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500"
+                 placeholder="e.g. Institute of Computing"
+                 required
+                 autofocus="">
+        </div>
+        <div class="flex justify-end items-center gap-x-2 py-3 px-4">
+          <button type="button"
+                  class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
+                  data-hs-overlay="#add-institute">Close</button>
+          <button type="submit"
+                  class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-50 disabled:pointer-events-none">
+            Save changes
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- Edit institute -->
+<div id="edit-institute"
+     class="hs-overlay hidden size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto">
+  <div class="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto">
+    <div class="flex flex-col bg-white border shadow-sm rounded-xl pointer-events-auto">
+      <div class="flex justify-between items-center py-3 px-4  border-b">
+        <h3 class="font-bold text-gray-800">Edit institute</h3>
+        <button type="button"
+                class="flex justify-center items-center size-7 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none"
+                data-hs-overlay="#edit-institute">
+          <span class="sr-only">Close</span>
+          <svg class="flex-shrink-0 size-4"
+               xmlns="http://www.w3.org/2000/svg"
+               width="24"
+               height="24"
+               viewBox="0 0 24 24"
+               fill="none"
+               stroke="currentColor"
+               stroke-width="2"
+               stroke-linecap="round"
+               stroke-linejoin="round">
+            <path d="M18 6 6 18"></path>
+            <path d="m6 6 12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="p-4 overflow-y-auto">
+        <label for="input-label" class="block text-sm font-medium mb-2">Institute Code</label>
+        <input type="text"
+               id="input-label"
+               class="mb-2 py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500"
+               placeholder="e.g. IC"
+               value=""
+               autofocus="">
+        <label for="input-label" class="block text-sm font-medium mb-2">Institute Name</label>
+        <input type="text"
+               id="input-label"
+               class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500"
+               placeholder="e.g. Institute of Computing"
+               value=""
+               autofocus="">
+      </div>
+      <div class="flex justify-end items-center gap-x-2 py-3 px-4">
+        <button type="button"
+                class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
+                data-hs-overlay="#edit-institute">Close</button>
+        <button type="button"
+                class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-50 disabled:pointer-events-none">
+          Save changes
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Delete institute -->
+<div id="delete-institute"
+     class="hs-overlay hidden size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto">
+  <div class="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto">
+    <div class="flex flex-col bg-white border shadow-sm rounded-xl pointer-events-auto">
+      <div class="flex justify-between items-center py-3 px-4  border-b">
+        <h3 class="font-bold text-gray-800">Delete confirmation</h3>
+        <button type="button"
+                class="flex justify-center items-center size-7 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none"
+                data-hs-overlay="#delete-institute">
+          <span class="sr-only">Close</span>
+          <svg class="flex-shrink-0 size-4"
+               xmlns="http://www.w3.org/2000/svg"
+               width="24"
+               height="24"
+               viewBox="0 0 24 24"
+               fill="none"
+               stroke="currentColor"
+               stroke-width="2"
+               stroke-linecap="round"
+               stroke-linejoin="round">
+            <path d="M18 6 6 18"></path>
+            <path d="m6 6 12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="px-4 pt-4 overflow-y-auto">
+        <div class="flex">
+          <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+            <div class="flex-shrink-0">
+              <svg class="h-6 w-6 text-red-600"
+                   fill="none"
+                   viewBox="0 0 24 24"
+                   stroke-width="1.5"
+                   stroke="currentColor"
+                   aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+              </svg>
+            </div>
+          </div>
+          <div class="ms-4">
+            <p>Are you sure you want to delete this institute?</p>
+          </div>
+        </div>
+      </div>
+      <div class="flex justify-end items-center gap-x-2 py-3 px-4">
+        <button type="button"
+                class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
+                data-hs-overlay="#delete-institute">Cancel</button>
+        <button type="button"
+                class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 disabled:pointer-events-none">
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Add program -->
+<div id="add-program"
+     class="hs-overlay hidden size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto">
+  <div class="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto">
+    <div class="flex flex-col bg-white border shadow-sm rounded-xl pointer-events-auto">
+      <div class="flex justify-between items-center py-3 px-4  border-b">
+        <h3 class="font-bold text-gray-800">Add program</h3>
+        <button type="button"
+                class="flex justify-center items-center size-7 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none"
+                data-hs-overlay="#add-program">
+          <span class="sr-only">Close</span>
+          <svg class="flex-shrink-0 size-4"
+               xmlns="http://www.w3.org/2000/svg"
+               width="24"
+               height="24"
+               viewBox="0 0 24 24"
+               fill="none"
+               stroke="currentColor"
+               stroke-width="2"
+               stroke-linecap="round"
+               stroke-linejoin="round">
+            <path d="M18 6 6 18"></path>
+            <path d="m6 6 12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="p-4 overflow-y-auto">
+        <label for="input-label" class="block text-sm font-medium mb-2">Program Code</label>
+        <input type="text"
+               id="input-label"
+               class="mb-2 py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500"
+               placeholder="e.g. BSIT"
+               autofocus="">
+        <label for="input-label" class="block text-sm font-medium mb-2">Program Name</label>
+        <input type="text"
+               id="input-label"
+               class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500"
+               placeholder="e.g. Bachelor of Science in Information Technology"
+               autofocus="">
+      </div>
+      <div class="flex justify-end items-center gap-x-2 py-3 px-4">
+        <button type="button"
+                class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
+                data-hs-overlay="#add-program">Close</button>
+        <button type="button"
+                class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-50 disabled:pointer-events-none">
+          Save changes
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Edit program -->
+<div id="edit-program"
+     class="hs-overlay hidden size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto">
+  <div class="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto">
+    <div class="flex flex-col bg-white border shadow-sm rounded-xl pointer-events-auto">
+      <div class="flex justify-between items-center py-3 px-4  border-b">
+        <h3 class="font-bold text-gray-800">Edit program</h3>
+        <button type="button"
+                class="flex justify-center items-center size-7 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none"
+                data-hs-overlay="#edit-program">
+          <span class="sr-only">Close</span>
+          <svg class="flex-shrink-0 size-4"
+               xmlns="http://www.w3.org/2000/svg"
+               width="24"
+               height="24"
+               viewBox="0 0 24 24"
+               fill="none"
+               stroke="currentColor"
+               stroke-width="2"
+               stroke-linecap="round"
+               stroke-linejoin="round">
+            <path d="M18 6 6 18"></path>
+            <path d="m6 6 12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="p-4 overflow-y-auto">
+        <label for="input-label" class="block text-sm font-medium mb-2">Program Code</label>
+        <input type="text"
+               id="input-label"
+               class="mb-2 py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500"
+               placeholder="e.g. BSIT"
+               value="BSIT"
+               autofocus="">
+        <label for="input-label" class="block text-sm font-medium mb-2">Program Name</label>
+        <input type="text"
+               id="input-label"
+               class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500"
+               placeholder="e.g. Bachelor of Science in Information Technology"
+               value="Bachelor of Science in Information Technology"
+               autofocus="">
+      </div>
+      <div class="flex justify-end items-center gap-x-2 py-3 px-4">
+        <button type="button"
+                class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
+                data-hs-overlay="#edit-program">Close</button>
+        <button type="button"
+                class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-50 disabled:pointer-events-none">
+          Save changes
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Delete program -->
+<div id="delete-program"
+     class="hs-overlay hidden size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto">
+  <div class="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto">
+    <div class="flex flex-col bg-white border shadow-sm rounded-xl pointer-events-auto">
+      <div class="flex justify-between items-center py-3 px-4  border-b">
+        <h3 class="font-bold text-gray-800">Delete confirmation</h3>
+        <button type="button"
+                class="flex justify-center items-center size-7 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none"
+                data-hs-overlay="#delete-program">
+          <span class="sr-only">Close</span>
+          <svg class="flex-shrink-0 size-4"
+               xmlns="http://www.w3.org/2000/svg"
+               width="24"
+               height="24"
+               viewBox="0 0 24 24"
+               fill="none"
+               stroke="currentColor"
+               stroke-width="2"
+               stroke-linecap="round"
+               stroke-linejoin="round">
+            <path d="M18 6 6 18"></path>
+            <path d="m6 6 12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="px-4 pt-4 overflow-y-auto">
+        <div class="flex">
+          <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+            <div class="flex-shrink-0">
+              <svg class="h-6 w-6 text-red-600"
+                   fill="none"
+                   viewBox="0 0 24 24"
+                   stroke-width="1.5"
+                   stroke="currentColor"
+                   aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+              </svg>
+            </div>
+          </div>
+          <div class="ms-4">
+            <p>Are you sure you want to delete this academic program?</p>
+          </div>
+        </div>
+      </div>
+      <div class="flex justify-end items-center gap-x-2 py-3 px-4">
+        <button type="button"
+                class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
+                data-hs-overlay="#delete-program">Cancel</button>
+        <button type="button"
+                class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 disabled:pointer-events-none">
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

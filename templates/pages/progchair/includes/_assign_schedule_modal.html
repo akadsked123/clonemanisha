@@ -1,0 +1,956 @@
+{% load static %}
+{% load allauth i18n %}
+{% load compress %}
+<div id="assign-schedule"
+     class="transition-opacity hs-overlay hidden size-full fixed top-0 start-0 z-[80] overflow-hidden"
+     role="dialog"
+     tabindex="-1">
+  <div class="hs-overlay-animation-target hs-overlay-open:scale-100 hs-overlay-open:opacity-100 scale-95 opacity-0 ease-in-out transition-all duration-200 lg:max-w-4xl lg:w-full lg:mx-auto min-h-[calc(100%-3.5rem)] flex items-center">
+    <div class="w-full flex flex-col bg-white border shadow-sm rounded-xl pointer-events-auto">
+      <div class="p-4 overflow-y-auto">
+        <div class="flex justify-between items-center">
+          <div>
+            <h2 class="text-xl font-bold text-gray-800">Assign schedule</h2>
+          </div>
+          <button type="button"
+                  class="size-8 inline-flex justify-center items-center gap-x-2 rounded-full border border-transparent bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none"
+                  aria-label="Close"
+                  data-hs-overlay="#assign-schedule">
+            <span class="sr-only">Close</span>
+            <svg class="shrink-0 size-4"
+                 xmlns="http://www.w3.org/2000/svg"
+                 width="24"
+                 height="24"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+              <path d="M18 6 6 18"></path>
+              <path d="m6 6 12 12"></path>
+            </svg>
+          </button>
+        </div>
+        <form method="post">
+          {% csrf_token %}
+          <div class="grid grid-cols-2 grid-rows-1 gap-4">
+            <div class="max-full">
+              <label class="block text-sm font-medium my-2">Class Set</label>
+              <select id="class-group-dropdown"
+                      class="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300">
+                <option selected="" disabled>Select Class Set</option>
+              </select>
+              <p id="class-group-helper" class="text-xs my-2 text-blue-600"></p>
+              <label class="block text-sm font-medium mt-2">Learning Mode</label>
+              <div class="grid sm:grid-cols-2 gap-2 my-2">
+                <label for="face-to-face-class"
+                       class="flex p-3 w-full bg-white border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500">
+                  <input type="radio"
+                         name="learning-mode"
+                         class="shrink-0 mt-0.5 border-gray-200 rounded-full text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                         id="face-to-face-class"
+                         checked="">
+                  <span class="text-sm text-gray-500 ms-3">Face-to-face Class</span>
+                </label>
+                <label for="online-class"
+                       class="flex p-3 w-full bg-white border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500">
+                  <input type="radio"
+                         name="learning-mode"
+                         class="shrink-0 mt-0.5 border-gray-200 rounded-full text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                         id="online-class">
+                  <span class="text-sm text-gray-500 ms-3">Online Class</span>
+                </label>
+              </div>
+              <label class="block text-sm font-medium my-2">Classroom</label>
+              <select id="classroom-dropdown"
+                      
+                      class="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300">
+                <option selected="" disabled>Select Clasroom</option>
+              </select>
+              <p id="classroom-text-helper" class="text-xs my-2 text-red-600"></p>
+              <label class="block text-sm font-medium my-2">Day</label>
+              <ul class="flex flex-row">
+                <li class="inline-flex items-center text-sm font-medium bg-white border text-gray-800 -mt-px rounded-s-lg flex-1">
+                  <div class="relative flex items-start w-full">
+                    <input type="checkbox" id="monday" class="peer hidden"  />
+                    <label for="monday"
+                           class="w-full text-center select-none cursor-pointer rounded-s-lg py-3 px-3 transition-colors duration-200 ease-in-out peer-checked:bg-primary-600 peer-checked:text-white">
+                      Mon
+                    </label>
+                  </div>
+                </li>
+                <li class="inline-flex items-center text-sm font-medium bg-white border text-gray-800 -mt-px flex-1">
+                  <div class="relative flex items-start w-full">
+                    <input type="checkbox" id="tuesday" class="peer hidden"  />
+                    <label for="tuesday"
+                           class="w-full text-center select-none cursor-pointer py-3 px-3 transition-colors duration-200 ease-in-out peer-checked:bg-primary-600 peer-checked:text-white">
+                      Tue
+                    </label>
+                  </div>
+                </li>
+                <li class="inline-flex items-center text-sm font-medium bg-white border text-gray-800 -mt-px flex-1">
+                  <div class="relative flex items-start w-full">
+                    <input type="checkbox" id="wednesday" class="peer hidden"  />
+                    <label for="wednesday"
+                           class="w-full text-center select-none cursor-pointer py-3 px-3 transition-colors duration-200 ease-in-out peer-checked:bg-primary-600 peer-checked:text-white">
+                      Wed
+                    </label>
+                  </div>
+                </li>
+                <li class="inline-flex items-center text-sm font-medium bg-white border text-gray-800 -mt-px flex-1">
+                  <div class="relative flex items-start w-full">
+                    <input type="checkbox" id="thursday" class="peer hidden"  />
+                    <label for="thursday"
+                           class="w-full text-center select-none cursor-pointer py-3 px-3 transition-colors duration-200 ease-in-out peer-checked:bg-primary-600 peer-checked:text-white">
+                      Thu
+                    </label>
+                  </div>
+                </li>
+                <li class="inline-flex items-center text-sm font-medium bg-white border text-gray-800 -mt-px flex-1">
+                  <div class="relative flex items-start w-full">
+                    <input type="checkbox" id="friday" class="peer hidden"  />
+                    <label for="friday"
+                           class="w-full text-center select-none cursor-pointer py-3 px-3 transition-colors duration-200 ease-in-out peer-checked:bg-primary-600 peer-checked:text-white">
+                      Fri
+                    </label>
+                  </div>
+                </li>
+                <li class="rounded-e-lg inline-flex items-center text-sm font-medium bg-white border text-gray-800 -mt-px flex-1">
+                  <div class="relative flex items-start w-full">
+                    <input type="checkbox" id="saturday" class="peer hidden"  />
+                    <label for="saturday"
+                           class="rounded-e-lg w-full text-center select-none cursor-pointer py-3 px-3 transition-colors duration-200 ease-in-out peer-checked:bg-primary-600 peer-checked:text-white">
+                      Sat
+                    </label>
+                  </div>
+                </li>
+                {% comment %} <li class="inline-flex items-center text-sm font-medium bg-white border text-gray-800 -mt-px rounded-e-lg flex-1">
+                  <div class="relative flex items-start w-full">
+                    <input type="checkbox" id="sunday" class="peer hidden"  />
+                    <label for="sunday"
+                           class="w-full text-center select-none cursor-pointer rounded-e-lg py-3 px-3 transition-colors duration-200 ease-in-out peer-checked:bg-primary-600 peer-checked:text-white">
+                      Sun
+                    </label>
+                  </div>
+                </li> {% endcomment %}
+              </ul>
+              <div class="grid grid-cols-2 grid-rows-1 gap-2">
+                <div>
+                  <label for="start-time-dropdown" class="block text-sm font-medium my-2">Start Time</label>
+                  <select id="start-time-dropdown"
+                          
+                          class="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none  [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300">
+                    <option selected="" disabled>Start Time</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="end-time-dropdown" class="block text-sm font-medium my-2">End Time</label>
+                  <select id="end-time-dropdown"
+                          
+                          class="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none  [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300">
+                    <option selected="" disabled>End Time</option>
+                  </select>
+                </div>
+              </div>
+              <p id="meeting-time-helper" class="text-xs my-2 text-red-600"></p>
+              <div class="bg-gray-50 w-full mt-3 py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 text-gray-800"
+                   id="vacant-time-slots-info-list"
+                   style="display: none">
+                <div>
+                  <h3 class="text-sm font-semibold">Vacant time slots</h3>
+                  <div id="vacant-time-slots-info" class="mt-1 text-sm">
+                    <!-- Vacant times will be inserted here -->
+                  </div>
+                </div>
+              </div>
+              <div class="flex justify-end items-center gap-x-2 mt-4">
+                <button type="button"
+                        id="save_to_draft"
+                        class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-blue-200 bg-blue-600 text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+  <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+</svg>Add To List
+                </button>
+              </div>
+            </div>
+            <div class="flex flex-col h-full">
+              <label class="block text-sm font-medium my-2">Schedule (List)</label>
+              <div class="border border-gray-200 rounded-lg w-full flex-grow max-h-full h-72 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300"
+                   id="draft-schedule-container">
+                <div class="flex justify-center items-center flex-grow h-full placeholder">
+                  <div class="flex flex-auto flex-col justify-center items-center p-4 md:p-5">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         width="16"
+                         height="16"
+                         fill="currentColor"
+                         class="bi bi-folder-x size-10 text-gray-500"
+                         viewBox="0 0 16 16">
+                      <path d="M.54 3.87.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3h3.982a2 2 0 0 1 1.992 2.181L15.546 8H14.54l.265-2.91A1 1 0 0 0 13.81 4H2.19a1 1 0 0 0-.996 1.09l.637 7a1 1 0 0 0 .995.91H9v1H2.826a2 2 0 0 1-1.991-1.819l-.637-7a2 2 0 0 1 .342-1.31zm6.339-1.577A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139q.323-.119.684-.12h5.396z" />
+                      <path d="M11.854 10.146a.5.5 0 0 0-.707.708L12.293 12l-1.146 1.146a.5.5 0 0 0 .707.708L13 12.707l1.146 1.147a.5.5 0 0 0 .708-.708L13.707 12l1.147-1.146a.5.5 0 0 0-.707-.708L13 11.293z" />
+                    </svg>
+                    <p id="no-data-message-3" class="mt-2 text-sm text-gray-800">No schedule has been assigned.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="flex justify-end items-center gap-x-2 mt-4">
+              <input type="hidden" name="assignment_id" id="assignment-id-2" value="">
+              <div id="remove-timetable-result-detail"></div>
+                <button type="button"
+                        class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
+                        data-hs-overlay="#assign-schedule">Cancel</button>
+                <button type="submit"
+                        name="AddTimetableSubmit"
+                        id="submit_button"
+                        class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-50 disabled:pointer-events-none">
+                  Save Schedule
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% compress js %}
+  <script>
+document.addEventListener('DOMContentLoaded', function() {
+  const dayCheckboxes = document.querySelectorAll('input[id^="monday"], input[id^="tuesday"], input[id^="wednesday"], input[id^="thursday"], input[id^="friday"], input[id^="saturday"], input[id^="sunday"]');
+  const classGroupDropdown = document.getElementById('class-group-dropdown');
+  const classroomDropdown = document.getElementById('classroom-dropdown');
+  const classGroupHelper = document.getElementById('class-group-helper');
+  const meetingTimeHelper = document.getElementById('meeting-time-helper');
+  const classroomTextHelper = document.getElementById('classroom-text-helper');
+  const vacantTimeSlotsInfo = document.getElementById('vacant-time-slots-info');
+  const startTimeDropdown = document.getElementById('start-time-dropdown');
+  const endTimeDropdown = document.getElementById('end-time-dropdown');
+  const faceToFaceClassRadio = document.getElementById('face-to-face-class');
+  const onlineClassRadio = document.getElementById('online-class');
+  const draftScheduleContainer = document.getElementById('draft-schedule-container'); 
+
+  let resultIdentification = null;
+  let courseDescription = null;
+  let instructorName = null;
+  let instructorId = null;
+  let courseCode = null;
+  let courseId = null;
+
+  function populateTimeDropdown(dropdown) {
+    const startTime = new Date();
+    startTime.setHours(7, 0, 0);
+    const endTime = new Date();
+    endTime.setHours(20, 0, 0);
+    const lunchStart = new Date();
+    lunchStart.setHours(12, 0, 0);
+    const lunchEnd = new Date();
+    lunchEnd.setHours(13, 0, 0);
+
+    while (startTime < endTime) {
+      if (startTime >= lunchStart && startTime < lunchEnd) {
+        startTime.setMinutes(startTime.getMinutes() + 30);
+        continue;
+      }
+      const option = document.createElement('option');
+      option.value = startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+      option.textContent = startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+      dropdown.appendChild(option);
+      startTime.setMinutes(startTime.getMinutes() + 30);
+    }
+  }
+
+  function updateEndTimeDropdown() {
+    const selectedStartTime = startTimeDropdown.value;
+    if (!selectedStartTime) return;
+
+    const [hours, minutes, period] = selectedStartTime.match(/(\d+):(\d+)\s*(AM|PM)/).slice(1);
+    let startTime = new Date();
+    startTime.setHours(period === 'PM' && hours !== '12' ? parseInt(hours) + 12 : parseInt(hours), parseInt(minutes), 0);
+
+    const endTime = new Date();
+    endTime.setHours(20, 0, 0); // 8:00 PM
+
+    const lunchStart = new Date();
+    lunchStart.setHours(12, 0, 0); // 12:00 PM
+    const lunchEnd = new Date();
+    lunchEnd.setHours(13, 0, 0); // 1:00 PM
+
+    endTimeDropdown.innerHTML = '<option selected="" disabled>End Time</option>';
+    let currentTime = new Date(startTime.getTime() + 60 * 60000); // Start with 1 hour later
+
+    while (currentTime <= endTime) {
+      if ((currentTime > lunchStart && currentTime < lunchEnd) || currentTime.getHours() === 13) {
+        currentTime.setMinutes(currentTime.getMinutes() + 30);
+        continue;
+      }
+
+      const option = document.createElement('option');
+      let duration = Math.floor((currentTime - startTime) / 60000); // Duration in minutes
+
+      // Adjust duration if it crosses the lunch break
+      if (startTime < lunchStart && currentTime > lunchEnd) {
+        duration -= 60; // Subtract 1 hour for lunch break
+      }
+
+      const hours = Math.floor(duration / 60);
+      const minutes = duration % 60;
+      const durationLabel = minutes === 0 ? `${hours} hr${hours > 1 ? 's' : ''}` : `${hours}.${minutes / 30 * 5} hr${hours > 0 ? 's' : ''}`;
+      option.value = currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+      option.textContent = `${currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })} (${durationLabel})`;
+      endTimeDropdown.appendChild(option);
+      currentTime.setMinutes(currentTime.getMinutes() + 30); // Increment by 30 minutes
+    }
+  }
+
+  function toggleClassroomDropdown() {
+    const vacantTimeSlotsInfoList = document.getElementById('vacant-time-slots-info-list');
+    
+    if (onlineClassRadio.checked) {
+      classroomDropdown.disabled = true;
+      classroomDropdown.innerHTML = '<option selected="" disabled>Classroom disabled due to learning mode.</option>';
+      vacantTimeSlotsInfo.innerHTML = '';
+      vacantTimeSlotsInfoList.style.display = 'none'; // Hide the vacant time slots info
+    } else {
+      classroomDropdown.disabled = false;
+      classroomDropdown.innerHTML = '<option selected="" disabled>Select Classroom</option>';
+      checkDaySelection(); // Check day selection to show/hide the vacant time slots info
+      fetchClassrooms();
+    }
+  }
+  
+  function checkDaySelection() {
+    const vacantTimeSlotsInfoList = document.getElementById('vacant-time-slots-info-list');
+    const anyDaySelected = Array.from(dayCheckboxes).some(checkbox => checkbox.checked);
+    const classroomSelected = classroomDropdown.value && classroomDropdown.value !== 'Select Classroom';
+    
+    if (anyDaySelected && classroomSelected && !onlineClassRadio.checked) {
+      vacantTimeSlotsInfoList.style.display = 'block'; // Show the vacant time slots info
+    } else {
+      vacantTimeSlotsInfoList.style.display = 'none'; // Hide the vacant time slots info
+    }
+  }
+  
+  dayCheckboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', checkDaySelection);
+  });
+  
+  faceToFaceClassRadio.addEventListener('change', () => {
+    toggleClassroomDropdown();
+    checkDaySelection();
+  });
+  
+  onlineClassRadio.addEventListener('change', () => {
+    toggleClassroomDropdown();
+    checkDaySelection();
+  });
+  
+  classroomDropdown.addEventListener('change', checkDaySelection);
+
+  function fetchClassrooms() {
+    if (resultIdentification) {
+      console.log('URL:', `/api/v2/classrooms/${resultIdentification}/`);
+      fetch(`/api/v2/classrooms/${resultIdentification}/`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.classrooms) {
+            classroomDropdown.innerHTML = '<option selected="" disabled>Select Classroom</option>'; // Clear existing options
+            populateDropdown(classroomDropdown, data.classrooms);
+          }
+        })
+        .catch(error => console.error('Error fetching classrooms:', error));
+    }
+  }
+
+  function populateDropdown(dropdown, items) {
+      items.forEach(item => {
+          const option = document.createElement('option');
+          option.value = item.class_group_id || item.room_id;
+          if (item.room_name) {
+              option.textContent = `${item.room_name} (${item.is_lab ? 'LAB' : 'LEC'})`;
+          } else {
+              option.textContent = item.class_group_name;
+          }
+          option.setAttribute('data-warning-message', item.message || '');
+          option.setAttribute('data-instructor-id', item.instructor_id || '');
+          dropdown.appendChild(option);
+      });
+  }
+
+  populateTimeDropdown(startTimeDropdown);
+  populateTimeDropdown(endTimeDropdown);
+
+  startTimeDropdown.addEventListener('change', updateEndTimeDropdown);
+
+  dayCheckboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+      if (this.checked) {
+        dayCheckboxes.forEach(otherCheckbox => {
+          if (otherCheckbox !== this) {
+            otherCheckbox.checked = false;
+          }
+        });
+        if (!classroomDropdown.disabled) {
+          fetchVacantTimes();
+        }
+      }
+    });
+  });
+
+  classroomDropdown.addEventListener('change', function() {
+    if (!classroomDropdown.disabled) {
+      fetchVacantTimes();
+    }
+  });
+  faceToFaceClassRadio.addEventListener('change', toggleClassroomDropdown);
+  onlineClassRadio.addEventListener('change', toggleClassroomDropdown);
+
+  function fetchVacantTimes() {
+    const selectedClassroom = classroomDropdown.value;
+    const selectedDay = Array.from(dayCheckboxes).find(checkbox => checkbox.checked)?.id;
+
+    if (selectedClassroom && selectedDay && resultIdentification) {
+      const url = `/api/v2/classrooms/vacant-times/${resultIdentification}/${selectedClassroom}/`;
+
+      console.log('Fetching data from URL:', url);
+
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          console.log('Data received:', data);
+          const dayKey = selectedDay.charAt(0).toUpperCase() + selectedDay.slice(1);
+          const times = data[dayKey];
+          console.log('Times for selected day:', times);
+          displayVacantTimes(times, selectedDay);
+        })
+        .catch(error => console.error('Error fetching vacant times:', error));
+    }
+  }
+
+  function displayVacantTimes(times, day) {
+    const vacantTimeSlotsInfoList = document.getElementById('vacant-time-slots-info-list');
+    const vacantTimeSlotsInfo = document.getElementById('vacant-time-slots-info');
+    const heading = document.querySelector('#vacant-time-slots-info-list h3');
+    heading.textContent = `Vacant time slots on ${day.charAt(0).toUpperCase() + day.slice(1)} for ${classroomDropdown.options[classroomDropdown.selectedIndex].textContent}:`;
+    vacantTimeSlotsInfo.innerHTML = '';
+
+    if (times && times.length > 0) {
+      const ul = document.createElement('ul');
+      ul.classList.add('list-disc', 'space-y-1', 'ps-5');
+      times.forEach(time => {
+        const li = document.createElement('li');
+        li.textContent = time;
+        ul.appendChild(li);
+      });
+      vacantTimeSlotsInfo.appendChild(ul);
+      vacantTimeSlotsInfoList.style.display = 'block';
+    } else {
+      console.log('No times available for the selected day.');
+      const noTimesMessage = document.createElement('p');
+      noTimesMessage.textContent = 'No times available for the selected day.';
+      vacantTimeSlotsInfo.appendChild(noTimesMessage);
+      vacantTimeSlotsInfoList.style.display = 'block'; // Show the div
+    }
+  }
+
+document.addEventListener('click', function(event) {
+  if (event.target.classList.contains('assign-schedule-button')) {
+    resetFormAndContainer(); // Reset the form and draft schedule container
+    const assignButton = event.target;
+    resultIdentification = assignButton.getAttribute('data-result-identification');
+    console.log('Result identification:', resultIdentification);
+    courseDescription = assignButton.getAttribute('data-course-description');
+    courseCode = assignButton.getAttribute('data-course-code');
+    instructorName = assignButton.getAttribute('data-instructor-name');
+    instructorId = assignButton.getAttribute('data-instructor-id');
+    const yearLevel = assignButton.getAttribute('data-year-level');
+    const resultCourseId = assignButton.getAttribute('data-result-course-id');
+    courseId = assignButton.getAttribute('data-course-id');
+    const assignmentId = assignButton.getAttribute('data-initial-assignment-id');
+    const classGroupId = assignButton.getAttribute('data-class-group-id');
+
+    document.getElementById('assignment-id-2').value = assignmentId;
+
+    console.log('URL for Classgroups:', `/api/v2/class-groups/${resultIdentification}/${yearLevel}/${resultCourseId}/`);
+    fetch(`/api/v2/class-groups/${resultIdentification}/${yearLevel}/${resultCourseId}/`)
+      .then(response => response.json())
+      .then(data => {
+        if (data.class_groups) {
+          classGroupDropdown.innerHTML = '<option selected="" disabled>Select Class Set</option>';
+          populateDropdown(classGroupDropdown, data.class_groups);
+
+          // If classGroupId exists, set it as the selected value and trigger change event
+          if (classGroupId) {
+            classGroupDropdown.value = classGroupId;
+            const event = new Event('change');
+            classGroupDropdown.dispatchEvent(event);
+          }
+        }
+      })
+      .catch(error => console.error('Error fetching class groups:', error));
+
+    fetchClassrooms();
+  }
+});
+
+classGroupDropdown.addEventListener('change', function() {
+  const selectedOption = classGroupDropdown.options[classGroupDropdown.selectedIndex];
+  const warningMessage = selectedOption.getAttribute('data-warning-message');
+  const selectedInstructorId = selectedOption.getAttribute('data-instructor-id');
+  console.log('Selected instructor ID:', selectedInstructorId);
+  
+  if (selectedInstructorId && selectedInstructorId.toString() === instructorId.toString()) {
+    classGroupHelper.textContent = '';
+  } else {
+    classGroupHelper.textContent = warningMessage || '';
+  }
+});
+
+  toggleClassroomDropdown();
+
+  function gatherFormData() {
+    const selectedClassGroup = classGroupDropdown.options[classGroupDropdown.selectedIndex]?.text;
+    const selectedClassGroupId = classGroupDropdown.value;
+    const selectedClassroom = classroomDropdown.options[classroomDropdown.selectedIndex]?.text;
+    const selectedClassroomId = classroomDropdown.value;
+    const selectedDay = Array.from(dayCheckboxes).find(checkbox => checkbox.checked)?.id;
+    const selectedStartTime = startTimeDropdown.value;
+    const selectedEndTime = endTimeDropdown.value;
+    const isOnlineMeeting = onlineClassRadio.checked;
+    const resultIdentificationId = resultIdentification;
+    const learningMode = isOnlineMeeting ? 'Online' : 'Face-to-face';
+
+    return {
+      classGroup: selectedClassGroup,
+      classGroupId: selectedClassGroupId,
+      classroom: selectedClassroom,
+      classroomId: selectedClassroomId,
+      day: selectedDay,
+      startTime: selectedStartTime,
+      endTime: selectedEndTime,
+      isOnlineMeeting: isOnlineMeeting,
+      resultIdentificationId: resultIdentificationId,
+      learningMode: learningMode,
+      instructor: instructorName,
+      instructorId: instructorId,
+      courseDescription: courseDescription,
+      courseCode: courseCode,
+      courseId: courseId,
+    };
+  }
+
+function displayDraftSchedule(data) {
+    const draftScheduleContainer = document.getElementById('draft-schedule-container');
+    const placeholder = draftScheduleContainer.querySelector('.placeholder');
+
+    // Remove placeholder content if it exists
+    if (placeholder) {
+        placeholder.remove();
+    }
+
+    const meetingDayAndTime = (data.day && data.startTime && data.endTime) ? `${data.day}, ${data.startTime} - ${data.endTime}` : '';
+    const classGroupText = data.classGroup && data.classGroup !== 'Select Class Set' ? data.classGroup : '';
+    const classroomText = data.classroom && data.classroom !== 'Classroom disabled due to learning mode.' && data.classroom !== 'Select Classroom' ? data.classroom : '';
+    const courseDescription = data.courseDescription || '';
+    const instructor = data.instructor || '';
+    const learningMode = data.learningMode || '';
+    const resultIdentificationId = data.resultIdentificationId || '';
+    const instructorId = data.instructorId || '';
+    const classGroupId = data.classGroupId || '';
+    const classroomId = (data.classroom && data.classroom !== 'Classroom disabled due to learning mode.') ? data.classroomId : '';
+    const day = data.day || '';
+    const formattedDay = day.charAt(0).toUpperCase() + day.slice(1).toLowerCase();
+    const startTime = data.startTime || '';
+    const endTime = data.endTime || '';
+    const courseId = data.courseId || '';
+    const uniqueId = `card-${courseId}-${Date.now()}-${Math.floor(Math.random() * 1000)}-${new Date().toLocaleTimeString('en-US', { hour12: false })}-${new Date().getMilliseconds()}`;
+
+    const scheduleHTML = `
+      <div id="${uniqueId}" class="m-2 bg-gray-50 border border-gray-200 text-sm text-gray-600 rounded-lg p-4 draft-schedule-card hover:outline hover:outline-2 hover:outline-blue-500 cursor-pointer" role="alert" tabindex="-1" aria-labelledby="hs-link-on-right-label">
+        <div class="flex justify-between items-center">
+          <p class="text-sm">
+            Course: <span class="font-semibold">${courseDescription}</span>
+          </p>
+          <div class="remove-draft-schedule ms-2.5 inline-flex justify-center items-center size-5 rounded-full text-gray-800 bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 cursor-pointer" data-value="${uniqueId}">
+            <svg class="shrink-0 size-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 6 6 18"></path>
+              <path d="m6 6 12 12"></path>
+            </svg>
+          </div>
+        </div>
+        <span 
+          id="tooltip-${uniqueId}" 
+          class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded shadow-sm dark:bg-neutral-700" 
+          role="tooltip">
+          Tooltip on top
+        </span>
+        <p class="text-sm">
+          Instructor: <span class="font-semibold">${instructor}</span>
+        </p>
+        <p class="text-sm">
+          Class Set: <span class="font-semibold">${classGroupText}</span>
+        </p>
+        <p class="text-sm">
+          Classroom: <span class="font-semibold">${classroomText}</span>
+        </p>
+        <p class="text-sm">
+          Learning mode: <span class="font-semibold uppercase">${learningMode}</span>
+        </p>
+        <p class="text-sm">
+          Timeslot: <span class="font-semibold uppercase">${meetingDayAndTime}</span>
+        </p>
+        <input type="hidden" name="course_id[]" value="${courseId}">
+        <input type="hidden" name="result_identification[]" value="${resultIdentificationId}">
+        <input type="hidden" name="instructor_id[]" value="${instructorId}">
+        <input type="hidden" name="class_group_id[]" value="${classGroupId}">
+        <input type="hidden" name="classroom_id[]" value="${classroomId}">
+        <input type="hidden" name="meeting_day[]" value="${formattedDay}">
+        <input type="hidden" name="start_time[]" value="${startTime}">
+        <input type="hidden" name="end_time[]" value="${endTime}">
+        <input type="hidden" name="is_online_class[]" value="${learningMode}">
+      </div>
+    `;
+
+    draftScheduleContainer.insertAdjacentHTML('beforeend', scheduleHTML);
+
+    // Add event listener to the remove button
+    const removeButton = draftScheduleContainer.querySelector(`.remove-draft-schedule[data-value="${uniqueId}"]`);
+    removeButton.addEventListener('click', function() {
+        const card = document.getElementById(uniqueId);
+        card.remove();
+
+        // Check if the container is empty and reinsert the placeholder content if it is
+        if (draftScheduleContainer.children.length === 0) {
+            draftScheduleContainer.innerHTML = `
+                <div class="flex justify-center items-center flex-grow h-full placeholder">
+                    <div class="flex flex-auto flex-col justify-center items-center p-4 md:p-5">
+                        <svg class="size-10 text-gray-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="22" x2="2" y1="12" y2="12"></line>
+                            <path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path>
+                            <line x1="6" x2="6.01" y1="16" y2="16"></line>
+                            <line x1="10" x2="10.01" y1="16" y2="16"></line>
+                        </svg>
+                        <p id="no-data-message-3" class="mt-2 text-sm text-gray-800">No schedule has been assigned.</p>
+                    </div>
+                </div>
+            `;
+        }
+    });
+}
+
+document.getElementById('save_to_draft').addEventListener('click', function() {
+    const formData = gatherFormData();
+
+    const day = formData.day || '';
+    const classGroupId = formData.classGroupId !== 'Select Class Set' ? formData.classGroupId : '';
+    const startTime = formData.startTime !== 'Start Time' ? formData.startTime : '';
+    const endTime = formData.endTime !== 'End Time' ? formData.endTime : '';
+    const classroomId = formData.classroomId !== 'Select Classroom' ? formData.classroomId : '';
+    const warningMessage = document.getElementById('class-group-helper').textContent;
+    const draftScheduleContainer = document.getElementById('draft-schedule-container');
+    const selectedClassGroupOption = document.querySelector('#class-group-dropdown option:checked');
+    const selectedInstructorId = selectedClassGroupOption ? selectedClassGroupOption.getAttribute('data-instructor-id') : null;
+
+    let message = '';
+
+    // Check if any existing card has a different instructor ID
+    const existingCards = draftScheduleContainer.querySelectorAll('.draft-schedule-card');
+    for (let i = 0; i < existingCards.length; i++) {
+        const cardInstructorId = existingCards[i].querySelector('input[name="instructor_id[]"]').value;
+        if (cardInstructorId && cardInstructorId !== instructorId) {
+            showToast(warningMessage, { delay: 10000, colorClass: 'bg-blue-600', iconClass: 'info' });
+            return;
+        }
+    }
+
+    // Check for overlapping time slots
+    for (let i = 0; i < existingCards.length; i++) {
+        const existingDay = existingCards[i].querySelector('input[name="meeting_day[]"]').value;
+        const existingStartTime = existingCards[i].querySelector('input[name="start_time[]"]').value;
+        const existingEndTime = existingCards[i].querySelector('input[name="end_time[]"]').value;
+
+        if (day.toLowerCase() === existingDay.toLowerCase()) {
+            const existingStart = parseTime(existingStartTime);
+            const existingEnd = parseTime(existingEndTime);
+            const newStart = parseTime(startTime);
+            const newEnd = parseTime(endTime);
+
+            if ((newStart >= existingStart && newStart < existingEnd) || (newEnd > existingStart && newEnd <= existingEnd) || (newStart <= existingStart && newEnd >= existingEnd)) {
+                showToast('The meeting day and time already exist. Please use a different day or time.', { delay: 10000, colorClass: 'bg-red-600', iconClass: 'error' });
+                return;
+            }
+        }
+    }
+
+    if (!classGroupId) {
+        showToast('Please select a class set.', { delay: 10000, colorClass: 'bg-blue-600', iconClass: 'info' });
+    } else if (!classroomId && !formData.isOnlineMeeting) {
+       showToast('Please select a classroom.', { delay: 10000, colorClass: 'bg-blue-600', iconClass: 'info' });
+    } else if (!day) {
+        showToast('Please select a day.', { delay: 10000, colorClass: 'bg-blue-600', iconClass: 'info' });
+    } else if (!startTime) {
+        showToast('Please select a start time.', { delay: 10000, colorClass: 'bg-blue-600', iconClass: 'info' });
+    } else if (!endTime) {
+        showToast('Please select an end time.', { delay: 10000, colorClass: 'bg-blue-600', iconClass: 'info' });
+    } else {
+        displayDraftSchedule(formData);
+    }
+});
+
+function parseTime(timeString) {
+    const [time, modifier] = timeString.split(' ');
+    let [hours, minutes] = time.split(':');
+    hours = parseInt(hours, 10);
+    minutes = parseInt(minutes, 10);
+
+    if (modifier === 'PM' && hours !== 12) {
+        hours += 12;
+    }
+    if (modifier === 'AM' && hours === 12) {
+        hours = 0;
+    }
+
+    return new Date(`1970-01-01T${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:00`);
+}
+
+classGroupDropdown.addEventListener('change', function() {
+  const selectedClassGroupId = classGroupDropdown.value;
+  clearRemoveCards();
+  if (selectedClassGroupId && resultIdentification && courseId) {
+    const url = `/api/v2/timetable/class-group/${resultIdentification}/${selectedClassGroupId}/${courseId}/`;
+    console.log('Fetching data from URL:', url);
+
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        draftScheduleContainer.innerHTML = ''; // Clear existing schedules
+        if (data.class_group_timetable && data.class_group_timetable.length > 0) {
+          data.class_group_timetable.forEach(schedule => {
+            const uniqueId = `card-${courseId}-${Date.now()}-${Math.floor(Math.random() * 1000)}-${new Date().toLocaleTimeString('en-US', { hour12: false })}-${new Date().getMilliseconds()}`;
+            const courseName = schedule.course_name || '';
+            const courseDescription = schedule.course_description || '';
+            const instructorName = schedule.instructor_name || '';
+            const classGroupName = schedule.class_group_name || '';
+            const classroomName = schedule.classroom_name || '';
+            const learningMode = schedule.learning_mode || '';
+            const meetingDayAndTime = schedule.meeting_day_and_time || '';
+            const resultTimetableDetailId = schedule.result_timetable_detail_id || '';
+            const timetableResultId = schedule.timetable_result_id || '';
+            const startTime = schedule.start_time || '';
+            const endTime = schedule.end_time || '';
+            const meetingDay = schedule.meeting_day || '';
+
+            const scheduleHTML = `
+              <div id="${uniqueId}" class="m-2 ${classroomName && learningMode === 'Face-to-face' ? 'bg-primary-100 border border-primary-200 text-sm text-primary-800 rounded-lg hover:outline-primary-500' : !classroomName && learningMode === 'Face-to-face' ? 'bg-yellow-100 border border-yellow-200 text-sm text-yellow-800 rounded-lg hover:outline-yellow-500' : !classroomName && learningMode === 'Online' ? 'bg-primary-100 border border-primary-200 text-sm text-primary-800 rounded-lg hover:outline-primary-500' : 'bg-gray-50 border border-gray-200 text-sm text-gray-600 rounded-lg'} p-4 draft-schedule-card hover:outline hover:outline-2  cursor-pointer" role="alert" tabindex="-1" aria-labelledby="hs-link-on-right-label">
+                <div class="flex justify-between items-center">
+                  <p class="text-sm">
+                    Course: <span class="font-semibold">${courseDescription}</span>
+                  </p>
+                  <div class="remove-draft-schedule ms-2.5 ${classroomName && learningMode === 'Face-to-face' ? 'bg-primary-100 border border-primary-200 text-sm text-primary-800 rounded-lg hover:outline-primary-500 hover:bg-primary-300' : !classroomName && learningMode === 'Face-to-face' ? 'bg-yellow-100 border border-yellow-200 text-sm text-yellow-800 rounded-lg hover:outline-yellow-500 hover:bg-yellow-300' : !classroomName && learningMode === 'Online' ? 'bg-primary-100 border border-primary-200 text-sm text-primary-800 rounded-lg hover:outline-primary-500 hover:bg-primary-300' : 'bg-gray-50 border border-gray-200 text-sm text-gray-600 rounded-lg hover:bg-gray-300'} inline-flex justify-center items-center size-5 rounded-full focus:outline-none focus:ring-2 focus:ring-gray-400 cursor-pointer" data-value="${uniqueId}">
+                    <svg class="shrink-0 size-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M18 6 6 18"></path>
+                      <path d="m6 6 12 12"></path>
+                    </svg>
+                  </div>
+                </div>
+                <span 
+                  id="tooltip-${uniqueId}" 
+                  class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded shadow-sm dark:bg-neutral-700" 
+                  role="tooltip">
+                  Tooltip on top
+                </span>
+                <p class="text-sm">
+                  Instructor: <span class="font-semibold">${instructorName}</span>
+                </p>
+                <p class="text-sm">
+                  Class Set: <span class="font-semibold">${classGroupName}</span>
+                </p>
+                <p class="text-sm">
+                  Classroom: <span class="font-semibold">${classroomName}</span>
+                </p>
+                <p class="text-sm">
+                  Learning Mode: <span class="font-semibold uppercase">${learningMode}</span>
+                </p>
+                <p class="text-sm">
+                  Timeslot: <span class="font-semibold uppercase">${meetingDayAndTime}</span>
+                </p>
+                <input type="hidden" name="timetable-result-id[]" value="${timetableResultId}">
+                <input type="hidden" name="result_timetable_detail_id[]" value="${resultTimetableDetailId}">
+                <input type="hidden" name="course_id[]" value="${schedule.course_id || ''}">
+                <input type="hidden" name="result_identification[]" value="${resultIdentification}">
+                <input type="hidden" name="instructor_id[]" value="${schedule.instructor_id || ''}">
+                <input type="hidden" name="class_group_id[]" value="${schedule.class_group_id || ''}">
+                <input type="hidden" name="classroom_id[]" value="${schedule.room_id || ''}">
+                <input type="hidden" name="meeting_day[]" value="${meetingDay}">
+                <input type="hidden" name="start_time[]" value="${startTime}">
+                <input type="hidden" name="end_time[]" value="${endTime}">
+                <input type="hidden" name="is_online_class[]" value="${learningMode}">
+              </div>
+            `;
+            draftScheduleContainer.insertAdjacentHTML('beforeend', scheduleHTML);
+
+            // Add event listener to the remove button
+            const removeButton = draftScheduleContainer.querySelector(`.remove-draft-schedule[data-value="${uniqueId}"]`);
+            removeButton.addEventListener('click', function() {
+              const card = document.getElementById(uniqueId);
+              const resultTimetableDetailIdInput = card.querySelector('input[name="result_timetable_detail_id[]"]').value;
+
+              card.remove();
+
+              // Insert the hidden input into the remove-timetable-result-detail div
+              const removeTimetableResultDetailDiv = document.getElementById('remove-timetable-result-detail');
+              const hiddenInput = `<input type="hidden" name="result_timetable_detail_id-for-delete[]" value="${resultTimetableDetailIdInput}">`;
+              const hiddenInput2 = `<input type="hidden" name="timetable-result-id-for-update[]" value="${timetableResultId}">`;
+              removeTimetableResultDetailDiv.insertAdjacentHTML('beforeend', hiddenInput);
+              removeTimetableResultDetailDiv.insertAdjacentHTML('beforeend', hiddenInput2);
+
+              // Check if the container is empty and reinsert the placeholder content if it is
+              if (draftScheduleContainer.children.length === 0) {
+                draftScheduleContainer.innerHTML = `
+                  <div class="flex justify-center items-center flex-grow h-full placeholder">
+                    <div class="flex flex-auto flex-col justify-center items-center p-4 md:p-5">
+                      <svg class="size-10 text-gray-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="22" x2="2" y1="12" y2="12"></line>
+                        <path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path>
+                        <line x1="6" x2="6.01" y1="16" y2="16"></line>
+                        <line x1="10" x2="10.01" y1="16" y2="16"></line>
+                      </svg>
+                      <p id="no-data-message-3" class="mt-2 text-sm text-gray-800">No schedule has been assigned.</p>
+                    </div>
+                  </div>
+                `;
+              }
+            });
+          });
+        } else {
+          draftScheduleContainer.innerHTML = `
+            <div class="flex justify-center items-center flex-grow h-full placeholder">
+              <div class="flex flex-auto flex-col justify-center items-center p-4 md:p-5">
+                <svg class="size-10 text-gray-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="22" x2="2" y1="12" y2="12"></line>
+                  <path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path>
+                  <line x1="6" x2="6.01" y1="16" y2="16"></line>
+                  <line x1="10" x2="10.01" y1="16" y2="16"></line>
+                </svg>
+                <p id="no-data-message-3" class="mt-2 text-sm text-gray-800">No schedule has been assigned.</p>
+              </div>
+            </div>
+          `;
+        }
+      })
+      .catch(error => console.error('Error fetching class group timetable:', error));
+  }
+});
+function clearRemoveCards() {
+  const removeTimetableResultDetailDiv = document.getElementById('remove-timetable-result-detail');
+  removeTimetableResultDetailDiv.innerHTML = '';
+}
+function resetFormAndContainer() {
+  // Clear form fields
+  classGroupDropdown.value = '';
+  classroomDropdown.value = '';
+  startTimeDropdown.value = 'Start Time';
+  endTimeDropdown.value = 'End Time';
+  dayCheckboxes.forEach(checkbox => checkbox.checked = false);
+  faceToFaceClassRadio.checked = true;
+  onlineClassRadio.checked = false;
+
+  // Clear class group helper
+  classGroupHelper.textContent = '';
+
+  // Clear vacant time slots info list
+  const vacantTimeSlotsInfoList = document.getElementById('vacant-time-slots-info-list');
+  vacantTimeSlotsInfoList.style.display = 'none';
+  const vacantTimeSlotsInfo = document.getElementById('vacant-time-slots-info');
+  vacantTimeSlotsInfo.innerHTML = '';
+
+  // Clear draft schedule container
+  draftScheduleContainer.innerHTML = `
+    <div class="flex justify-center items-center flex-grow h-full placeholder">
+      <div class="flex flex-auto flex-col justify-center items-center p-4 md:p-5">
+        <svg class="size-10 text-gray-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" x2="2" y1="12" y2="12"></line>
+          <path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path>
+          <line x1="6" x2="6.01" y1="16" y2="16"></line>
+          <line x1="10" x2="10.01" y1="16" y2="16"></line>
+        </svg>
+        <p id="no-data-message-3" class="mt-2 text-sm text-gray-800">No schedule has been assigned.</p>
+      </div>
+    </div>
+  `;
+}
+document.getElementById('submit_button').addEventListener('click', function(event) {
+  const draftScheduleContainer = document.getElementById('draft-schedule-container');
+  const schedules2 = draftScheduleContainer.querySelectorAll('.draft-schedule-card');
+
+
+  if (schedules2.length === 0) {
+    event.preventDefault();
+    console.log('No schedules added.');
+    showToast('Please add at least one schedule before submitting the form.', { delay: 10000, colorClass: 'bg-blue-600', iconClass: 'info' });
+    return;
+  }
+
+  const courseId = document.querySelector('input[name="course_id[]"]').value;
+  const resultIdentification = document.querySelector('input[name="result_identification[]"]').value;
+  const instructorId = document.querySelector('input[name="instructor_id[]"]').value;
+  const classGroupId = document.querySelector('input[name="class_group_id[]"]').value;
+  const classroomId = document.querySelector('input[name="classroom_id[]"]').value;
+  const meetingDay = document.querySelector('input[name="meeting_day[]"]').value;
+  const startTime = document.querySelector('input[name="start_time[]"]').value;
+  const endTime = document.querySelector('input[name="end_time[]"]').value;
+  const isOnlineClass = document.querySelector('input[name="is_online_class[]"]').value;
+
+  let errorMessages = [];
+
+  let missingFields = [];
+  if (!courseId) missingFields.push('Course');
+  if (!resultIdentification) missingFields.push('Result Identification');
+  if (!instructorId) missingFields.push('Instructor');
+  if (!classGroupId) missingFields.push('Class Group');
+  if (!classroomId && isOnlineClass !== 'Online') missingFields.push('Classroom');
+  if (!meetingDay) missingFields.push('Meeting Day');
+  if (!startTime) missingFields.push('Start Time');
+  if (!endTime) missingFields.push('End Time');
+  if (!isOnlineClass) missingFields.push('Learning Mode');
+  
+  if (missingFields.length > 0) {
+    event.preventDefault();
+    let missingFieldsMessage = missingFields.join(', ');
+    if (missingFields.length > 1) {
+      const lastCommaIndex = missingFieldsMessage.lastIndexOf(',');
+      missingFieldsMessage = missingFieldsMessage.substring(0, lastCommaIndex) + ' and' + missingFieldsMessage.substring(lastCommaIndex + 1);
+    }
+    showToast('Please ensure all fields are filled out. Missing fields: ' + missingFieldsMessage, { delay: 10000, colorClass: 'bg-blue-600', iconClass: 'info' });
+    return;
+  }
+  
+  // Check for duplicate schedules
+  const schedules = document.querySelectorAll('#draft-schedule-container .draft-schedule-card');
+  for (let i = 0; i < schedules.length; i++) {
+    const schedule = schedules[i];
+    const existingMeetingDay = schedule.querySelector('input[name="meeting_day[]"]').value;
+    const existingStartTime = schedule.querySelector('input[name="start_time[]"]').value;
+    const existingEndTime = schedule.querySelector('input[name="end_time[]"]').value;
+
+    if (meetingDay === existingMeetingDay) {
+      const existingStart = new Date(`1970-01-01T${existingStartTime}`);
+      const existingEnd = new Date(`1970-01-01T${existingEndTime}`);
+      const newStart = new Date(`1970-01-01T${startTime}`);
+      const newEnd = new Date(`1970-01-01T${endTime}`);
+
+      if ((newStart >= existingStart && newStart < existingEnd) || (newEnd > existingStart && newEnd <= existingEnd) || (newStart <= existingStart && newEnd >= existingEnd)) {
+        errorMessages.push('A schedule with the same meeting day and overlapping time already exists.');
+        break;
+      }
+    }
+  }
+
+  if (errorMessages.length > 0) {
+    showToast(errorMessages.join(' '), { delay: 10000, colorClass: 'bg-red-600', iconClass: 'error' });
+    event.preventDefault(); // Prevent form submission
+  }
+});
+});
+  </script>
+{% endcompress js %}

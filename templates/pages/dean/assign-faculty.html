@@ -1,0 +1,498 @@
+{% extends "_base.html" %}
+{% load static %}
+{% block title %}
+    Assign Faculty
+{% endblock title %}
+{% block content %}
+    {% include "./includes/navbar.html" %}
+    <div class="w-full lg:ps-64 bg-gray-100 h-full">
+        <div class="p-6 space-y-3">
+            <p class="text-2xl font-extrabold text-gray-900">Assign Faculty</p>
+            <div class="flex flex-col">
+                <div class="-m-1.5 overflow-x-auto overflow-hidden [&::-webkit-scrollbar]:h-3 [&::-webkit-scrollbar-thumb]:rounded-full   [&::-webkit-scrollbar-thumb]:bg-gray-300">
+                    <div class="p-1.5 min-w-full inline-block align-middle">
+                        <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
+                            <!-- Header -->
+                            <div class="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-b border-gray-200">
+                                <div>
+                                    <label for="hs-as-table-product-review-search" class="sr-only">Search</label>
+                                    <div class="relative">
+                                        <input type="text"
+                                               id="hs-as-table-product-review-search"
+                                               name="hs-as-table-product-review-search"
+                                               class="py-2 px-3 ps-11 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none"
+                                               placeholder="Search">
+                                        <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-4">
+                                            <svg class="size-4 text-gray-400"
+                                                 xmlns="http://www.w3.org/2000/svg"
+                                                 width="16"
+                                                 height="16"
+                                                 fill="currentColor"
+                                                 viewBox="0 0 16 16">
+                                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <a class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-50 disabled:pointer-events-none"
+                                       href="#">
+                                        <svg fill="currentColor"
+                                             class="flex-shrink-0 size-4"
+                                             width="24"
+                                             height="24"
+                                             xmlns="http://www.w3.org/2000/svg"
+                                             viewBox="0 0 512 512">
+                                            <path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" />
+                                        </svg>
+                                        Assign Faculty
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- End Header -->
+                            <!-- Table -->
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th scope="col" class="ps-6 py-3 text-start">
+                                            <label for="hs-at-with-checkboxes-main" class="flex">
+                                                <input type="checkbox"
+                                                       class="shrink-0 border-gray-300 rounded text-primary-600 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none"
+                                                       id="hs-at-with-checkboxes-main">
+                                                <span class="sr-only">Checkbox</span>
+                                            </label>
+                                        </th>
+                                        <th scope="col" class="ps-6 lg:ps-3 xl:ps-0 pe-6 py-3 text-start">
+                                            <div class="flex items-center gap-x-2">
+                                                <span class="text-xs font-semibold uppercase tracking-wide text-gray-800">Name</span>
+                                            </div>
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 text-start">
+                                            <div class="flex items-center gap-x-2">
+                                                <span class="text-xs font-semibold uppercase tracking-wide text-gray-800">DESIGNATION</span>
+                                            </div>
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 text-start">
+                                            <div class="flex items-center gap-x-2">
+                                                <span class="text-xs font-semibold uppercase tracking-wide text-gray-800">DATE ASSIGNED</span>
+                                            </div>
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 text-end"></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-200">
+                                    <tr>
+                                        <td class="size-px whitespace-nowrap">
+                                            <div class="ps-6 py-3">
+                                                <label for="hs-at-with-checkboxes-1" class="flex">
+                                                    <input type="checkbox"
+                                                           class="shrink-0 border-gray-300 rounded text-primary-600 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none"
+                                                           id="hs-at-with-checkboxes-1">
+                                                    <span class="sr-only">Checkbox</span>
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td class="size-px whitespace-nowrap">
+                                            <div class="ps-6 lg:ps-3 xl:ps-0 pe-6 py-3">
+                                                <div class="flex items-center gap-x-3">
+                                                    <span class="inline-flex items-center justify-center size-[38px] rounded-full bg-green-500 text-sm font-semibold text-white leading-none">
+                                                        JB
+                                                    </span>
+                                                    <div class="grow">
+                                                        <span class="block text-sm font-semibold text-gray-800">JONILYN T. DABALOS</span>
+                                                        <span class="block text-sm text-gray-500">jonilyn.dabalos@dnsc.edu.ph</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="h-px w-72 whitespace-nowrap">
+                                            <div class="px-6 py-3">
+                                                <span class="block text-sm font-semibold text-gray-800">Program Chair</span>
+                                                <span class="block text-sm text-gray-500">Bachelor of Information Technology</span>
+                                            </div>
+                                        </td>
+                                        <td class="size-px whitespace-nowrap">
+                                            <div class="px-6 py-3">
+                                                <span class="text-sm text-gray-500">May 25, 2024</span>
+                                            </div>
+                                        </td>
+                                        <td class="size-px whitespace-nowrap">
+                                            <div class="px-6 py-1.5">
+                                                <a href="#"
+                                                   type="button"
+                                                   class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 disabled:pointer-events-none">
+                                                    Remove
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="size-px whitespace-nowrap">
+                                            <div class="ps-6 py-3">
+                                                <label for="hs-at-with-checkboxes-1" class="flex">
+                                                    <input type="checkbox"
+                                                           class="shrink-0 border-gray-300 rounded text-primary-600 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none"
+                                                           id="hs-at-with-checkboxes-1">
+                                                    <span class="sr-only">Checkbox</span>
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td class="size-px whitespace-nowrap">
+                                            <div class="ps-6 lg:ps-3 xl:ps-0 pe-6 py-3">
+                                                <div class="flex items-center gap-x-3">
+                                                    <span class="inline-flex items-center justify-center size-[38px] rounded-full bg-blue-500 text-sm font-semibold text-white leading-none">
+                                                        RC
+                                                    </span>
+                                                    <div class="grow">
+                                                        <span class="block text-sm font-semibold text-gray-800">REIR ERLINDA E. CUTAD</span>
+                                                        <span class="block text-sm text-gray-500">reirerlinda.cutad@dnsc.edu.ph</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="h-px w-72 whitespace-nowrap">
+                                            <div class="px-6 py-3">
+                                                <span class="block text-sm font-semibold text-gray-800">Vice President for Administration and Finance</span>
+                                                <span class="block text-sm text-gray-500">Bachelor of Information Technology</span>
+                                            </div>
+                                        </td>
+                                        <td class="size-px whitespace-nowrap">
+                                            <div class="px-6 py-3">
+                                                <span class="text-sm text-gray-500">May 25, 2024</span>
+                                            </div>
+                                        </td>
+                                        <td class="size-px whitespace-nowrap">
+                                            <div class="px-6 py-1.5">
+                                                <a href="#"
+                                                   type="button"
+                                                   class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 disabled:pointer-events-none">
+                                                    Remove
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="size-px whitespace-nowrap">
+                                            <div class="ps-6 py-3">
+                                                <label for="hs-at-with-checkboxes-1" class="flex">
+                                                    <input type="checkbox"
+                                                           class="shrink-0 border-gray-300 rounded text-primary-600 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none"
+                                                           id="hs-at-with-checkboxes-1">
+                                                    <span class="sr-only">Checkbox</span>
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td class="size-px whitespace-nowrap">
+                                            <div class="ps-6 lg:ps-3 xl:ps-0 pe-6 py-3">
+                                                <div class="flex items-center gap-x-3">
+                                                    <span class="inline-flex items-center justify-center size-[38px] rounded-full bg-gray-500 text-sm font-semibold text-white leading-none">
+                                                        AG
+                                                    </span>
+                                                    <div class="grow">
+                                                        <span class="block text-sm font-semibold text-gray-800">ARIEL O. GAMAO</span>
+                                                        <span class="block text-sm text-gray-500">ariel.gamao@dnsc.edu.ph</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="h-px w-72 whitespace-nowrap">
+                                            <div class="px-6 py-3">
+                                                <span class="block text-sm font-semibold text-gray-800">Faculty</span>
+                                                <span class="block text-sm text-gray-500">Bachelor of Information Technology</span>
+                                            </div>
+                                        </td>
+                                        <td class="size-px whitespace-nowrap">
+                                            <div class="px-6 py-3">
+                                                <span class="text-sm text-gray-500">May 25, 2024</span>
+                                            </div>
+                                        </td>
+                                        <td class="size-px whitespace-nowrap">
+                                            <div class="px-6 py-1.5">
+                                                <a href="#"
+                                                   type="button"
+                                                   class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 disabled:pointer-events-none">
+                                                    Remove
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="size-px whitespace-nowrap">
+                                            <div class="ps-6 py-3">
+                                                <label for="hs-at-with-checkboxes-1" class="flex">
+                                                    <input type="checkbox"
+                                                           class="shrink-0 border-gray-300 rounded text-primary-600 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none"
+                                                           id="hs-at-with-checkboxes-1">
+                                                    <span class="sr-only">Checkbox</span>
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td class="size-px whitespace-nowrap">
+                                            <div class="ps-6 lg:ps-3 xl:ps-0 pe-6 py-3">
+                                                <div class="flex items-center gap-x-3">
+                                                    <span class="inline-flex items-center justify-center size-[38px] rounded-full bg-red-500 text-sm font-semibold text-white leading-none">
+                                                        RM
+                                                    </span>
+                                                    <div class="grow">
+                                                        <span class="block text-sm font-semibold text-gray-800">ROGELIO A. MASANGKAY</span>
+                                                        <span class="block text-sm text-gray-500">rogelio.masangkay@dnsc.edu.ph</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="h-px w-72 whitespace-nowrap">
+                                            <div class="px-6 py-3">
+                                                <span class="block text-sm font-semibold text-gray-800">Faculty</span>
+                                                <span class="block text-sm text-gray-500">Bachelor of Information Technology</span>
+                                            </div>
+                                        </td>
+                                        <td class="size-px whitespace-nowrap">
+                                            <div class="px-6 py-3">
+                                                <span class="text-sm text-gray-500">May 25, 2024</span>
+                                            </div>
+                                        </td>
+                                        <td class="size-px whitespace-nowrap">
+                                            <div class="px-6 py-1.5">
+                                                <a href="#"
+                                                   type="button"
+                                                   class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 disabled:pointer-events-none">
+                                                    Remove
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="size-px whitespace-nowrap">
+                                            <div class="ps-6 py-3">
+                                                <label for="hs-at-with-checkboxes-1" class="flex">
+                                                    <input type="checkbox"
+                                                           class="shrink-0 border-gray-300 rounded text-primary-600 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none"
+                                                           id="hs-at-with-checkboxes-1">
+                                                    <span class="sr-only">Checkbox</span>
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td class="size-px whitespace-nowrap">
+                                            <div class="ps-6 lg:ps-3 xl:ps-0 pe-6 py-3">
+                                                <div class="flex items-center gap-x-3">
+                                                    <span class="inline-flex items-center justify-center size-[38px] rounded-full bg-yellow-500 text-sm font-semibold text-white leading-none">
+                                                        ID
+                                                    </span>
+                                                    <div class="grow">
+                                                        <span class="block text-sm font-semibold text-gray-800">IAN VAL P. DELOS REYES</span>
+                                                        <span class="block text-sm text-gray-500">ianval.delosreyes@dnsc.edu.ph</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="h-px w-72 whitespace-nowrap">
+                                            <div class="px-6 py-3">
+                                                <span class="block text-sm font-semibold text-gray-800">Software Development Coordinator</span>
+                                                <span class="block text-sm text-gray-500">Bachelor of Information Technology</span>
+                                            </div>
+                                        </td>
+                                        <td class="size-px whitespace-nowrap">
+                                            <div class="px-6 py-3">
+                                                <span class="text-sm text-gray-500">May 25, 2024</span>
+                                            </div>
+                                        </td>
+                                        <td class="size-px whitespace-nowrap">
+                                            <div class="px-6 py-1.5">
+                                                <a href="#"
+                                                   type="button"
+                                                   class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 disabled:pointer-events-none">
+                                                    Remove
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="size-px whitespace-nowrap">
+                                            <div class="ps-6 py-3">
+                                                <label for="hs-at-with-checkboxes-1" class="flex">
+                                                    <input type="checkbox"
+                                                           class="shrink-0 border-gray-300 rounded text-primary-600 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none"
+                                                           id="hs-at-with-checkboxes-1">
+                                                    <span class="sr-only">Checkbox</span>
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td class="size-px whitespace-nowrap">
+                                            <div class="ps-6 lg:ps-3 xl:ps-0 pe-6 py-3">
+                                                <div class="flex items-center gap-x-3">
+                                                    <span class="inline-flex items-center justify-center size-[38px] rounded-full bg-purple-500 text-sm font-semibold text-white leading-none">
+                                                        LY
+                                                    </span>
+                                                    <div class="grow">
+                                                        <span class="block text-sm font-semibold text-gray-800">LAARNIE C. YBAÑEZ</span>
+                                                        <span class="block text-sm text-gray-500">laarnie.cantero@dnsc.edu.ph</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="h-px w-72 whitespace-nowrap">
+                                            <div class="px-6 py-3">
+                                                <span class="block text-sm font-semibold text-gray-800">Faculty</span>
+                                                <span class="block text-sm text-gray-500">Bachelor of Information Technology</span>
+                                            </div>
+                                        </td>
+                                        <td class="size-px whitespace-nowrap">
+                                            <div class="px-6 py-3">
+                                                <span class="text-sm text-gray-500">May 25, 2024</span>
+                                            </div>
+                                        </td>
+                                        <td class="size-px whitespace-nowrap">
+                                            <div class="px-6 py-1.5">
+                                                <a href="#"
+                                                   type="button"
+                                                   class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 disabled:pointer-events-none">
+                                                    Remove
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="size-px whitespace-nowrap">
+                                            <div class="ps-6 py-3">
+                                                <label for="hs-at-with-checkboxes-1" class="flex">
+                                                    <input type="checkbox"
+                                                           class="shrink-0 border-gray-300 rounded text-primary-600 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none"
+                                                           id="hs-at-with-checkboxes-1">
+                                                    <span class="sr-only">Checkbox</span>
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td class="size-px whitespace-nowrap">
+                                            <div class="ps-6 lg:ps-3 xl:ps-0 pe-6 py-3">
+                                                <div class="flex items-center gap-x-3">
+                                                    <span class="inline-flex items-center justify-center size-[38px] rounded-full bg-pink-500 text-sm font-semibold text-white leading-none">
+                                                        RF
+                                                    </span>
+                                                    <div class="grow">
+                                                        <span class="block text-sm font-semibold text--800">REBAN CLIFF FAJARDO</span>
+                                                        <span class="block text-sm text-gray-500">rebancliff.fajardo@dnsc.edu.ph</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="h-px w-72 whitespace-nowrap">
+                                            <div class="px-6 py-3">
+                                                <span class="block text-sm font-semibold text-gray-800">Faculty</span>
+                                                <span class="block text-sm text-gray-500">Bachelor of Information Technology</span>
+                                            </div>
+                                        </td>
+                                        <td class="size-px whitespace-nowrap">
+                                            <div class="px-6 py-3">
+                                                <span class="text-sm text-gray-500">May 25, 2024</span>
+                                            </div>
+                                        </td>
+                                        <td class="size-px whitespace-nowrap">
+                                            <div class="px-6 py-1.5">
+                                                <a href="#"
+                                                   type="button"
+                                                   class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 disabled:pointer-events-none">
+                                                    Remove
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="size-px whitespace-nowrap">
+                                            <div class="ps-6 py-3">
+                                                <label for="hs-at-with-checkboxes-1" class="flex">
+                                                    <input type="checkbox"
+                                                           class="shrink-0 border-gray-300 rounded text-primary-600 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none"
+                                                           id="hs-at-with-checkboxes-1">
+                                                    <span class="sr-only">Checkbox</span>
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td class="size-px whitespace-nowrap">
+                                            <div class="ps-6 lg:ps-3 xl:ps-0 pe-6 py-3">
+                                                <div class="flex items-center gap-x-3">
+                                                    <span class="inline-flex items-center justify-center size-[38px] rounded-full bg-orange-500 text-sm font-semibold text-white leading-none">
+                                                        JD
+                                                    </span>
+                                                    <div class="grow">
+                                                        <span class="block text-sm font-semibold text-gray-800">JOHN JEFFERSON L. DELA CRUZ</span>
+                                                        <span class="block text-sm text-gray-500">johnjefferson.delacruz@dnsc.edu.ph</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="h-px w-72 whitespace-nowrap">
+                                            <div class="px-6 py-3">
+                                                <span class="block text-sm font-semibold text-gray-800">Faculty</span>
+                                                <span class="block text-sm text-gray-500">Bachelor of Information Technology</span>
+                                            </div>
+                                        </td>
+                                        <td class="size-px whitespace-nowrap">
+                                            <div class="px-6 py-3">
+                                                <span class="text-sm text-gray-500">May 25, 2024</span>
+                                            </div>
+                                        </td>
+                                        <td class="size-px whitespace-nowrap">
+                                            <div class="px-6 py-1.5">
+                                                <a href="#"
+                                                   type="button"
+                                                   class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 disabled:pointer-events-none">
+                                                    Remove
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <!-- End Table -->
+                            <!-- Footer -->
+                            <div class="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-t border-gray-200">
+                                <div>
+                                    <p class="text-sm text-gray-600">
+                                        <span class="font-semibold text-gray-800">12</span> results
+                                    </p>
+                                </div>
+                                <div>
+                                    <div class="inline-flex gap-x-2">
+                                        <button type="button"
+                                                class="py-1.5 px-2 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none">
+                                            <svg class="flex-shrink-0 size-4"
+                                                 xmlns="http://www.w3.org/2000/svg"
+                                                 width="24"
+                                                 height="24"
+                                                 viewBox="0 0 24 24"
+                                                 fill="none"
+                                                 stroke="currentColor"
+                                                 stroke-width="2"
+                                                 stroke-linecap="round"
+                                                 stroke-linejoin="round">
+                                                <path d="m15 18-6-6 6-6" />
+                                            </svg>
+                                            Prev
+                                        </button>
+                                        <button type="button"
+                                                class="py-1.5 px-2 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none">
+                                            Next
+                                            <svg class="flex-shrink-0 size-4"
+                                                 xmlns="http://www.w3.org/2000/svg"
+                                                 width="24"
+                                                 height="24"
+                                                 viewBox="0 0 24 24"
+                                                 fill="none"
+                                                 stroke="currentColor"
+                                                 stroke-width="2"
+                                                 stroke-linecap="round"
+                                                 stroke-linejoin="round">
+                                                <path d="m9 18 6-6-6-6" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Footer -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
